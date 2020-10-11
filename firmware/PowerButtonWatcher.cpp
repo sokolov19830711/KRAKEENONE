@@ -53,12 +53,21 @@ void PowerButtonWatcher::update(int dt)
 
 	else
 	{
-		if (_isPressed && !currentButtonState && _pwdLevel) // кнопку нажали и отпустили
+		if (_isPressed && !currentButtonState) // кнопку нажали и отпустили
 		{
-			_isWatching = true;
-			_counter = 1;
-			_timer = 0;
-			_currentDigit = 1;
+			if(_pwdLevel)
+			{
+				_isWatching = true;
+				_counter = 1;
+				_timer = 0;
+				_currentDigit = 1;
+			}
+
+			else // Пароль на кнопку питания отключен
+			{
+				PcPower::on();
+				TricolorLED::blink(GREEN);
+			}
 		}
 	}
 
