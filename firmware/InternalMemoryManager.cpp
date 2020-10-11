@@ -5,6 +5,7 @@
 
 #include "DataManager.h"
 #include "Beeper.h"
+#include "Krakeenone_pinout.h"
 
 InternalMemoryManager::InternalMemoryManager()
 {
@@ -13,7 +14,7 @@ InternalMemoryManager::InternalMemoryManager()
 
 void InternalMemoryManager::initConfig()
 {
-    if (eeprom_read_byte(0) == 123)
+    if (eeprom_read_byte(0) == 123 && digitalRead(DEFAULT_PIN))
     {
         eeprom_read_block((void*)(&DataManager::config()), 1, sizeof(McuInData));
     }
