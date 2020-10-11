@@ -6,7 +6,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 
-#include "onoffbutton.h"
+#include "PrimeboxWidgets/OnOffButton.h"
 #include "frame.h"
 #include "../SmtpClient-for-Qt/src/SmtpMime"
 

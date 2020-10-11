@@ -14,8 +14,7 @@
 
 #include "firmware/dataStructures.h"
 #include "serialportmanager.h"
-#include "onoffbutton.h"
-#include "SwitchButtonsWidget.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 #include "mainframe.h"
 #include "functionsframe.h"
 #include "aboutframe.h"

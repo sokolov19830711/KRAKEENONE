@@ -5,8 +5,8 @@
 
 #include <QLabel>
 
-#include "buttongroup.h"
-#include "onoffbutton.h"
+#include "PrimeboxWidgets/ButtonGroup.h"
+#include "PrimeboxWidgets/OnOffButton.h"
 
 class BreakInFrame : public Frame
 {

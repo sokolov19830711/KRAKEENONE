@@ -10,10 +10,12 @@ find_package(Qt5Network)
 find_package(Qt5SerialPort)
 
 add_executable(${PROJECT_NAME} WIN32  "appIcon.rc"
-								"main.cpp" "mainwidget.cpp" "serialportmanager.cpp" "onoffbutton.cpp" "spinbox.cpp" "sensorinicator.cpp" "buttongroup.cpp"
-								"frame.cpp" "mainframe.cpp" "functionsframe.cpp" "aboutframe.cpp" "temperatureframe.cpp" "dustframe.cpp" "breakinframe.cpp"
-								"vibrationframe.cpp" "positionframe.cpp" "moistureframe.cpp" "powerframe.cpp" "runninghoursframe.cpp" "ibuttonframe.cpp"
-								"enterpasswordframe.cpp" "SwitchButtonsWidget.cpp")
+								"PrimeboxWidgets/OnOffButton.cpp" "PrimeboxWidgets/ButtonGroup.cpp" "PrimeboxWidgets/SpinBox.cpp"
+								"PrimeboxWidgets/SensorInicator.cpp" "PrimeboxWidgets/SwitchButtonsWidget.cpp"
+								"main.cpp" "mainwidget.cpp" "serialportmanager.cpp" "frame.cpp" "mainframe.cpp" "functionsframe.cpp"
+								"aboutframe.cpp" "temperatureframe.cpp" "dustframe.cpp" "breakinframe.cpp" "vibrationframe.cpp" 
+								"positionframe.cpp" "moistureframe.cpp" "powerframe.cpp" "runninghoursframe.cpp" "ibuttonframe.cpp"
+								"enterpasswordframe.cpp" )
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::Network)

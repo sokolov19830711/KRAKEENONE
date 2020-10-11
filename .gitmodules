@@ -1,0 +1,3 @@
+[submodule "PrimeboxWidgets"]
+	path = PrimeboxWidgets
+	url = https://github.com/sokolov19830711/PrimeboxWidgets.git

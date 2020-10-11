@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QLabel>
-#include "onoffbutton.h"
 #include "frame.h"
+#include "PrimeboxWidgets/OnOffButton.h"
 
 class MainFrame : public Frame
 {

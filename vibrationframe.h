@@ -2,9 +2,9 @@
 #define VIBRATIONFRAME_H
 
 #include "frame.h"
-#include "onoffbutton.h"
-#include "sensorinicator.h"
-#include "spinbox.h"
+#include "PrimeboxWidgets/SpinBox.h"
+#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/SensorInicator.h"
 
 class VibrationFrame : public Frame
 {

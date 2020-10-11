@@ -2,9 +2,9 @@
 #define MOISTUREFRAME_H
 
 #include "frame.h"
-#include "onoffbutton.h"
-#include "spinbox.h"
-#include "sensorinicator.h"
+#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/SpinBox.h"
+#include "PrimeboxWidgets/SensorInicator.h"
 
 #include <QSpinBox>
 

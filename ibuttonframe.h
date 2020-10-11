@@ -3,8 +3,8 @@
 
 #include "frame.h"
 
-#include "onoffbutton.h"
-#include "spinbox.h"
+#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/SpinBox.h"
 
 class IButtonFrame : public Frame
 {

@@ -3,9 +3,9 @@
 
 #include "frame.h"
 
-#include "buttongroup.h"
-#include "onoffbutton.h"
-#include "spinbox.h"
+#include "PrimeboxWidgets/ButtonGroup.h"
+#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/SpinBox.h"
 
 class PowerFrame : public Frame
 {

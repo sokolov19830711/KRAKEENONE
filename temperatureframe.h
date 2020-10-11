@@ -2,13 +2,11 @@
 #define TEMPERATUREFRAME_H
 
 #include "frame.h"
-#include "onoffbutton.h"
 
 #include <QLabel>
-#include <QSpinBox>
-#include "spinbox.h"
-#include "sensorinicator.h"
-
+#include "PrimeboxWidgets/SpinBox.h"
+#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/SensorInicator.h"
 
 class TemperatureFrame : public Frame
 {

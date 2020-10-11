@@ -2,9 +2,9 @@
 #define POSITIONFRAME_H
 
 #include "frame.h"
-#include "spinbox.h"
-#include "onoffbutton.h"
-#include "sensorinicator.h"
+#include "PrimeboxWidgets/SpinBox.h"
+#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/SensorInicator.h"
 
 #include <QPushButton>
 
