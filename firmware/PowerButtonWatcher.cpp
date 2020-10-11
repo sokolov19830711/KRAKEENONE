@@ -11,7 +11,7 @@ PowerButtonWatcher::PowerButtonWatcher()
 
 void PowerButtonWatcher::update(int dt)
 {
-	bool currentButtonState = digitalRead(30);
+	bool currentButtonState = digitalRead(PC_POWER_BUTTON);
 	if (_isWatching)
 	{
 		_timer += dt;

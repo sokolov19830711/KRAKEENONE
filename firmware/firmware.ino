@@ -48,6 +48,7 @@ void setup()
     moistureSensors.init();
     dustSensors.init();
     positionVibrationSensors.init();
+    powerButtonWatcher.updateConfig();
 }
 
 void loop()
