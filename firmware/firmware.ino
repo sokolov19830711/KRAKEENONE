@@ -7,6 +7,7 @@
 #include "DustSensors.h"
 #include "PositionVibrationSensors.h"
 #include "BreakInSensors.h"
+#include "PowerButtonWatcher.h"
 
 #include "Beeper.h"
 #include "PcPower.h"
@@ -23,6 +24,7 @@ static MoistureSensors moistureSensors;
 static DustSensors dustSensors;
 static PositionVibrationSensors positionVibrationSensors;
 static BreakInSensors breakInSensors;
+static PowerButtonWatcher powerButtonWatcher;
 
 static int loopsCounter = 0; // счетчик кол-ва вызовов функции loop()
 const int LOOPS_COUNT = 100; // кол-во циклов, через которое мы снимаем показания с "тяжелых" датчиков.
@@ -32,7 +34,7 @@ void setup()
 {
     DataManager::init();
     Beeper::init(BEEPER, TIMER_PERIOD, 100);
-    PcPower::init(BLUE, TIMER_PERIOD, 20);
+    PcPower::init(PC_POWER, TIMER_PERIOD, 20);
     TricolorLED::init(RED, TIMER_PERIOD, 200);
 
     internalMemoryManager.initConfig();
@@ -102,6 +104,7 @@ void loop()
                     {
                         DataManager::config() = inData;
 						internalMemoryManager.saveConfig();
+                        powerButtonWatcher.updateConfig();
                     }
                 }
             }
@@ -115,4 +118,5 @@ ISR(TIMER5_A)
     Beeper::update();
     PcPower::update();
     TricolorLED::update();
+    powerButtonWatcher.update(TIMER_PERIOD / 1000);
 }

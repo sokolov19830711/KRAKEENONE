@@ -18,14 +18,14 @@ const int TERMINAL_SWITCH1 = 30;
 const int TERMINAL_SWITCH2 = 31;
 const int TERMINAL_SWITCH3 = 32;
 
-const int PC_POWER_BUTTON = 33;
-const int PC_RESET_BUTTON = 34;
+const int PC_POWER = 33;
+const int PC_RESET = 34;
 
 const int SYS_FAN = 35;
 
 const int DEFAULT_PIN = 36;
 
-const int USELESS_KEY1 = 37;
+const int PC_POWER_BUTTON = 37;
 const int USELESS_KEY2 = 40;
 
 const int DUST_LED_SHARP = 39; // Светодиод выносного датчика пыли

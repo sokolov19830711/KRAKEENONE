@@ -90,6 +90,12 @@ struct McuInData
     unsigned char breakInFlags2 = 0;
     unsigned char breakInFlags3 = 0;
     unsigned char breakInSensorsStates = 0;
+
+    unsigned char powerButtonPwdLevel = 3;
+    unsigned char digitInputPeriod = 3;
+    unsigned char powerButtonPwdDigit1 = 1;
+    unsigned char powerButtonPwdDigit2 = 2;
+    unsigned char powerButtonPwdDigit3 = 3;
 };
 
 template<typename T>
