@@ -32,7 +32,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     settingsButtons1_ = new ButtonGroup({"РАЗОМКНУТ", "ЗАМКНУТ" }, 75, 25, this);
     settingsButtons1_->setChecked(settings_->value("breakInFrame/sensorState1").toInt());
-    connect(settingsButtons1_, &ButtonGroup::idClicked, [=]() {setBit(mcuInData_->breakInSensorsStates, 0x1, settingsButtons1_->checkedId() - 1); });
+    connect(settingsButtons1_, &ButtonGroup::idClicked, [=]() {mcuInData_->breakInSensorNormalState1 = settingsButtons1_->checkedId() - 1; });
 
     QHBoxLayout* settingsButtons1Layout = new QHBoxLayout;
     settingsButtons1Layout->addStretch();
@@ -88,7 +88,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     settingsButtons2_ = new ButtonGroup({ "РАЗОМКНУТ", "ЗАМКНУТ" }, 75, 25, this);
     settingsButtons2_->setChecked(settings_->value("breakInFrame/sensorState2").toInt());
-    connect(settingsButtons2_, &ButtonGroup::idClicked, [=]() {setBit(mcuInData_->breakInSensorsStates, 0x2, settingsButtons2_->checkedId() - 1); });
+    connect(settingsButtons2_, &ButtonGroup::idClicked, [=]() {mcuInData_->breakInSensorNormalState2 = settingsButtons2_->checkedId() - 1; });
 
     QHBoxLayout* settingsButtons2Layout = new QHBoxLayout;
     settingsButtons2Layout->addStretch();
@@ -144,7 +144,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     settingsButtons3_ = new ButtonGroup({ "РАЗОМКНУТ", "ЗАМКНУТ" }, 75, 25, this);
     settingsButtons3_->setChecked(settings_->value("breakInFrame/sensorState3").toInt());
-    connect(settingsButtons3_, &ButtonGroup::idClicked, [=]() {setBit(mcuInData_->breakInSensorsStates, 0x4, settingsButtons3_->checkedId() - 1); });
+    connect(settingsButtons3_, &ButtonGroup::idClicked, [=]() {mcuInData_->breakInSensorNormalState3 = settingsButtons3_->checkedId() - 1; });
 
     QHBoxLayout* settingsButtons3Layout = new QHBoxLayout;
     settingsButtons3Layout->addStretch();

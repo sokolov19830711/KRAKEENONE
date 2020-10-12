@@ -89,7 +89,9 @@ struct McuInData
     unsigned char breakInFlags1 = 0;
     unsigned char breakInFlags2 = 0;
     unsigned char breakInFlags3 = 0;
-    unsigned char breakInSensorsStates = 0;
+    unsigned char breakInSensorNormalState1 = 0;
+    unsigned char breakInSensorNormalState2 = 0;
+    unsigned char breakInSensorNormalState3 = 0;
 
     unsigned char powerButtonPwdLevel = 0;
     unsigned char digitInputPeriod = 3;
