@@ -18,7 +18,10 @@ void BreakInSensors::init()
 void BreakInSensors::update()
 {
 	// Концевые выключатели
-	if (digitalRead(TERMINAL_SWITCH1) == ((DataManager::config().breakInSensorsStates & 0x1)))
+	int switch1 = digitalRead(TERMINAL_SWITCH1);
+	DataManager::outData().breakInSensor1 = switch1;
+
+	if (switch1 == ((DataManager::config().breakInSensorsStates & 0x1)))
 	{
 		if (DataManager::config().breakInFlags1 & ActionsFlag::soundSignal)
 		{
@@ -26,7 +29,10 @@ void BreakInSensors::update()
 		}
 	}
 
-	if (digitalRead(TERMINAL_SWITCH2) == ((DataManager::config().breakInSensorsStates & 0x2)))
+	int switch2 = digitalRead(TERMINAL_SWITCH2);
+	DataManager::outData().breakInSensor2 = switch2;
+
+	if (switch2 == ((DataManager::config().breakInSensorsStates & 0x2)))
 	{
 		if (DataManager::config().breakInFlags2 & ActionsFlag::soundSignal)
 		{
@@ -36,7 +42,10 @@ void BreakInSensors::update()
 
 	// Встроенный датчик вскрытия
 
-	if (digitalRead(BREAK_IN_SENSOR_INT) == ((DataManager::config().breakInSensorsStates & 0x4)))
+	int sensor = digitalRead(BREAK_IN_SENSOR_INT);
+	DataManager::outData().breakInSensor3 = sensor;
+
+	if (sensor == ((DataManager::config().breakInSensorsStates & 0x4)))
 	{
 		if (DataManager::config().breakInFlags3 & ActionsFlag::soundSignal)
 		{

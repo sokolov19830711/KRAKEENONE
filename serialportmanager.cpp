@@ -43,7 +43,6 @@ void SerialPortManager::refresh()
     if (!isSync)
     {
         data.append(port_.read(sizeof(McuOutData)));
-		qDebug() << data.size();
         if(data.size() >= sizeof(McuOutData))
 		{
 			int marker1Pos = data.indexOf(START_MARKER1);
@@ -58,7 +57,7 @@ void SerialPortManager::refresh()
 
     else
     {
-        qDebug() << "Size of recieved bytearray:" << data.size() << "bytes; content of array:" << data;
+        //qDebug() << "Size of recieved bytearray:" << data.size() << "bytes; content of array:" << data;
 
         if (data.size() >= sizeof(*mcuOutData_))
         {
