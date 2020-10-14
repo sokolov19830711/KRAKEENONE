@@ -247,7 +247,7 @@ DustFrame::~DustFrame()
 void DustFrame::refresh()
 {
     indicator1_->setValue(mcuOutData_->dustSensor1);
-    indicator2_->setValue(mcuOutData_->dustSensor2);
+    indicator2_->setValue(mcuOutData_->dustSensor2 / 10);
     indicator3_->setValue(mcuOutData_->dustSensor3);
 }
 

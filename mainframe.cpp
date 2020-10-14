@@ -68,7 +68,7 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
 
     vibrationButton4_ = new OnOffButton(this);
     vibrationButton4_->setEnabled(false);
-    vibrationButton4_->setChecked(true);
+    vibrationButton4_->setChecked(false);
 
     vibrationLabel_ = new QLabel(this);
     vibrationLabel_->setText("датчики 1|2|3|4");
@@ -176,7 +176,6 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
     breakInButton1_ = new OnOffButton(this);
     breakInButton1_->setEnabled(false);
     breakInButton1_->setChecked(true);
-    breakInButton1_->setAlert();
 
     breakInButton2_ = new OnOffButton(this);
     breakInButton2_->setEnabled(false);
@@ -188,7 +187,7 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
 
     breakInButton4_ = new OnOffButton(this);
     breakInButton4_->setEnabled(false);
-    breakInButton4_->setChecked(true);
+    breakInButton4_->setChecked(false);
 
     breakInLabel_ = new QLabel(this);
     breakInLabel_->setText("датчики 1|2|3|4");
@@ -215,4 +214,46 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
 
     mainLayout->addWidget(new QLabel("МОДУЛЬ IBUTTON"), 9, 0, Qt::AlignRight);
     mainLayout->addWidget(iButtonButton_, 9, 1);
+}
+
+void MainFrame::refresh()
+{
+    // Датчики вибрации
+
+    vibrationButton1_->setAlert(mcuOutData_->vibrationSensor1 > mcuInData_->vibrationMaxValue1);
+    vibrationButton2_->setAlert(mcuOutData_->vibrationSensor2 > mcuInData_->vibrationMaxValue2);
+
+    // Датчики запыленности
+
+    dustButton1_->setAlert(mcuOutData_->dustSensor1 > mcuInData_->dustMaxValue1);
+    dustButton2_->setAlert(mcuOutData_->dustSensor2 / 10 > mcuInData_->dustMaxValue2);
+    dustLabel_->setText(QString("встроенный - %1 % | выносной - %2 %").arg(mcuOutData_->dustSensor1).arg(mcuOutData_->dustSensor2 / 10));
+
+    // Датчик влажности
+
+    moistureButton_->setAlert(mcuOutData_->moistureSensor > mcuInData_->moistureMaxValue);
+
+    // Датчика температуры
+
+    temperatureButton1_->setAlert(  (mcuOutData_->temperatureSensor1 > mcuInData_->temperatureMaxValue1) ||
+                                    (mcuOutData_->temperatureSensor1 < mcuInData_->temperatureMinValue1));
+
+	temperatureButton2_->setAlert(  (mcuOutData_->temperatureSensor2 > mcuInData_->temperatureMaxValue2) ||
+		                            (mcuOutData_->temperatureSensor2 < mcuInData_->temperatureMinValue2));
+
+	temperatureButton3_->setAlert(  (mcuOutData_->temperatureSensor3 > mcuInData_->temperatureMaxValue3) ||
+		                            (mcuOutData_->temperatureSensor3 < mcuInData_->temperatureMinValue3));
+    const QChar degreeSign(0260);
+    temperatureLabel_->setText(QString("%1 %2C | %3 %4C | %5 %6C")  .arg(mcuOutData_->temperatureSensor1)
+                                                                    .arg(degreeSign)
+                                                                    .arg(mcuOutData_->temperatureSensor2)
+                                                                    .arg(degreeSign)
+                                                                    .arg(mcuOutData_->temperatureSensor3)
+                                                                    .arg(degreeSign));
+
+    // Датчики вскрытия
+
+    breakInButton1_->setAlert(mcuOutData_->breakInSensor1 == mcuInData_->breakInSensorNormalState1);
+    breakInButton2_->setAlert(mcuOutData_->breakInSensor2 == mcuInData_->breakInSensorNormalState2);
+    breakInButton3_->setAlert(mcuOutData_->breakInSensor3 == mcuInData_->breakInSensorNormalState3);
 }

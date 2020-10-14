@@ -242,12 +242,7 @@ void MainWidget::logon(const QString& password)
 
 void MainWidget::refresh()
 {
-     //portManager_->refresh(mcuOutData_, mcuInData_);
-
-    for(int i = 0; i < frames_->count(); i++)
-    {
-        (dynamic_cast<Frame*>(frames_->widget(i)))->refresh();
-    }
+    (dynamic_cast<Frame*>(frames_->currentWidget()))->refresh();
 }
 
 void MainWidget::closeEvent(QCloseEvent *event)

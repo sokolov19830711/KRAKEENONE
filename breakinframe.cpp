@@ -79,7 +79,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     QHBoxLayout* name2Layout = new QHBoxLayout;
     name2Layout->addStretch();
-    sensorName2_ = new QLabel("ДАТЧИК ВСТРОЕННЫЙ");
+    sensorName2_ = new QLabel("ДАТЧИК ВЫНОСНОЙ");
     sensorName2_->setAlignment(Qt::AlignCenter);
     name2Layout->addWidget(sensorName2_);
     name2Layout->addStretch();
@@ -135,7 +135,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     QHBoxLayout* name3Layout = new QHBoxLayout;
     name3Layout->addStretch();
-    sensorName3_ = new QLabel("ДАТЧИК ВСТРОЕННЫЙ");
+    sensorName3_ = new QLabel("ДАТЧИК ВЫНОСНОЙ");
     sensorName3_->setAlignment(Qt::AlignCenter);
     name3Layout->addWidget(sensorName3_);
     name3Layout->addStretch();
