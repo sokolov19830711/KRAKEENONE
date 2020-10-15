@@ -19,7 +19,7 @@ void BreakInSensors::update()
 {
 	// Встроенный датчик вскрытия
 
-	int sensor = digitalRead(BREAK_IN_SENSOR_INT);
+	int sensor = !digitalRead(BREAK_IN_SENSOR_INT);
 	DataManager::outData().breakInSensor1 = sensor;
 
 	if (sensor == DataManager::config().breakInSensorNormalState1)

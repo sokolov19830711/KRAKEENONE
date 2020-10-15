@@ -232,6 +232,7 @@ void MainFrame::refresh()
     // Датчик влажности
 
     moistureButton_->setAlert(mcuOutData_->moistureSensor > mcuInData_->moistureMaxValue);
+    moistureLabel_->setText(QString("%1 %").arg(mcuOutData_->moistureSensor));
 
     // Датчика температуры
 
