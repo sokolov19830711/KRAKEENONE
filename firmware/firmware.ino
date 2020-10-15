@@ -1,5 +1,6 @@
 #include <GyverTimers.h>
 
+#include "SerialPortManager.h"
 #include "DataManager.h"
 #include "InternalMemoryManager.h"
 #include "TemperatureSensors.h"
@@ -18,6 +19,7 @@
 //IButton
 const int IBUTTON = 26;
 
+static SerialPortManager portManager;
 static InternalMemoryManager internalMemoryManager;
 static TemperatureSensors temperatureSensors;
 static MoistureSensors moistureSensors;
@@ -32,6 +34,7 @@ const int TIMER_PERIOD = 20000; // в микросекундах
 
 void setup()
 {
+    portManager.init(19200);
     DataManager::init();
     Beeper::init(BEEPER, TIMER_PERIOD, 100);
     PcPower::init(PC_POWER, TIMER_PERIOD, 20);
@@ -79,36 +82,13 @@ void loop()
 
         positionVibrationSensors.update();
 
-        Serial.write(reinterpret_cast<uint8_t*>(&DataManager::outData()), sizeof(McuOutData)); // Отсылаем структуру с текущим состоянием устройства
+        portManager.update();
 
-        if(Serial.peek() == START_MARKER1)
+        if (portManager.mode() == SerialPortManager::Mode::normal && portManager.needToUpdateConfig())
         {
-            static McuInData inData;
-            if (Serial.readBytes(reinterpret_cast<uint8_t*>(&inData), sizeof(McuInData)) == sizeof(McuInData)) // Принимаем структуру с заданиями от программы на ПК
-            {
-                if ((inData.startMarker1 == START_MARKER1) && (inData.startMarker2 == START_MARKER2))
-                {
-                    const char* tmpPtr1 = reinterpret_cast<const char*>(&DataManager::config());
-                    const char* tmpPtr2 = reinterpret_cast<const char*>(&inData);
-                    bool needToUpdate = false;
-
-                    for (size_t i = 0; i < sizeof(McuInData); i++)
-                    {
-                        if (tmpPtr1[i] != tmpPtr2[i])
-                        {
-                            needToUpdate = true;
-                            break;
-                        }
-                    }
-
-                    if (needToUpdate)
-                    {
-                        DataManager::config() = inData;
-						internalMemoryManager.saveConfig();
-                        powerButtonWatcher.updateConfig();
-                    }
-                }
-            }
+            DataManager::config() = *(portManager.inData());
+			internalMemoryManager.saveConfig();
+			powerButtonWatcher.updateConfig();
         }
     }
 }
