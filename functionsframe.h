@@ -56,7 +56,7 @@ private:
 
     QLineEdit* smtpPassword_;
 
-    QLineEdit* senderName_;
+    QLineEdit* recipientName_;
 
     QLabel* sendTestMessageLabel_;
     QPushButton* sendTestMessageButton_;

@@ -59,8 +59,8 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     //--- Создаем группу кнопок, с помощью которых переключаем кадры приложения
 
-    QString buttonsStyle =  "QPushButton:checked{height : 125; width : 125; font : bold; color: #ffffff; border-style:solid; border-width:0.5px; border-color:#7f7f7f; background-color:#c05046;}"
-                            "QPushButton{height : 125; width : 125; color: #ffffff; border-style:solid; border-width:0.5px; border-color:#7f7f7f; background-color:#595959;}";
+    QString buttonsStyle =  "QPushButton:checked{height : 131; width : 131; font : bold; color: #ffffff; border-style:solid; border-width:0.5px; border-color:#7f7f7f; background-color:#c05046;}"
+                            "QPushButton{height : 131; width : 131; color: #ffffff; border-style:solid; border-width:0.5px; border-color:#7f7f7f; background-color:#595959;}";
 
     QStringList buttonTextes = { "ГЛАВНАЯ\n\n(главная страница,\nмониторинг)", "ФУНКЦИИ\n\n(настройка\nвыполняемых\nфункций)", "О ПРОГРАММЕ\n\n(подробнее об\nустройстве,\nконтакты)",
                                  "ВИБРАЦИЯ | УДАР\n\n(настройка датчика\nвибрации и удара)",  "ПОЛОЖЕНИЕ\n\n(настройка датчика\nположения,\nперемещения)", "ЗАПЫЛЕННОСТЬ\n\n(настройка датчика\nзапыленности,\nкорпуса)",

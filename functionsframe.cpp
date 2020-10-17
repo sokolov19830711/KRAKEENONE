@@ -18,7 +18,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     //---
 
     avaliableSerialPorts_ = new QComboBox(this);
-    avaliableSerialPorts_->setStyleSheet("QComboBox {min-width : 50px; border: 0px;} QFrame { border: 0px;}");
+    avaliableSerialPorts_->setStyleSheet("QComboBox {height : 30px; min-width : 50px; border: 0px; font-size : 10pt} QFrame { border: 0px;}");
 
     auto ports = QSerialPortInfo::availablePorts();
     for(auto & i : ports)
@@ -123,13 +123,13 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
     //---
 
-    senderName_ = new QLineEdit(this);
-    senderName_->setStyleSheet("font-size:10pt");
-    senderName_->setAlignment(Qt::AlignCenter);
-    senderName_->setFixedSize(250, 25);
-    senderName_->setText(settings_->value("SMTP/sender").toString());
+    recipientName_ = new QLineEdit(this);
+    recipientName_->setStyleSheet("font-size:10pt");
+    recipientName_->setAlignment(Qt::AlignCenter);
+    recipientName_->setFixedSize(250, 25);
+    recipientName_->setText(settings_->value("SMTP/recipient").toString());
 
-    leftLayout->addRow("ИМЯ ОТПРАВИТЕЛЯ", senderName_);
+    leftLayout->addRow("ПОЛУЧАТЕЛЬ", recipientName_);
 
     //---
 
@@ -169,7 +169,7 @@ FunctionsFrame::FunctionsFrame::~FunctionsFrame()
     settings_->setValue("SMTP/port", portName_->text());
     settings_->setValue("SMTP/user", userName_->text());
     settings_->setValue("SMTP/password", smtpPassword_->text()); //--- Пока в незашифрованном виде!
-    settings_->setValue("SMTP/sender", senderName_->text());
+    settings_->setValue("SMTP/recipient", recipientName_->text());
     settings_->setValue("SMTP/ssl", sslButton_->isChecked());
     settings_->sync();
 
@@ -199,7 +199,7 @@ void FunctionsFrame::setControlsEnabled(bool state)
     sslButton_->setEnabled(state);
     userName_->setEnabled(state);
     smtpPassword_->setEnabled(state);
-    senderName_->setEnabled(state);
+    recipientName_->setEnabled(state);
     sendTestMessageButton_->setEnabled(state);
 }
 
@@ -224,8 +224,8 @@ void FunctionsFrame::sendTestMessage()
     smtp_->setUser(userName_->text());
     smtp_->setPassword(smtpPassword_->text());
     MimeMessage message;
-    message.setSender(new EmailAddress(userName_->text(), senderName_->text()));
-    message.addRecipient(new EmailAddress("sokolov19830711@gmail.com", "Recipient's Name"));
+    message.setSender(new EmailAddress(userName_->text(), ""));
+    message.addRecipient(new EmailAddress(recipientName_->text(), "Recipient's Name"));
     message.setSubject("Тестовое сообщение KRAKENONE");
     MimeText text;
     text.setText("Hi,\nThis is a simple email message.\n");

@@ -47,8 +47,6 @@ void PowerButtonWatcher::update(int dt)
 				_isWatching = false;
 			}
 		}
-
-
 	}
 
 	else
