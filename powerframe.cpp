@@ -12,7 +12,7 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     QFormLayout* leftLayout = new QFormLayout;
     mainLayout->addLayout(leftLayout);
 
-    mainLayout->addSpacing(40);
+    mainLayout->addSpacing(20);
 
     QFormLayout* rightLayout = new QFormLayout;
     mainLayout->addLayout(rightLayout);
@@ -30,16 +30,8 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     resetSettingsButtons_ = new ButtonGroup({"удержать\nRST\n60 сек", "удержать\nRST\n10 сек", "нажать\nRST\n3 + 5 раза", "нажать\nRST\n3 + 5 раза"}, 60, 60, this);
     leftLayout->addRow(resetSettingsButtons_);
 
-    QLabel* resetExampleLabel = new QLabel("пример: нажать 3 раза RST, дождаться\nтрехкратного зажигания светодиода,\nнажать еще 3 раза RST)");
-    resetExampleLabel->setStyleSheet("font-size:7pt; font:italic; color:#ffc000");
-    QHBoxLayout* resetExampleLabelLayout = new QHBoxLayout;
-    resetExampleLabelLayout->addStretch();
-    resetExampleLabelLayout->addWidget(resetExampleLabel);
-    leftLayout->addRow(resetExampleLabelLayout);
-
     //---
 
-    leftLayout->addRow(new QLabel);
     leftLayout->addRow(new QLabel);
 
     QLabel* blockHDDSettingsLabel = new QLabel("ВЫБЕРИТЕ СПОСОБ СБРОСА БЛОКИРОВКИ HDD\nПРИ ВЫКЛЮЧЕННОМ ПК (кнопкой RST)");
@@ -53,38 +45,40 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     blockHDDSettingsButtons_ = new ButtonGroup({"удержать\nRST\n60 сек", "удержать\nRST\n10 сек", "нажать\nRST\n3 + 5 раза", "нажать\nRST\n3 + 5 раза"}, 60, 60, this);
     leftLayout->addRow(blockHDDSettingsButtons_);
 
-    QLabel* blockHDDExampleLabel = new QLabel("пример: нажать 3 раза RST, дождаться\nтрехкратного зажигания светодиода,\nнажать еще 3 раза RST)");
-    blockHDDExampleLabel->setStyleSheet("font-size:7pt; font:italic; color:#ffc000");
-    QHBoxLayout* blockHDDExampleLabelLayout = new QHBoxLayout;
-    blockHDDExampleLabelLayout->addStretch();
-    blockHDDExampleLabelLayout->addWidget(blockHDDExampleLabel);
-    leftLayout->addRow(blockHDDExampleLabelLayout);
-
     //---
+
+    leftLayout->addRow(new QLabel);
 
     powerButtonActiveButton_ = new OnOffButton;
-    rightLayout->addRow("ДОСТУПНОСТЬ КНОПКИ PWR НА КОРПУСЕ", powerButtonActiveButton_);
+    leftLayout->addRow("ДОСТУПНОСТЬ КНОПКИ PWR НА КОРПУСЕ", powerButtonActiveButton_);
 
     resetButtonActiveButton_ = new OnOffButton;
-    rightLayout->addRow("ДОСТУПНОСТЬ КНОПКИ RESET НА КОРПУСЕ", resetButtonActiveButton_);
+    leftLayout->addRow("ДОСТУПНОСТЬ КНОПКИ RESET НА КОРПУСЕ", resetButtonActiveButton_);
 
     powerByPasswordButton_ = new OnOffButton;
-    rightLayout->addRow("ВКЛЮЧЕНИЕ ПК МЕТОДОМ ПАРОЛЯ\nНА КНОПКАХ PWR | RST", powerByPasswordButton_);
-
-    rightLayout->addRow(new QLabel);
+    leftLayout->addRow("ВКЛЮЧЕНИЕ ПК МЕТОДОМ ПАРОЛЯ\nНА КНОПКАХ PWR | RST", powerByPasswordButton_);
 
     //---
 
-    QLabel* powerSettingsLabel = new QLabel("ВЫБЕРИТЕ СПОСОБ ВКЛЮЧЕНИЯ ПК\nКНОПКАМИ PWR | RST");
+    QLabel* powerSettingsLabel = new QLabel("УКАЖИТЕ УОВЕНЬ ЗАЩИТЫ\n(КОДИРОВАНИЕ КНОПКИ PWR)");
     powerSettingsLabel->setAlignment(Qt::AlignCenter);
     QHBoxLayout* powerSettingsLabelLayout = new QHBoxLayout;
     powerSettingsLabelLayout->addStretch();
     powerSettingsLabelLayout->addWidget(powerSettingsLabel);
     powerSettingsLabelLayout->addStretch();
     rightLayout->addRow(powerSettingsLabelLayout);
+    rightLayout->addRow(new QLabel);
 
-    powerSettingsButtons_ = new ButtonGroup({"удержать\nPWR + RST\n3 сек", "удержать\nPWR\n7 сек", "нажать\nPWR\n5 раз", "нажать\nPWR\n3 раза"}, 60, 60, this);
-    rightLayout->addRow(powerSettingsButtons_);
+	QString buttonsStyle = "QPushButton{height : 40; width : 80; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+	pwswStatePanel_ = new SwitchButtonsWidget(1, 4, buttonsStyle, { "НИЗКИЙ", "СРЕДНИЙ", "ВЫСОКИЙ", "OFF" }, this);
+	pwswStatePanel_->setChecked(settings_->value("pwswLevel").toInt());
+	pwswStatePanel_->setSpacing(5);
+	pwswStatePanel_->setButtonStyleSheet(0, "QPushButton:checked{ font: bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#c05046; }");
+	pwswStatePanel_->setButtonStyleSheet(1, "QPushButton:checked{ font: bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#ffb814; }");
+	pwswStatePanel_->setButtonStyleSheet(3, "QPushButton:checked{ font: bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#c05046; }");
+    rightLayout->addRow(pwswStatePanel_);
 
     //---
 
@@ -107,6 +101,42 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     notResponseResetTime_->setValueFieldWidth(30);
     notResponseResetLayout->addWidget(notResponseResetTime_);
     rightLayout->addRow(notResponseResetLayout);
+
+    //---
+
+    rightLayout->addRow(new QLabel);
+
+	QLabel* digitsLabel = new QLabel("ВЫБЕРИТЕ ЧИСЛО КОМБИНАЦИИ");
+    digitsLabel->setAlignment(Qt::AlignCenter);
+	QHBoxLayout* digitsLabelLayout = new QHBoxLayout;
+    digitsLabelLayout->addStretch();
+    digitsLabelLayout->addWidget(digitsLabel);
+    digitsLabelLayout->addStretch();
+	rightLayout->addRow(digitsLabelLayout);
+	rightLayout->addRow(new QLabel);
+
+	QHBoxLayout* combinationLayout = new QHBoxLayout;
+    rightLayout->addRow(combinationLayout);
+
+	QString digitButtonsStyle = "QPushButton{height : 30; width : 20; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+	digit1_ = new SwitchButtonsWidget(3, 3, digitButtonsStyle, { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, this);
+	digit1_->setSpacing(3);
+	digit1_->setChecked(settings_->value("digit1").toInt());
+	combinationLayout->addWidget(digit1_);
+	combinationLayout->addSpacing(10);
+
+	digit2_ = new SwitchButtonsWidget(3, 3, digitButtonsStyle, { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, this);
+	digit2_->setSpacing(3);
+	digit2_->setChecked(settings_->value("digit2").toInt());
+	combinationLayout->addWidget(digit2_);
+	combinationLayout->addSpacing(10);
+
+	digit3_ = new SwitchButtonsWidget(3, 3, digitButtonsStyle, { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, this);
+	digit3_->setSpacing(3);
+	digit3_->setChecked(settings_->value("digit3").toInt());
+	combinationLayout->addWidget(digit3_);
 }
 
 PowerFrame::~PowerFrame()
@@ -123,7 +153,6 @@ void PowerFrame::setControlsEnabled(bool state)
 {
     resetSettingsButtons_->setEnabled(state);
     blockHDDSettingsButtons_->setEnabled(state);
-    powerSettingsButtons_->setEnabled(state);
 
     powerButtonActiveButton_->setEnabled(state);
     resetButtonActiveButton_->setEnabled(state);

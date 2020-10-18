@@ -33,6 +33,7 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
     deviceLayout->addWidget(sumDeviceLabel);
 
     sumDeviceTime_ = new QLabel("0");
+    sumDeviceTime_->setStyleSheet("font-size : 14pt");
     deviceLayout->addWidget(sumDeviceTime_);
 
     deviceLayout->addSpacing(20);
@@ -42,6 +43,7 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
     deviceLayout->addWidget(sessionDeviceLabel);
 
     sessionDeviceTime_ = new QLabel("0");
+    sessionDeviceTime_->setStyleSheet("font-size : 14pt");
     deviceLayout->addWidget(sessionDeviceTime_);
 
     //---
@@ -54,6 +56,7 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
     pcLayout->addWidget(sumPcLabel);
 
     sumPcTime_ = new QLabel("0");
+    sumPcTime_->setStyleSheet("font-size : 14pt");
     pcLayout->addWidget(sumPcTime_);
 
     pcLayout->addSpacing(20);
@@ -63,6 +66,7 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
     pcLayout->addWidget(sessionPcLabel);
 
     sessionPcTime_ = new QLabel("0");
+    sessionPcTime_->setStyleSheet("font-size : 14pt");
     pcLayout->addWidget(sessionPcTime_);
 
     //---

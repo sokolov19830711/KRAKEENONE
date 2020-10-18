@@ -6,6 +6,7 @@
 #include "PrimeboxWidgets/ButtonGroup.h"
 #include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SpinBox.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 
 class PowerFrame : public Frame
 {
@@ -19,9 +20,13 @@ public:
 
 private:
 
-    ButtonGroup* resetSettingsButtons_;
     ButtonGroup* blockHDDSettingsButtons_;
-    ButtonGroup* powerSettingsButtons_;
+    ButtonGroup* resetSettingsButtons_;
+
+    SwitchButtonsWidget* pwswStatePanel_;
+	SwitchButtonsWidget* digit1_;
+	SwitchButtonsWidget* digit2_;
+	SwitchButtonsWidget* digit3_;
 
     OnOffButton* powerButtonActiveButton_;
     OnOffButton* resetButtonActiveButton_;

@@ -87,7 +87,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     portName_->setText(settings_->value("SMTP/port").toString());
 
     sslLabel_ = new QLabel(this);
-    sslLabel_->setText("Использовать SSL");
+    sslLabel_->setText("SSL");
 
     sslButton_ = new OnOffButton(this);
     sslButton_->setChecked(settings_->value("SMTP/ssl").toBool());
