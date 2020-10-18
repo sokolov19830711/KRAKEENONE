@@ -80,6 +80,29 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
 	pwswStatePanel_->setButtonStyleSheet(3, "QPushButton:checked{ font: bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#c05046; }");
     rightLayout->addRow(pwswStatePanel_);
 
+    int powerButtonPwdLevel = settings_->value("PWR/powerButtonPwdLevel").toInt();
+    if (powerButtonPwdLevel == 0)
+    {
+        pwswStatePanel_->setChecked(3);
+    }
+    else
+    {
+        pwswStatePanel_->setChecked(powerButtonPwdLevel - 1);
+    }
+
+	connect(pwswStatePanel_, &SwitchButtonsWidget::idClicked,
+		[=]()
+		{
+			if (pwswStatePanel_->checkedId() == 3)
+			{
+				mcuInData_->powerButtonPwdLevel = 0;
+			}
+			else
+			{
+				mcuInData_->powerButtonPwdLevel = pwswStatePanel_->checkedId() + 1;
+			}
+		});
+
     //---
 
     QHBoxLayout* blockingTimeLayout = new QHBoxLayout;
@@ -123,25 +146,53 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
 
 	digit1_ = new SwitchButtonsWidget(3, 3, digitButtonsStyle, { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, this);
 	digit1_->setSpacing(3);
-	digit1_->setChecked(settings_->value("digit1").toInt());
+	digit1_->setChecked(settings_->value("PWR/digit1").toInt() - 1);
 	combinationLayout->addWidget(digit1_);
 	combinationLayout->addSpacing(10);
 
+
+
+    connect(digit1_, &SwitchButtonsWidget::idClicked, [=]()
+        {
+            mcuInData_->powerButtonPwdDigit1 = digit1_->checkedId() + 1;
+        });
+
 	digit2_ = new SwitchButtonsWidget(3, 3, digitButtonsStyle, { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, this);
 	digit2_->setSpacing(3);
-	digit2_->setChecked(settings_->value("digit2").toInt());
+	digit2_->setChecked(settings_->value("PWR/digit2").toInt() - 1);
 	combinationLayout->addWidget(digit2_);
 	combinationLayout->addSpacing(10);
 
+	connect(digit2_, &SwitchButtonsWidget::idClicked, [=]()
+		{
+			mcuInData_->powerButtonPwdDigit2 = digit2_->checkedId() + 1;
+		});
+
 	digit3_ = new SwitchButtonsWidget(3, 3, digitButtonsStyle, { "1", "2", "3", "4", "5", "6", "7", "8", "9" }, this);
 	digit3_->setSpacing(3);
-	digit3_->setChecked(settings_->value("digit3").toInt());
+	digit3_->setChecked(settings_->value("PWR/digit3").toInt() - 1);
 	combinationLayout->addWidget(digit3_);
+
+	connect(digit3_, &SwitchButtonsWidget::idClicked, [=]()
+		{
+			mcuInData_->powerButtonPwdDigit3 = digit3_->checkedId() + 1;
+		});
 }
 
 PowerFrame::~PowerFrame()
 {
+    if(pwswStatePanel_->checkedId() == 3)
+    {
+        settings_->setValue("PWR/powerButtonPwdLevel", 0);
+    }
+    else
+    {
+        settings_->setValue("PWR/powerButtonPwdLevel", pwswStatePanel_->checkedId() + 1);
+    }
 
+    settings_->setValue("PWR/digit1", digit1_->checkedId() + 1);
+    settings_->setValue("PWR/digit2", digit2_->checkedId() + 1);
+    settings_->setValue("PWR/digit3", digit3_->checkedId() + 1);
 }
 
 void PowerFrame::refresh()
