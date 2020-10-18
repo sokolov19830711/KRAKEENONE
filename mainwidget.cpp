@@ -7,7 +7,61 @@
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
     settings_ = QSharedPointer<QSettings>::create("settings.ini", QSettings::IniFormat);
+
     mcuInData_.functionsFlags = settings_->value("functionsFrame/flags").toUInt();
+
+    mcuInData_.vibrationFlags1 = settings_->value("vibrationFrame/flags1").toUInt();
+    mcuInData_.vibrationFlags2 = settings_->value("vibrationFrame/flags2").toUInt();
+    mcuInData_.vibrationFlags3 = settings_->value("vibrationFrame/flags3").toUInt();
+    mcuInData_.vibrationFlags4 = settings_->value("vibrationFrame/flags4").toUInt();
+
+    mcuInData_.vibrationMaxValue1 = settings_->value("vibrationFrame/maxValue1").toInt();
+    mcuInData_.vibrationMaxValue2 = settings_->value("vibrationFrame/maxValue2").toInt();
+    mcuInData_.vibrationMaxValue3 = settings_->value("vibrationFrame/maxValue3").toInt();
+    mcuInData_.vibrationMaxValue4 = settings_->value("vibrationFrame/maxValue4").toInt();
+
+    mcuInData_.positionFlags = settings_->value("positionFrame/flags").toUInt();
+    mcuInData_.positionXdeviation = settings_->value("positionFrame/positionXdeviation").toInt();
+    mcuInData_.positionYdeviation = settings_->value("positionFrame/positionYdeviation").toInt();
+    mcuInData_.positionZdeviation = settings_->value("positionFrame/positionZdeviation").toInt();
+
+    mcuInData_.dustFlags1 = settings_->value("dustFrame/flags1").toUInt();
+    mcuInData_.dustFlags2 = settings_->value("dustFrame/flags2").toUInt();
+    mcuInData_.dustFlags3 = settings_->value("dustFrame/flags3").toUInt();
+
+    mcuInData_.dustMaxValue1 = settings_->value("dustFrame/maxValue1").toInt();
+    mcuInData_.dustMaxValue2 = settings_->value("dustFrame/maxValue2").toInt();
+    mcuInData_.dustMaxValue3 = settings_->value("dustFrame/maxValue3").toInt();
+
+    mcuInData_.moistureFlags = settings_->value("moistureFrame/flags").toUInt();
+    mcuInData_.moistureMinValue = settings_->value("moistureFrame/minValue").toInt();
+    mcuInData_.moistureMaxValue = settings_->value("moistureFrame/maxValue").toInt();
+
+    mcuInData_.temperatureFlags1 = settings_->value("temperatureFrame/flags1").toUInt();
+    mcuInData_.temperatureFlags2 = settings_->value("temperatureFrame/flags2").toUInt();
+    mcuInData_.temperatureFlags3 = settings_->value("temperatureFrame/flags3").toUInt();
+
+    mcuInData_.temperatureMinValue1 = settings_->value("temperatureFrame/minValue1").toInt();
+    mcuInData_.temperatureMinValue2 = settings_->value("temperatureFrame/minValue2").toInt();
+    mcuInData_.temperatureMinValue3 = settings_->value("temperatureFrame/minValue3").toInt();
+
+    mcuInData_.temperatureMaxValue1 = settings_->value("temperatureFrame/maxValue1").toInt();
+    mcuInData_.temperatureMaxValue2 = settings_->value("temperatureFrame/maxValue2").toInt();
+    mcuInData_.temperatureMaxValue3 = settings_->value("temperatureFrame/maxValue3").toInt();
+
+    mcuInData_.breakInFlags1 = settings_->value("breakInFrame/flags1").toUInt();
+    mcuInData_.breakInFlags2 = settings_->value("breakInFrame/flags2").toUInt();
+    mcuInData_.breakInFlags3 = settings_->value("breakInFrame/flags3").toUInt();
+
+    mcuInData_.breakInSensorNormalState1 = settings_->value("breakInFrame/sensorState1").toInt();
+    mcuInData_.breakInSensorNormalState2 = settings_->value("breakInFrame/sensorState2").toInt();
+    mcuInData_.breakInSensorNormalState3 = settings_->value("breakInFrame/sensorState3").toInt();
+
+    mcuInData_.powerButtonPwdLevel = settings_->value("PWR/powerButtonPwdLevel").toInt();
+    mcuInData_.powerButtonPwdDigit1 = settings_->value("PWR/digit1").toInt();
+    mcuInData_.powerButtonPwdDigit2 = settings_->value("PWR/digit2").toInt();
+    mcuInData_.powerButtonPwdDigit3 = settings_->value("PWR/digit3").toInt();
+    mcuInData_.digitInputPeriod = settings_->value("PWR/digitInputPeriod", 3).toInt();
 
     // Настраиваем COM-порт, к которому подключен контроллер
 

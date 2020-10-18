@@ -113,6 +113,16 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     blockingTimeLayout->addWidget(blockingTime_);
     rightLayout->addRow(blockingTimeLayout);
 
+	//---
+
+	QHBoxLayout* inputPeriodLayout = new QHBoxLayout;
+	inputPeriod_ = new SpinBox;
+    inputPeriod_->setValueFieldWidth(30);
+    inputPeriodLayout->addWidget(new QLabel("ВРЕМЯ ОЖИДАНИЯ ВВОДА\nРАЗРЯДА КОМБИНАЦИИ, СЕК"));
+    inputPeriodLayout->addStretch();
+    inputPeriodLayout->addWidget(inputPeriod_);
+	rightLayout->addRow(inputPeriodLayout);
+
     //---
 
     QHBoxLayout* notResponseResetLayout = new QHBoxLayout;

@@ -33,6 +33,7 @@ private:
     OnOffButton* powerByPasswordButton_;
 
     SpinBox* blockingTime_;
+    SpinBox* inputPeriod_;
 
     OnOffButton* notResponseResetButton_;
     SpinBox* notResponseResetTime_;
