@@ -6,7 +6,7 @@
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
-    settings_ = QSharedPointer<QSettings>::create("settings.ini", QSettings::IniFormat);
+    settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     mcuInData_.functionsFlags = settings_->value("functionsFrame/flags").toUInt();
 

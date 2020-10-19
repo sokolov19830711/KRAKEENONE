@@ -3,6 +3,8 @@
 #include <QSerialPortInfo>
 #include <QFormLayout>
 #include <QAbstractItemView>
+#include <QCoreApplication>
+#include <QDir>
 
 #include <QDebug>
 
@@ -31,7 +33,26 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     //---
 
     startOnBootButton_ = new OnOffButton(this);
-    connect(startOnBootButton_, &OnOffButton::toggled, [=]() {setBit(mcuInData->functionsFlags, FunctionsFlag::startOnBoot, startOnBootButton_->isChecked()); });
+    startOnBootButton_->setChecked(settings_->value("functionsFrame/startOnBoot").toBool());
+    connect(startOnBootButton_, &OnOffButton::toggled, [=]()
+        {
+            setBit(mcuInData->functionsFlags, FunctionsFlag::startOnBoot, startOnBootButton_->isChecked());
+
+#ifdef Q_OS_WIN32
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            if (startOnBootButton_->isChecked())
+            {
+				settings.setValue("KRAKEENONE", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
+				settings.sync();
+            }
+
+            else
+            {
+				settings.remove("KRAKEENONE");
+            }
+#endif // Q_OS_WIN32
+
+        });
     startOnBootButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::startOnBoot);
     rightLayout->addRow("АВТОМАТИЧЕСКИЙ ЗАПУСК ПРИ ЗАГРУЗКЕ\nОПЕРАЦИОННОЙ СИСТЕМЫ", startOnBootButton_);
 
@@ -164,6 +185,8 @@ FunctionsFrame::FunctionsFrame::~FunctionsFrame()
 {
     settings_->setValue("functionsFrame/serialPort", avaliableSerialPorts_->currentText());
     settings_->setValue("functionsFrame/flags", mcuInData_->functionsFlags);
+
+    settings_->setValue("functionsFrame/startOnBoot", startOnBootButton_->isChecked());
 
     settings_->setValue("SMTP/server", serverName_->text());
     settings_->setValue("SMTP/port", portName_->text());
