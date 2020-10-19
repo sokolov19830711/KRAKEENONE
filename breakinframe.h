@@ -5,7 +5,7 @@
 
 #include <QLabel>
 
-#include "PrimeboxWidgets/ButtonGroup.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 #include "PrimeboxWidgets/OnOffButton.h"
 
 class BreakInFrame : public Frame
@@ -23,9 +23,9 @@ private:
 	QLabel* sensorName2_;
 	QLabel* sensorName3_;
 
-	ButtonGroup* settingsButtons1_;
-	ButtonGroup* settingsButtons2_;
-	ButtonGroup* settingsButtons3_;
+    SwitchButtonsWidget* settingsButtons1_;
+    SwitchButtonsWidget* settingsButtons2_;
+    SwitchButtonsWidget* settingsButtons3_;
 
     OnOffButton* notificationButton1_;
     OnOffButton* soundSignalButton1_;

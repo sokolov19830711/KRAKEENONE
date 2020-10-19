@@ -31,7 +31,7 @@ void BreakInSensors::update()
 	}
 
 	// Концевые выключатели
-	int switch1 = digitalRead(TERMINAL_SWITCH1);
+	int switch1 = !digitalRead(TERMINAL_SWITCH1);
 	DataManager::outData().breakInSensor2 = switch1;
 
 	if (switch1 != DataManager::config().breakInSensorNormalState2)
@@ -42,7 +42,7 @@ void BreakInSensors::update()
 		}
 	}
 
-	int switch2 = digitalRead(TERMINAL_SWITCH2);
+	int switch2 = !digitalRead(TERMINAL_SWITCH2);
 	DataManager::outData().breakInSensor3 = switch2;
 
 	if (switch2 != DataManager::config().breakInSensorNormalState3)

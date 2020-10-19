@@ -254,7 +254,7 @@ void MainFrame::refresh()
 
     // Датчики вскрытия
 
-    breakInButton1_->setAlert(mcuOutData_->breakInSensor1 == mcuInData_->breakInSensorNormalState1);
-    breakInButton2_->setAlert(mcuOutData_->breakInSensor2 == mcuInData_->breakInSensorNormalState2);
-    breakInButton3_->setAlert(mcuOutData_->breakInSensor3 == mcuInData_->breakInSensorNormalState3);
+    breakInButton1_->setAlert(mcuOutData_->breakInSensor1 != mcuInData_->breakInSensorNormalState1);
+    breakInButton2_->setAlert(mcuOutData_->breakInSensor2 != mcuInData_->breakInSensorNormalState2);
+    breakInButton3_->setAlert(mcuOutData_->breakInSensor3 != mcuInData_->breakInSensorNormalState3);
 }

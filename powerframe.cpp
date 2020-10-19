@@ -118,10 +118,13 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
 	QHBoxLayout* inputPeriodLayout = new QHBoxLayout;
 	inputPeriod_ = new SpinBox;
     inputPeriod_->setValueFieldWidth(30);
+    inputPeriod_->setValue(settings_->value("PWR/digitInputPeriod").toInt());
     inputPeriodLayout->addWidget(new QLabel("ВРЕМЯ ОЖИДАНИЯ ВВОДА\nРАЗРЯДА КОМБИНАЦИИ, СЕК"));
     inputPeriodLayout->addStretch();
     inputPeriodLayout->addWidget(inputPeriod_);
 	rightLayout->addRow(inputPeriodLayout);
+
+    connect(inputPeriod_, &SpinBox::valueChanged, [=]() {mcuInData_->digitInputPeriod = inputPeriod_->value(); });
 
     //---
 
@@ -203,6 +206,8 @@ PowerFrame::~PowerFrame()
     settings_->setValue("PWR/digit1", digit1_->checkedId() + 1);
     settings_->setValue("PWR/digit2", digit2_->checkedId() + 1);
     settings_->setValue("PWR/digit3", digit3_->checkedId() + 1);
+
+    settings_->setValue("PWR/digitInputPeriod", inputPeriod_->value());
 }
 
 void PowerFrame::refresh()
