@@ -3,7 +3,6 @@
 
 #include "frame.h"
 #include "PrimeboxWidgets/SpinBox.h"
-#include "PrimeboxWidgets/ButtonGroup.h"
 #include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SensorInicator.h"
 

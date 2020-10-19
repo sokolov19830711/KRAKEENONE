@@ -13,8 +13,8 @@
 #include <QSettings>
 
 #include "firmware/dataStructures.h"
-#include "serialportmanager.h"
 #include "PrimeboxWidgets/SwitchButtonsWidget.h"
+#include "serialportmanager.h"
 #include "mainframe.h"
 #include "functionsframe.h"
 #include "aboutframe.h"
@@ -34,7 +34,7 @@ class MainWidget : public QWidget
     Q_OBJECT
 public:
 
-    enum AccessLevel { user = 1, admin };
+    enum AccessLevel { user, admin };
 
     explicit MainWidget(QWidget *parent = nullptr);
     virtual ~MainWidget();
@@ -61,19 +61,6 @@ private:
 
     SwitchButtonsWidget* frameSelectButtons_;
 
-    QPushButton* mainButton_;
-    QPushButton* functionsButton_;
-    QPushButton* aboutButton_;
-    QPushButton* vibrationButton_;
-    QPushButton* positionButton_;
-    QPushButton* dustButton_;
-    QPushButton* moistureButton_;
-    QPushButton* temperatureButton_;
-    QPushButton* powerButton_;
-    QPushButton* breakInButton_;
-    QPushButton* runningHoursButton_;
-    QPushButton* IButtonButton_;
-
     QStackedWidget* frames_;
 
     MainFrame* mainFrame_;
@@ -91,7 +78,7 @@ private:
 
     EnterPasswordFrame* passwordWidget_ = nullptr;
 
-    ButtonGroup* userSwitchButtons_;
+    SwitchButtonsWidget* userSwitchButtons_;
 
     QTimer* mainTimer_;
     QThread* portManagerThread_;

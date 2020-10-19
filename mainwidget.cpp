@@ -212,11 +212,14 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     userSwitchLabel->setStyleSheet("color: #ffffff");
     userSwitchLayout->addWidget(userSwitchLabel);
 
-    userSwitchButtons_ = new ButtonGroup({ "ОБЫЧНЫЙ", "АДМИНИСТРАТОР" }, 100, 25, this);
-    userSwitchButtons_->setChecked(1); // По умолчанию запускаемся под обычным пользователем
+	QString userSwitchButtonsStyle = "QPushButton{height : 30; width : 120; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		                             "QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+    userSwitchButtons_ = new SwitchButtonsWidget(1, 2, userSwitchButtonsStyle, { "ОБЫЧНЫЙ", "АДМИНИСТРАТОР" }, this);
+    userSwitchButtons_->setMargin(5);
+    userSwitchButtons_->setChecked(user); // По умолчанию запускаемся под обычным пользователем
     userSwitchLayout->addWidget(userSwitchButtons_);
 
-    connect(userSwitchButtons_, &ButtonGroup::idClicked, this, &MainWidget::changeUser);
+    connect(userSwitchButtons_, &SwitchButtonsWidget::idClicked, this, &MainWidget::changeUser);
 
     //--- Таймер
 

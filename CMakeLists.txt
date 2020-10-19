@@ -10,7 +10,7 @@ find_package(Qt5Network)
 find_package(Qt5SerialPort)
 
 add_executable(${PROJECT_NAME} WIN32  "appIcon.rc"
-								"PrimeboxWidgets/OnOffButton.cpp" "PrimeboxWidgets/ButtonGroup.cpp" "PrimeboxWidgets/SpinBox.cpp"
+								"PrimeboxWidgets/OnOffButton.cpp" "PrimeboxWidgets/SpinBox.cpp"
 								"PrimeboxWidgets/SensorInicator.cpp" "PrimeboxWidgets/SwitchButtonsWidget.cpp"
 								"main.cpp" "mainwidget.cpp" "serialportmanager.cpp" "frame.cpp" "mainframe.cpp" "functionsframe.cpp"
 								"aboutframe.cpp" "temperatureframe.cpp" "dustframe.cpp" "breakinframe.cpp" "vibrationframe.cpp" 

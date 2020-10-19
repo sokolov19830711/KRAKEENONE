@@ -3,7 +3,6 @@
 
 #include "frame.h"
 
-#include "PrimeboxWidgets/ButtonGroup.h"
 #include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/SwitchButtonsWidget.h"
@@ -20,8 +19,8 @@ public:
 
 private:
 
-    ButtonGroup* blockHDDSettingsButtons_;
-    ButtonGroup* resetSettingsButtons_;
+    SwitchButtonsWidget* blockHDDSettingsButtons_;
+    SwitchButtonsWidget* resetSettingsButtons_;
 
     SwitchButtonsWidget* pwswStatePanel_;
 	SwitchButtonsWidget* digit1_;
