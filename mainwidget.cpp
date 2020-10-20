@@ -2,6 +2,7 @@
 #include "firmware/dataStructures.h"
 
 #include <QSerialPortInfo>
+#include <QMenu>
 #include <QDebug>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
@@ -226,6 +227,30 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     mainTimer_ = new QTimer(this);
     connect(mainTimer_, SIGNAL(timeout()), this, SLOT(refresh()));
     mainTimer_->start(100);
+
+    //--- Иконка в трее
+
+	_trayIcon = new QSystemTrayIcon(QIcon("appIcon.png"), this);
+    _trayIcon->setToolTip("Программа мониторинга\nKRAKEENONE");
+    _trayIcon->show();
+
+    QMenu* trayMenu = new QMenu(this);
+	QAction* viewWindow = new QAction("Отркрыть", this);
+	QAction* quitAction = new QAction("Выход", this);
+    trayMenu->addAction(viewWindow);
+    trayMenu->addAction(quitAction);
+
+    connect(viewWindow, SIGNAL(triggered()), this, SLOT(show()));
+
+    connect(quitAction, &QAction::triggered, [=]()
+        {
+            _isClosedViaTray = true;
+            this->close();
+        });
+
+	connect(_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+
+    _trayIcon->setContextMenu(trayMenu);
 }
 
 MainWidget::~MainWidget()
@@ -306,6 +331,35 @@ void MainWidget::closeEvent(QCloseEvent *event)
 {
     settings_->sync();
 
-    QWidget::closeEvent(event);
+    if (_isClosedViaTray)
+    {
+        QWidget::closeEvent(event);
+    }
+
+    else
+	{
+		event->ignore();
+		this->hide();
+	}
+}
+
+void MainWidget::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+    case QSystemTrayIcon::Unknown:
+        break;
+    case QSystemTrayIcon::Context:
+        break;
+    case QSystemTrayIcon::DoubleClick:
+        this->show();
+        break;
+    case QSystemTrayIcon::Trigger:
+        break;
+    case QSystemTrayIcon::MiddleClick:
+        break;
+    default:
+        break;
+    }
 }
 

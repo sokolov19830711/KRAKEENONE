@@ -11,6 +11,7 @@
 #include <QtSerialPort>
 #include <QTimer>
 #include <QSettings>
+#include <QSystemTrayIcon>
 
 #include "firmware/dataStructures.h"
 #include "PrimeboxWidgets/SwitchButtonsWidget.h"
@@ -52,6 +53,10 @@ protected:
 
     void closeEvent(QCloseEvent * event);
 
+private slots:
+
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+
 private:
 
     AccessLevel userAccessLevel_ = user;
@@ -85,6 +90,9 @@ private:
     SerialPortManager* portManager_ = nullptr;
 
     QSharedPointer<QSettings> settings_;
+
+    QSystemTrayIcon* _trayIcon;
+    bool _isClosedViaTray = false;
 };
 
 #endif // MAINWIDGET_H
