@@ -5,6 +5,7 @@
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SensorInicator.h"
+#include "PrimeboxWidgets/ActionsSetupWidget.h"
 
 class VibrationFrame : public Frame
 {
@@ -32,21 +33,11 @@ private:
     SpinBox* maxValue3_;
     SpinBox* maxValue4_;
 
-    OnOffButton* notificationButton1_;
-    OnOffButton* soundSignalButton1_;
-    OnOffButton* PCShutDownButton1_;
+    ActionsSetupWidget* _actionsSetupWidget1;
+    ActionsSetupWidget* _actionsSetupWidget2;
+    ActionsSetupWidget* _actionsSetupWidget3;
+    ActionsSetupWidget* _actionsSetupWidget4;
 
-    OnOffButton* notificationButton2_;
-    OnOffButton* soundSignalButton2_;
-    OnOffButton* PCShutDownButton2_;
-
-    OnOffButton* notificationButton3_;
-    OnOffButton* soundSignalButton3_;
-    OnOffButton* PCShutDownButton3_;
-
-    OnOffButton* notificationButton4_;
-    OnOffButton* soundSignalButton4_;
-    OnOffButton* PCShutDownButton4_;
 };
 
 #endif // VIBRATIONFRAME_H

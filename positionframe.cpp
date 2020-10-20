@@ -110,48 +110,13 @@ PositionFrame::PositionFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
     mainLayout->addSpacing(20);
     //---
 
-    QHBoxLayout* actionListTitleLayout = new QHBoxLayout;
-    actionListTitleLayout->addStretch();
-    actionListTitleLayout->addWidget(new QLabel("ВЫПОЛНИТЬ ДЕЙСТВИЕ"));
-    actionListTitleLayout->addStretch();
-
-    mainLayout->addLayout(actionListTitleLayout);
-
-    //---
-
-    notificationButton_ = new OnOffButton;
-    connect(notificationButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->positionFlags, ActionsFlag::notification, notificationButton_->isChecked());});
-    notificationButton_->setChecked(settings_->value("positionFrame/flags").toInt() & ActionsFlag::notification);
-
-    soundSignalButton_ = new OnOffButton;
-    connect(soundSignalButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->positionFlags, ActionsFlag::soundSignal, soundSignalButton_->isChecked());});
-    soundSignalButton_->setChecked(settings_->value("positionFrame/flags").toInt() & ActionsFlag::soundSignal);
-
-    PCShutDownButton_ = new OnOffButton;
-    connect(PCShutDownButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->positionFlags, ActionsFlag::PCShutDown, PCShutDownButton_->isChecked());});
-    PCShutDownButton_->setChecked(settings_->value("positionFrame/flags").toInt() & ActionsFlag::PCShutDown);
-
-    QFormLayout* actionsLayout = new QFormLayout;
-
-    actionsLayout->addRow("Сообщение администратору", notificationButton_);
-    actionsLayout->addRow("Звуковой сигнал", soundSignalButton_);
-    actionsLayout->addRow("Выключение ПК", PCShutDownButton_);
-
-    QHBoxLayout* actionsAlignedLayout = new QHBoxLayout;
-    actionsAlignedLayout->addStretch();
-    actionsAlignedLayout->addLayout(actionsLayout);
-    actionsAlignedLayout->addStretch();
-
-    mainLayout->addLayout(actionsAlignedLayout);
+	_actionsSetupWidget = new ActionsSetupWidget(&(mcuInData_->positionFlags), { ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown }, this);
+    mainLayout->addWidget(_actionsSetupWidget);
 }
 
 PositionFrame::~PositionFrame()
 {
-    uint8_t flags = 0;
-    setBit(flags, ActionsFlag::notification, notificationButton_->isChecked());
-    setBit(flags, ActionsFlag::soundSignal, soundSignalButton_->isChecked());
-    setBit(flags, ActionsFlag::PCShutDown, PCShutDownButton_->isChecked());
-    settings_->setValue("positionFrame/flags", flags);
+    settings_->setValue("positionFrame/flags", _actionsSetupWidget->flags());
 
     settings_->setValue("positionFrame/positionXdeviation", xLimit_->value());
     settings_->setValue("positionFrame/positionYdeviation", yLimit_->value());
@@ -176,7 +141,5 @@ void PositionFrame::setControlsEnabled(bool state)
     yLimit_->setEnabled(state);
     zLimit_->setEnabled(state);
 
-    notificationButton_->setEnabled(state);
-    soundSignalButton_->setEnabled(state);
-    PCShutDownButton_->setEnabled(state);
+    _actionsSetupWidget->setEnabled(state);
 }

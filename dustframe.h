@@ -3,8 +3,8 @@
 
 #include "frame.h"
 #include "PrimeboxWidgets/SpinBox.h"
-#include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SensorInicator.h"
+#include "PrimeboxWidgets/ActionsSetupWidget.h"
 
 class DustFrame : public Frame
 {
@@ -31,17 +31,9 @@ private:
     SpinBox* maxValue2_;
     SpinBox* maxValue3_;
 
-    OnOffButton* notificationButton1_;
-    OnOffButton* soundSignalButton1_;
-    OnOffButton* PCShutDownButton1_;
-
-    OnOffButton* notificationButton2_;
-    OnOffButton* soundSignalButton2_;
-    OnOffButton* PCShutDownButton2_;
-
-    OnOffButton* notificationButton3_;
-    OnOffButton* soundSignalButton3_;
-    OnOffButton* PCShutDownButton3_;
+	ActionsSetupWidget* _actionsSetupWidget1;
+	ActionsSetupWidget* _actionsSetupWidget2;
+	ActionsSetupWidget* _actionsSetupWidget3;
 };
 
 #endif // DUSTFRAME_H

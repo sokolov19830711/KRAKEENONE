@@ -2,11 +2,9 @@
 #define MOISTUREFRAME_H
 
 #include "frame.h"
-#include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/SensorInicator.h"
-
-#include <QSpinBox>
+#include "PrimeboxWidgets/ActionsSetupWidget.h"
 
 class MoistureFrame : public Frame
 {
@@ -29,9 +27,7 @@ private:
     SpinBox* minValue_;
     SpinBox* maxValue_;
 
-    OnOffButton* notificationButton_;
-    OnOffButton* soundSignalButton_;
-    OnOffButton* PCShutDownButton_;
+    ActionsSetupWidget* _actionsSetupWidget;
 };
 
 #endif // MOISTUREFRAME_H

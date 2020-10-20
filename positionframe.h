@@ -3,8 +3,8 @@
 
 #include "frame.h"
 #include "PrimeboxWidgets/SpinBox.h"
-#include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SensorInicator.h"
+#include "PrimeboxWidgets/ActionsSetupWidget.h"
 
 #include <QPushButton>
 
@@ -38,9 +38,8 @@ private:
     SpinBox* yLimit_;
     SpinBox* zLimit_;
 
-    OnOffButton* notificationButton_;
-    OnOffButton* soundSignalButton_;
-    OnOffButton* PCShutDownButton_;
+    ActionsSetupWidget* _actionsSetupWidget;
+
 };
 
 #endif // POSITIONFRAME_H

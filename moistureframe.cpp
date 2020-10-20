@@ -50,49 +50,13 @@ MoistureFrame::MoistureFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
 
     sensorLayout1->addRow(new QLabel()); // Пустая строка для разделения
 
-    QHBoxLayout* actionListTitleLayout1 = new QHBoxLayout;
-    actionListTitleLayout1->addStretch();
-    actionListTitleLayout1->addWidget(new QLabel("ВЫПОЛНИТЬ ДЕЙСТВИЕ"));
-    actionListTitleLayout1->addStretch();
-
-    sensorLayout1->addRow(actionListTitleLayout1);
-
-    notificationButton_ = new OnOffButton;
-    connect(notificationButton_, &OnOffButton::toggled, [=](){setBit(mcuInData_->moistureFlags, ActionsFlag::notification, notificationButton_->isChecked());});
-    notificationButton_->setChecked(settings_->value("moistureFrame/flags").toInt() & ActionsFlag::notification);
-
-    soundSignalButton_ = new OnOffButton;
-    connect(soundSignalButton_, &OnOffButton::toggled, [=](){setBit(mcuInData_->moistureFlags, ActionsFlag::soundSignal, soundSignalButton_->isChecked());});
-    soundSignalButton_->setChecked(settings_->value("moistureFrame/flags").toInt() & ActionsFlag::soundSignal);
-
-    PCShutDownButton_ = new OnOffButton;
-    connect(PCShutDownButton_, &OnOffButton::toggled, [=](){setBit(mcuInData_->moistureFlags, ActionsFlag::PCShutDown, PCShutDownButton_->isChecked());});
-    PCShutDownButton_->setChecked(settings_->value("moistureFrame/flags").toInt() & ActionsFlag::PCShutDown);
-
-    QFormLayout* actionsLayout1 = new QFormLayout;
-
-    actionsLayout1->addRow("Сообщение администратору", notificationButton_);
-    actionsLayout1->addRow("Звуковой сигнал", soundSignalButton_);
-    actionsLayout1->addRow("Выключение ПК", PCShutDownButton_);
-
-    QHBoxLayout* actionsAlignedLayout1 = new QHBoxLayout;
-    actionsAlignedLayout1->addStretch();
-    actionsAlignedLayout1->addLayout(actionsLayout1);
-    actionsAlignedLayout1->addStretch();
-
-    sensorLayout1->addRow(actionsAlignedLayout1);
-
-    //---
-
+    _actionsSetupWidget = new ActionsSetupWidget(&(mcuInData_->moistureFlags), {ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown}, this);
+    sensorLayout1->addRow(_actionsSetupWidget);
 }
 
 MoistureFrame::~MoistureFrame()
 {
-    uint8_t flags = 0;
-    setBit(flags, ActionsFlag::notification, notificationButton_->isChecked());
-    setBit(flags, ActionsFlag::soundSignal, soundSignalButton_->isChecked());
-    setBit(flags, ActionsFlag::PCShutDown, PCShutDownButton_->isChecked());
-    settings_->setValue("moistureFrame/flags", flags);
+    settings_->setValue("moistureFrame/flags", _actionsSetupWidget->flags());
 
     settings_->setValue("moistureFrame/maxValue", maxValue_->value());
     settings_->setValue("moistureFrame/minValue", minValue_->value());
@@ -110,7 +74,5 @@ void MoistureFrame::setControlsEnabled(bool state)
     minValue_->setEnabled(state);
     maxValue_->setEnabled(state);
 
-    notificationButton_->setEnabled(state);
-    soundSignalButton_->setEnabled(state);
-    PCShutDownButton_->setEnabled(state);
+    _actionsSetupWidget->setEnabled(state);
 }

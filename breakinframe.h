@@ -6,7 +6,7 @@
 #include <QLabel>
 
 #include "PrimeboxWidgets/SwitchButtonsWidget.h"
-#include "PrimeboxWidgets/OnOffButton.h"
+#include "PrimeboxWidgets/ActionsSetupWidget.h"
 
 class BreakInFrame : public Frame
 {
@@ -27,17 +27,9 @@ private:
     SwitchButtonsWidget* settingsButtons2_;
     SwitchButtonsWidget* settingsButtons3_;
 
-    OnOffButton* notificationButton1_;
-    OnOffButton* soundSignalButton1_;
-    OnOffButton* PCShutDownButton1_;
-
-    OnOffButton* notificationButton2_;
-    OnOffButton* soundSignalButton2_;
-    OnOffButton* PCShutDownButton2_;
-
-    OnOffButton* notificationButton3_;
-    OnOffButton* soundSignalButton3_;
-    OnOffButton* PCShutDownButton3_;
+	ActionsSetupWidget* _actionsSetupWidget1;
+	ActionsSetupWidget* _actionsSetupWidget2;
+	ActionsSetupWidget* _actionsSetupWidget3;
 };
 
 #endif // BREAKINFRAME_H
