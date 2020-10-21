@@ -4,12 +4,13 @@ project(KRAKEENONE VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt5Widgets)
 find_package(Qt5Network)
 find_package(Qt5SerialPort)
 
-add_executable(${PROJECT_NAME} WIN32  "appIcon.rc"
+add_executable(${PROJECT_NAME} WIN32 "appIcon.rc" "trayIcon.qrc"
 								"PrimeboxWidgets/OnOffButton.cpp" "PrimeboxWidgets/SpinBox.cpp" "PrimeboxWidgets/SensorInicator.cpp" 
 								"PrimeboxWidgets/SwitchButtonsWidget.cpp" "PrimeboxWidgets/ActionsSetupWidget.cpp" 
 								"main.cpp" "mainwidget.cpp" "serialportmanager.cpp" "frame.cpp" "mainframe.cpp" "functionsframe.cpp"

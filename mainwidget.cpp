@@ -230,7 +230,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     //--- Иконка в трее
 
-	_trayIcon = new QSystemTrayIcon(QIcon("appIcon.png"), this);
+	_trayIcon = new QSystemTrayIcon(QIcon(":trayIcon.png"), this);
     _trayIcon->setToolTip("Программа мониторинга\nKRAKEENONE");
     _trayIcon->show();
 
