@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QSettings>
 #include <QSystemTrayIcon>
+#include <QMenu>
 
 #include "firmware/dataStructures.h"
 #include "PrimeboxWidgets/SwitchButtonsWidget.h"
@@ -92,6 +93,7 @@ private:
     QSharedPointer<QSettings> settings_;
 
     QSystemTrayIcon* _trayIcon;
+    QMenu* _trayMenu;
     bool _isClosedViaTray = false;
 };
 

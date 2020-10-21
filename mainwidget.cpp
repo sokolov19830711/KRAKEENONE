@@ -2,11 +2,11 @@
 #include "firmware/dataStructures.h"
 
 #include <QSerialPortInfo>
-#include <QMenu>
 #include <QDebug>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
+    setStyleSheet("background-color:#205867");
     settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     mcuInData_.functionsFlags = settings_->value("functionsFrame/flags").toUInt();
@@ -234,11 +234,11 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     _trayIcon->setToolTip("Программа мониторинга\nKRAKEENONE");
     _trayIcon->show();
 
-    QMenu* trayMenu = new QMenu(this);
-	QAction* viewWindow = new QAction("Отркрыть", this);
+    _trayMenu = new QMenu;
+	QAction* viewWindow = new QAction("Открыть окно", this);
 	QAction* quitAction = new QAction("Выход", this);
-    trayMenu->addAction(viewWindow);
-    trayMenu->addAction(quitAction);
+    _trayMenu->addAction(viewWindow);
+    _trayMenu->addAction(quitAction);
 
     connect(viewWindow, SIGNAL(triggered()), this, SLOT(show()));
 
@@ -250,13 +250,14 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
 	connect(_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
-    _trayIcon->setContextMenu(trayMenu);
+    _trayIcon->setContextMenu(_trayMenu);
 }
 
 MainWidget::~MainWidget()
 {
     portManagerThread_->quit();
     delete  portManager_;
+    delete _trayMenu;
 }
 
 void MainWidget::changeFrame(int index)
@@ -355,6 +356,7 @@ void MainWidget::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
         this->show();
         break;
     case QSystemTrayIcon::Trigger:
+        this->show();
         break;
     case QSystemTrayIcon::MiddleClick:
         break;
