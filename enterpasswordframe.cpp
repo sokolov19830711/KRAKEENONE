@@ -59,8 +59,8 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
 
     loginButtonLayout->addStretch();
 
-    connect(passwordLineEdit_, &QLineEdit::returnPressed, [=]() { emit passwordAttempted(passwordLineEdit_->text()); });
-    connect(loginButton_, &QPushButton::clicked, [=]() { emit passwordAttempted(passwordLineEdit_->text()); });
+    connect(passwordLineEdit_, &QLineEdit::returnPressed, [=]() { emit passwordAttempted(passwordLineEdit_->text()); passwordLineEdit_->clear(); });
+    connect(loginButton_, &QPushButton::clicked, [=]() { emit passwordAttempted(passwordLineEdit_->text()); passwordLineEdit_->clear(); });
 
 }
 

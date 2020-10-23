@@ -5,6 +5,7 @@
 #include <QAbstractItemView>
 #include <QCoreApplication>
 #include <QDir>
+#include <QMessageBox>
 
 #include <QDebug>
 
@@ -14,8 +15,8 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     QHBoxLayout* mainLayout = new QHBoxLayout;
     addMainLayout(mainLayout);
 
-    QFormLayout* rightLayout = new QFormLayout;
-    mainLayout->addLayout(rightLayout);
+    QFormLayout* leftLayout = new QFormLayout;
+    mainLayout->addLayout(leftLayout);
 
     //---
 
@@ -28,7 +29,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
         avaliableSerialPorts_->addItem(i.portName());
     }
     avaliableSerialPorts_->setCurrentText(serialPortName);
-    rightLayout->addRow("ПОДКЛЮЧЕНИЕ ЧЕРЕЗ", avaliableSerialPorts_);
+    leftLayout->addRow("ПОДКЛЮЧЕНИЕ ЧЕРЕЗ", avaliableSerialPorts_);
 
     //---
 
@@ -54,38 +55,128 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
         });
     startOnBootButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::startOnBoot);
-    rightLayout->addRow("АВТОМАТИЧЕСКИЙ ЗАПУСК ПРИ ЗАГРУЗКЕ\nОПЕРАЦИОННОЙ СИСТЕМЫ", startOnBootButton_);
+    leftLayout->addRow("АВТОМАТИЧЕСКИЙ ЗАПУСК ПРИ ЗАГРУЗКЕ\nОПЕРАЦИОННОЙ СИСТЕМЫ", startOnBootButton_);
 
     //---
 
     lockOSButton_ = new OnOffButton(this);
     connect(lockOSButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->functionsFlags, FunctionsFlag::lockOS, lockOSButton_->isChecked());});
     lockOSButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::lockOS);
-    rightLayout->addRow("БЛОКИРОВАТЬ КОМПЮТЕР ЕСЛИ\nУСТРОЙСТВО ОТКЛЮЧЕНО", lockOSButton_);
+    leftLayout->addRow("БЛОКИРОВАТЬ КОМПЮТЕР ЕСЛИ\nУСТРОЙСТВО ОТКЛЮЧЕНО", lockOSButton_);
 
     //---
 
     lockAppButton_ = new OnOffButton(this);
     connect(lockAppButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->functionsFlags, FunctionsFlag::lockApp, lockAppButton_->isChecked());});
     lockAppButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::lockApp);
-    rightLayout->addRow("БЛОКИРОВАТЬ ПРИЛОЖЕНИЕ ПОСЛЕ ТРЕХ\nПОПЫТОК ВВОДА ПАРОЛЯ", lockAppButton_);
+    leftLayout->addRow("БЛОКИРОВАТЬ ПРИЛОЖЕНИЕ ПОСЛЕ ТРЕХ\nПОПЫТОК ВВОДА ПАРОЛЯ", lockAppButton_);
 
     //---
 
     turnOnButton_ = new OnOffButton(this);
     connect(turnOnButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->functionsFlags, FunctionsFlag::turnOn, turnOnButton_->isChecked());});
     turnOnButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::turnOn);
-    rightLayout->addRow("ВКЛЮЧИТЬ / ВЫКЛЮЧИТЬ УСТРОЙСТВО", turnOnButton_);
+    leftLayout->addRow("ВКЛЮЧИТЬ / ВЫКЛЮЧИТЬ УСТРОЙСТВО", turnOnButton_);
 
     //---
 
-    QFormLayout* leftLayout = new QFormLayout;
+    leftLayout->addRow(new QLabel());
+
+    QVBoxLayout* changePasswordLayout = new QVBoxLayout;
+    leftLayout->addRow(changePasswordLayout);
+
+    QHBoxLayout* changePasswordTitleLayout = new QHBoxLayout;
+    changePasswordLayout->addLayout(changePasswordTitleLayout);
+
+    changePasswordTitleLayout->addStretch();
+    changePasswordTitleLayout->addWidget(new QLabel("ИЗМЕНИТЬ ПАРОЛЬ ПРИЛОЖЕНИЯ"));
+    changePasswordTitleLayout->addStretch();
+
+    changePasswordLayout->addSpacing(10);
+
+    QLabel* currentPasswordLabel = new QLabel("ТЕКУЩИЙ ПАРОЛЬ", this);
+    currentPasswordLineEdit_ = new QLineEdit(this);
+    currentPasswordLineEdit_->setFixedSize(200, 25);
+    currentPasswordLineEdit_->setEchoMode(QLineEdit::Password);
+    currentPasswordLineEdit_->setAlignment(Qt::AlignCenter);
+
+    QHBoxLayout* currentPasswordLineEditLayout = new QHBoxLayout;
+    changePasswordLayout->addLayout(currentPasswordLineEditLayout);
+    currentPasswordLineEditLayout->addWidget(currentPasswordLabel);
+    currentPasswordLineEditLayout->addWidget(currentPasswordLineEdit_);
+
+	QLabel* newPasswordLabel = new QLabel("НОВЫЙ ПАРОЛЬ", this);
+	newPasswordLineEdit_ = new QLineEdit(this);
+	newPasswordLineEdit_->setFixedSize(200, 25);
+	newPasswordLineEdit_->setEchoMode(QLineEdit::Password);
+	newPasswordLineEdit_->setAlignment(Qt::AlignCenter);
+
+	QHBoxLayout* newPasswordLineEditLayout = new QHBoxLayout;
+	changePasswordLayout->addLayout(newPasswordLineEditLayout);
+	newPasswordLineEditLayout->addWidget(newPasswordLabel);
+	newPasswordLineEditLayout->addWidget(newPasswordLineEdit_);
+
+    QHBoxLayout* changePasswordButtonLayout = new QHBoxLayout;
+    changePasswordLayout->addLayout(changePasswordButtonLayout);
+
+    changePasswordButton_ = new QPushButton(this);
+    changePasswordButton_->setFixedSize(100, 24);
+    changePasswordButton_->setText("ИЗМЕНИТЬ");
+
+	if (!(settings_->value("password") == QVariant()))
+    {
+        changePasswordButton_->setEnabled(false);
+    }
+
+    changePasswordButtonLayout->addStretch();
+    changePasswordButtonLayout->addWidget(changePasswordButton_);
+
+    connect(currentPasswordLineEdit_, &QLineEdit::textChanged, [=]()
+        {
+            QString password = currentPasswordLineEdit_->text();
+			if (
+				(password.isEmpty() && settings_->value("password") == QVariant()) || // Пароль не установлен
+				((settings_->value("password")).toByteArray() == QCryptographicHash::hash(QString(password + "q[fdfj").toUtf8(), QCryptographicHash::Algorithm::Md5))
+				)
+			{
+                changePasswordButton_->setEnabled(true);
+			}
+
+            else
+            {
+                changePasswordButton_->setEnabled(false);
+            }
+        });
+
+    connect(changePasswordButton_, &QPushButton::clicked, [=]()
+        {
+            if (newPasswordLineEdit_->text() == "")
+            {
+                settings_->remove("password");
+                settings_->sync();
+                QMessageBox::information(this, "Изменение пароля приложения", "Пароль для входа в приложение сброшен!");
+            }
+            else
+			{
+				settings_->setValue("password", QCryptographicHash::hash(QString(newPasswordLineEdit_->text() + "q[fdfj").toUtf8(), QCryptographicHash::Algorithm::Md5));
+				settings_->sync();
+				QMessageBox::information(this, "Изменение пароля приложения", "Пароль для входа в приложение успешно изменен!");
+			}
+
+            currentPasswordLineEdit_->clear();
+            newPasswordLineEdit_->clear();
+        });
+
+    //-----------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------
+
+    QFormLayout* rightLayout = new QFormLayout;
     mainLayout->addSpacing(50);
-    mainLayout->addLayout(leftLayout);
+    mainLayout->addLayout(rightLayout);
 
     notificationLabel_ = new QLabel(this);
     notificationLabel_->setText("НАСТРОЙКА УВЕДОМЛЕНИЙ");
-    leftLayout->addRow(notificationLabel_);
+    rightLayout->addRow(notificationLabel_);
 
     //---
 
@@ -96,7 +187,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     serverName_->setFixedSize(250, 25);
     serverName_->setText(settings_->value("SMTP/server").toString());
 
-    leftLayout->addRow("СЕРВЕР", serverName_);
+    rightLayout->addRow("СЕРВЕР", serverName_);
 
     //---
 
@@ -119,7 +210,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     portAndSslLayout->addWidget(sslLabel_);
     portAndSslLayout->addWidget(sslButton_);
 
-    leftLayout->addRow("ПОРТ", portAndSslLayout);
+    rightLayout->addRow("ПОРТ", portAndSslLayout);
 
     //---
 
@@ -129,7 +220,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     userName_->setFixedSize(250, 25);
     userName_->setText(settings_->value("SMTP/user").toString());
 
-    leftLayout->addRow("ПОЛЬЗОВАТЕЛЬ", userName_);
+    rightLayout->addRow("ПОЛЬЗОВАТЕЛЬ", userName_);
 
     //---
 
@@ -140,7 +231,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     smtpPassword_->setFixedSize(250, 25);
     smtpPassword_->setText(settings_->value("SMTP/password").toString());
 
-    leftLayout->addRow("ПАРОЛЬ", smtpPassword_);
+    rightLayout->addRow("ПАРОЛЬ", smtpPassword_);
 
     //---
 
@@ -150,7 +241,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     recipientName_->setFixedSize(250, 25);
     recipientName_->setText(settings_->value("SMTP/recipient").toString());
 
-    leftLayout->addRow("ПОЛУЧАТЕЛЬ", recipientName_);
+    rightLayout->addRow("ПОЛУЧАТЕЛЬ", recipientName_);
 
     //---
 
@@ -166,7 +257,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     sendTestMessageLayout->addStretch();
     sendTestMessageLayout->addWidget(sendTestMessageLabel_);
     sendTestMessageLayout->addWidget(sendTestMessageButton_);
-    leftLayout->addRow(sendTestMessageLayout);
+    rightLayout->addRow(sendTestMessageLayout);
 
     //---
 

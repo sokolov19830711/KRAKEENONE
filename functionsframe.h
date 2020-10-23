@@ -38,6 +38,10 @@ private:
     OnOffButton* lockAppButton_;
     OnOffButton* turnOnButton_;
 
+    QLineEdit* currentPasswordLineEdit_;
+    QLineEdit* newPasswordLineEdit_;
+    QPushButton* changePasswordButton_;
+
     // Правая панель
     QLabel* notificationLabel_;
 
