@@ -121,14 +121,3 @@ void BreakInFrame::refresh()
 {
 
 }
-
-void BreakInFrame::setControlsEnabled(bool state)
-{
-    settingsButtons1_->setEnabled(state);
-    settingsButtons2_->setEnabled(state);
-    settingsButtons3_->setEnabled(state);
-
-	_actionsSetupWidget1->setEnabled(state);
-	_actionsSetupWidget2->setEnabled(state);
-	_actionsSetupWidget3->setEnabled(state);
-}

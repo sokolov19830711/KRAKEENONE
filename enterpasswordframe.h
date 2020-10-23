@@ -19,6 +19,10 @@ signals:
 
 public slots:
 
+protected:
+
+	void closeEvent(QCloseEvent* event);
+
 private:
 
     QLineEdit* passwordLineEdit_;

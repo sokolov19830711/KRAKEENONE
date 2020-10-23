@@ -15,7 +15,6 @@ public:
     virtual ~PowerFrame();
 
     virtual void refresh();
-    virtual void setControlsEnabled(bool state = true);
 
 private:
 

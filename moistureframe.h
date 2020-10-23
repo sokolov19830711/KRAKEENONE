@@ -14,7 +14,6 @@ public:
     virtual ~MoistureFrame();
 
     virtual void refresh();
-    virtual void setControlsEnabled(bool state = true);
 
 signals:
 

@@ -204,30 +204,6 @@ void FunctionsFrame::refresh()
 
 }
 
-void FunctionsFrame::setControlsEnabled(bool state)
-{
-    // Левая панель
-
-    avaliableSerialPorts_->setEnabled(state);
-
-    startOnBootButton_->setEnabled(state);
-    lockOSButton_->setEnabled(state);
-    lockAppButton_->setEnabled(state);
-    turnOnButton_->setEnabled(state);
-
-    // Правая панель
-
-    serverName_->setEnabled(state);
-    portName_->setEnabled(state);
-    sslButton_->setEnabled(state);
-    userName_->setEnabled(state);
-    smtpPassword_->setEnabled(state);
-    recipientName_->setEnabled(state);
-    sendTestMessageButton_->setEnabled(state);
-}
-
-
-
 void FunctionsFrame::sendTestMessage()
 {
 //    qDebug() << "Отправка тестовго сообщения";

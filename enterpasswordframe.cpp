@@ -62,6 +62,10 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
     connect(passwordLineEdit_, &QLineEdit::returnPressed, [=]() { emit passwordAttempted(passwordLineEdit_->text()); });
     connect(loginButton_, &QPushButton::clicked, [=]() { emit passwordAttempted(passwordLineEdit_->text()); });
 
-    /*connect(loginButton_, &QPushButton::clicked, [=]() {dynamic_cast<MainWidget*>(parent)->logon(passwordLineEdit_->text()); });
-    connect(passwordLineEdit_, &QLineEdit::returnPressed, [=]() {dynamic_cast<MainWidget*>(parent)->logon(passwordLineEdit_->text()); });*/
+}
+
+void EnterPasswordFrame::closeEvent(QCloseEvent* event)
+{
+	event->ignore();
+	this->hide();
 }

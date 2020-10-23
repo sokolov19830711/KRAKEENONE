@@ -222,18 +222,3 @@ void PowerFrame::refresh()
 {
 
 }
-
-void PowerFrame::setControlsEnabled(bool state)
-{
-    resetSettingsButtons_->setEnabled(state);
-    blockHDDSettingsButtons_->setEnabled(state);
-
-    powerButtonActiveButton_->setEnabled(state);
-    resetButtonActiveButton_->setEnabled(state);
-    powerByPasswordButton_->setEnabled(state);
-
-    blockingTime_->setEnabled(state);
-
-    notResponseResetButton_->setEnabled(state);
-    notResponseResetTime_->setEnabled(state);
-}

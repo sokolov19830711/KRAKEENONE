@@ -203,24 +203,6 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     connect(functionsFrame_, SIGNAL(serialPortChanged(const QString&)), portManager_, SLOT(setPort(const QString&)));
 
-    //--- Нижняя панель переключения между пользователем и администратором
-
-    QHBoxLayout* userSwitchLayout = new QHBoxLayout;
-    framesLayout->addLayout(userSwitchLayout);
-
-    userSwitchLayout->addStretch();
-    QLabel* userSwitchLabel = new QLabel("ПОЛЬЗОВАТЕЛЬ");
-    userSwitchLabel->setStyleSheet("color: #ffffff");
-    userSwitchLayout->addWidget(userSwitchLabel);
-
-	QString userSwitchButtonsStyle = "QPushButton{height : 30; width : 120; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
-		                             "QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
-    userSwitchButtons_ = new SwitchButtonsWidget(1, 2, userSwitchButtonsStyle, { "ОБЫЧНЫЙ", "АДМИНИСТРАТОР" }, this);
-    userSwitchButtons_->setMargin(5);
-    userSwitchButtons_->setChecked(user); // По умолчанию запускаемся под обычным пользователем
-    userSwitchLayout->addWidget(userSwitchButtons_);
-
-    connect(userSwitchButtons_, &SwitchButtonsWidget::idClicked, this, &MainWidget::changeUser);
 
     //--- Таймер
 
@@ -240,7 +222,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     _trayMenu->addAction(viewWindow);
     _trayMenu->addAction(quitAction);
 
-    connect(viewWindow, SIGNAL(triggered()), this, SLOT(show()));
+    connect(viewWindow, SIGNAL(triggered()), this, SLOT(showMainWidget()));
 
     connect(quitAction, &QAction::triggered, [=]()
         {
@@ -251,6 +233,11 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 	connect(_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
     _trayIcon->setContextMenu(_trayMenu);
+
+    //---
+
+	passwordWidget_ = new EnterPasswordFrame();
+	connect(passwordWidget_, &EnterPasswordFrame::passwordAttempted, this, &MainWidget::logon);
 }
 
 MainWidget::~MainWidget()
@@ -258,48 +245,17 @@ MainWidget::~MainWidget()
     portManagerThread_->quit();
     delete  portManager_;
     delete _trayMenu;
+    delete passwordWidget_;
 }
 
 void MainWidget::changeFrame(int index)
 {
     frames_->setCurrentIndex(index);
-    Frame* currentFrame = dynamic_cast<Frame*> (frames_->widget(index));
-
-    if(currentFrame)
-    {
-        switch (userAccessLevel_)
-        {
-        default:
-        case user:
-            currentFrame->setControlsEnabled(false);
-            break;
-
-        case admin:
-            currentFrame->setControlsEnabled();
-            break;
-        }
-    }
 }
 
-void MainWidget::changeUser(int level)
+void MainWidget::showMainWidget()
 {
-    switch (level)
-    {
-    default:
-    case user:
-        userAccessLevel_ = user;
-        (dynamic_cast<Frame*> (frames_->currentWidget()))->setControlsEnabled(false);
-        break;
-
-    case admin:
-
-        userSwitchButtons_->setChecked(user);
-        passwordWidget_ = new EnterPasswordFrame();
-        passwordWidget_->setWindowModality(Qt::ApplicationModal);
-        passwordWidget_->show();
-        connect(passwordWidget_, &EnterPasswordFrame::passwordAttempted, this, &MainWidget::logon);
-        break;
-    }
+	passwordWidget_->show();
 }
 
 void MainWidget::logon(const QString& password)
@@ -309,17 +265,8 @@ void MainWidget::logon(const QString& password)
         ((settings_->value("password")).toByteArray() == QCryptographicHash::hash(QString(password + "q[fdfj").toUtf8(), QCryptographicHash::Algorithm::Md5))
         )
     {
-        userAccessLevel_ = admin;
-        userSwitchButtons_->setChecked(admin);
-        (dynamic_cast<Frame*> (frames_->currentWidget()))->setControlsEnabled(true);
-        delete passwordWidget_;
-    }
-
-    else 
-    {
-        userAccessLevel_ = user;
-        userSwitchButtons_->setChecked(user);
-        (dynamic_cast<Frame*> (frames_->currentWidget()))->setControlsEnabled(false);
+        this->show();
+        passwordWidget_->hide();
     }
 }
 
@@ -353,10 +300,10 @@ void MainWidget::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
     case QSystemTrayIcon::Context:
         break;
     case QSystemTrayIcon::DoubleClick:
-        this->show();
+        this->showMainWidget();
         break;
     case QSystemTrayIcon::Trigger:
-        this->show();
+        this->showMainWidget();
         break;
     case QSystemTrayIcon::MiddleClick:
         break;

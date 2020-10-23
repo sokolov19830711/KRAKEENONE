@@ -181,19 +181,3 @@ void TemperatureFrame::refresh()
     indicator2_->setValue(mcuOutData_->temperatureSensor2);
     indicator3_->setValue(mcuOutData_->temperatureSensor3);
 }
-
-void TemperatureFrame::setControlsEnabled(bool state)
-{
-    minValue1_->setEnabled(state);
-    maxValue1_->setEnabled(state);
-
-    minValue2_->setEnabled(state);
-    maxValue2_->setEnabled(state);
-
-    minValue3_->setEnabled(state);
-    maxValue3_->setEnabled(state);
-
-	_actionsSetupWidget1->setEnabled(state);
-	_actionsSetupWidget2->setEnabled(state);
-	_actionsSetupWidget3->setEnabled(state);
-}

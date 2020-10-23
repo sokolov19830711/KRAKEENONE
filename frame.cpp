@@ -19,10 +19,6 @@ void Frame::refresh()
 
 }
 
-void Frame::setControlsEnabled(bool state)
-{
-}
-
 void Frame::addMainLayout(QLayout *layout)
 {
     QHBoxLayout *hLayout = new QHBoxLayout;

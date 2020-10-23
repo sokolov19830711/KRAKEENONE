@@ -103,11 +103,6 @@ RunningHoursFrame::~RunningHoursFrame()
 
 }
 
-void RunningHoursFrame::setControlsEnabled(bool state)
-{
-    exportLogButton_->setEnabled(state);
-}
-
 void RunningHoursFrame::refresh()
 {
     sessionDeviceTime_->setText(QString("%1 ч %2 мин %3 сек")

@@ -46,7 +46,7 @@ signals:
 public slots:
 
     void changeFrame(int index);
-    void changeUser(int level);
+    void showMainWidget();
     void logon(const QString& password);
     void refresh();
 
@@ -83,8 +83,6 @@ private:
     IButtonFrame* iButtonFrame_;
 
     EnterPasswordFrame* passwordWidget_ = nullptr;
-
-    SwitchButtonsWidget* userSwitchButtons_;
 
     QTimer* mainTimer_;
     QThread* portManagerThread_;

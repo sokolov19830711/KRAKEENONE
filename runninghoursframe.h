@@ -13,7 +13,6 @@ public:
 	RunningHoursFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
 	virtual ~RunningHoursFrame();
 
-	virtual void setControlsEnabled(bool state = true);
     virtual void refresh();
 
 signals:

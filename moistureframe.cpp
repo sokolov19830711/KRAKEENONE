@@ -68,11 +68,3 @@ void MoistureFrame::refresh()
 {
     indicator_->setValue(mcuOutData_->moistureSensor);
 }
-
-void MoistureFrame::setControlsEnabled(bool state)
-{
-    minValue_->setEnabled(state);
-    maxValue_->setEnabled(state);
-
-    _actionsSetupWidget->setEnabled(state);
-}

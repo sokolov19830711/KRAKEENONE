@@ -68,17 +68,3 @@ void IButtonFrame::refresh()
 {
 
 }
-
-void IButtonFrame::setControlsEnabled(bool state)
-{
-    turnOnButton_->setEnabled(state);
-    lockPWRButtonButton_->setEnabled(state);
-    resetButton_->setEnabled(state);
-    powerOffButton_->setEnabled(state);
-
-    invalidKeyUsageCountToReset_->setEnabled(state);
-    invalidKeyUsageCountToTurnOff_->setEnabled(state);
-
-    setupNewUserKeyButton_->setEnabled(state);
-    setupNewAdminKeyButton_->setEnabled(state);
-}

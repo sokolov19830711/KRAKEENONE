@@ -14,7 +14,6 @@ public:
     Frame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
 
     virtual void refresh();
-    virtual void setControlsEnabled(bool state = true);
 
 signals:
 

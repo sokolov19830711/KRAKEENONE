@@ -149,14 +149,3 @@ void DustFrame::refresh()
     indicator2_->setValue(mcuOutData_->dustSensor2 / 10);
     indicator3_->setValue(mcuOutData_->dustSensor3);
 }
-
-void DustFrame::setControlsEnabled(bool state)
-{
-    maxValue1_->setEnabled(state);
-    maxValue2_->setEnabled(state);
-    maxValue3_->setEnabled(state);
-
-    _actionsSetupWidget1->setEnabled(state);
-    _actionsSetupWidget2->setEnabled(state);
-    _actionsSetupWidget3->setEnabled(state);
-}

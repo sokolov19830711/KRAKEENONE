@@ -130,16 +130,3 @@ void PositionFrame::refresh()
     yValue_->setValue(mcuOutData_->positionSensorY);
     zValue_->setValue(mcuOutData_->positionSensorZ);
 }
-
-void PositionFrame::setControlsEnabled(bool state)
-{
-    saveStartingPositionButton_->setEnabled(state);
-    resetStartingPositionButton_->setEnabled(state);
-    resetlimitsButton_->setEnabled(state);
-
-    xLimit_->setEnabled(state);
-    yLimit_->setEnabled(state);
-    zLimit_->setEnabled(state);
-
-    _actionsSetupWidget->setEnabled(state);
-}

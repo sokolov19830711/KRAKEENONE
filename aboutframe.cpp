@@ -40,9 +40,3 @@ AboutFrame::AboutFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     infoText_->setReadOnly(true);
     mainLayout->addRow(infoText_);
 }
-
-void AboutFrame::setControlsEnabled(bool state)
-{
-    activationKey_->setEnabled(state);
-    activateButton_->setEnabled(state);
-}
