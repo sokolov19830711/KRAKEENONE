@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSerialPortInfo>
 #include <QSerialPort>
+#include <QTimer>
 
 #include "firmware/dataStructures.h"
 
@@ -21,6 +22,7 @@ public:
     bool connectedToPort() const;
 
 signals:
+    void noConnection();
 
 public slots:
 
@@ -28,10 +30,11 @@ public slots:
      void setPort(const QString& name);
 
 private:
-
+    const int _connectionWaitingTime = 10000; // Сколько ждем, прежде чем шлем сигнал об отсутствии связи с устройством (мс)
     QSerialPort port_;
     McuInData* mcuInData_;
     McuOutData* mcuOutData_;
+    QTimer* _noConnectionTimer;
 };
 
 #endif // SERIALPORTMANAGER_H

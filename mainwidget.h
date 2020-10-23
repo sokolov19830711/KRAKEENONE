@@ -49,6 +49,7 @@ public slots:
     void showMainWidget();
     void logon(const QString& password);
     void refresh();
+    void lockOS();
 
 protected:
 

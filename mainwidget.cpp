@@ -1,6 +1,10 @@
 #include "mainwidget.h"
 #include "firmware/dataStructures.h"
 
+#ifdef Q_OS_WIN32
+#include <windows.h>
+#endif
+
 #include <QSerialPortInfo>
 #include <QDebug>
 
@@ -107,6 +111,8 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
         portManagerThread_->start();
     }
 
+    connect(portManager_, SIGNAL(noConnection()), this, SLOT(lockOS()));
+
     //---
 
     QHBoxLayout* mainLayout = new QHBoxLayout(this);
@@ -204,7 +210,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     connect(functionsFrame_, SIGNAL(serialPortChanged(const QString&)), portManager_, SLOT(setPort(const QString&)));
 
 
-    //--- Таймер
+    //--- Таймеры
 
     mainTimer_ = new QTimer(this);
     connect(mainTimer_, SIGNAL(timeout()), this, SLOT(refresh()));
@@ -273,6 +279,16 @@ void MainWidget::logon(const QString& password)
 void MainWidget::refresh()
 {
     (dynamic_cast<Frame*>(frames_->currentWidget()))->refresh();
+}
+
+void MainWidget::lockOS()
+{
+    if (mcuInData_.functionsFlags & FunctionsFlag::lockOS)
+    {
+#ifdef Q_OS_WIN32
+        LockWorkStation();
+#endif
+    }
 }
 
 void MainWidget::closeEvent(QCloseEvent *event)

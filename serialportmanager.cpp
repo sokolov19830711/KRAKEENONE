@@ -5,7 +5,9 @@
 
 SerialPortManager::SerialPortManager(QObject *parent) : QObject(parent)
 {
-
+	_noConnectionTimer = new QTimer(this);
+	connect(_noConnectionTimer, SIGNAL(timeout()), this, SIGNAL(noConnection()));
+	_noConnectionTimer->start(_connectionWaitingTime);
 }
 
 SerialPortManager::SerialPortManager(const QSerialPortInfo &portInfo, McuInData* mcuInData, McuOutData* mcuOutData, QObject *parent) :
@@ -17,6 +19,10 @@ SerialPortManager::SerialPortManager(const QSerialPortInfo &portInfo, McuInData*
     port_.setBaudRate(19200);
     port_.open(QIODevice::ReadWrite);
     connect(&port_, SIGNAL(readyRead()), this, SLOT(refresh()));
+
+    _noConnectionTimer = new QTimer(this);
+	connect(_noConnectionTimer, SIGNAL(timeout()), this, SIGNAL(noConnection()));
+    _noConnectionTimer->start(_connectionWaitingTime);
 }
 
 SerialPortManager::~SerialPortManager()
@@ -52,6 +58,11 @@ void SerialPortManager::refresh()
 				data = data.mid(marker1Pos);
 				isSync = true;
 			}
+
+            else if (data.size() > 1000)
+            {
+                data.clear();
+            }
 		}
     }
 
@@ -67,6 +78,7 @@ void SerialPortManager::refresh()
 
 		data.append(port_.read(sizeof(*mcuOutData_)));
 
+        _noConnectionTimer->start(_connectionWaitingTime);
     }
 
     if (counter < 100)
