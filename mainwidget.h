@@ -17,6 +17,7 @@
 #include "firmware/dataStructures.h"
 #include "PrimeboxWidgets/SwitchButtonsWidget.h"
 #include "serialportmanager.h"
+#include "SMTPmessageManager.h"
 #include "mainframe.h"
 #include "functionsframe.h"
 #include "aboutframe.h"
@@ -90,6 +91,7 @@ private:
     SerialPortManager* portManager_ = nullptr;
 
     QSharedPointer<QSettings> settings_;
+    QSharedPointer<SMTPmessageManager> _SMTPmanager;
 
     QSystemTrayIcon* _trayIcon;
     QMenu* _trayMenu;

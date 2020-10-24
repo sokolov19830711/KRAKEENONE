@@ -16,7 +16,7 @@ add_executable(${PROJECT_NAME} WIN32 "appIcon.rc" "trayIcon.qrc"
 								"main.cpp" "mainwidget.cpp" "serialportmanager.cpp" "frame.cpp" "mainframe.cpp" "functionsframe.cpp"
 								"aboutframe.cpp" "temperatureframe.cpp" "dustframe.cpp" "breakinframe.cpp" "vibrationframe.cpp" 
 								"positionframe.cpp" "moistureframe.cpp" "powerframe.cpp" "runninghoursframe.cpp" "ibuttonframe.cpp"
-								"enterpasswordframe.cpp" )
+								"enterpasswordframe.cpp" "SMTPmessageManager.cpp")
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::Network)

@@ -11,7 +11,10 @@
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
     setStyleSheet("background-color:#205867");
+
     settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+
+    _SMTPmanager = QSharedPointer<SMTPmessageManager>::create(settings_);
 
     mcuInData_.functionsFlags = settings_->value("functionsFrame/flags").toUInt();
 
@@ -167,30 +170,37 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     frames_->addWidget(mainFrame_);
 
     functionsFrame_ = new FunctionsFrame(settings_, &mcuInData_, &mcuOutData_, portManager_->getPortName());
+    functionsFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(functionsFrame_);
 
     aboutFrame_ = new AboutFrame(settings_, &mcuInData_, &mcuOutData_);
     frames_->addWidget(aboutFrame_);
 
     vibrationFrame_ = new VibrationFrame(settings_, &mcuInData_, &mcuOutData_);
+    vibrationFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(vibrationFrame_);
 
     positionFrame_ = new PositionFrame(settings_, &mcuInData_, &mcuOutData_);
+    positionFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(positionFrame_);
 
     dustFrame_ = new DustFrame(settings_, &mcuInData_, &mcuOutData_);
+    dustFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(dustFrame_);
 
     moistureFrame_ = new MoistureFrame(settings_, &mcuInData_, &mcuOutData_);
+    moistureFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(moistureFrame_);
 
     temperatureFrame_ = new TemperatureFrame(settings_, &mcuInData_, &mcuOutData_);
+    temperatureFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(temperatureFrame_);
 
     powerFrame_ = new PowerFrame(settings_, &mcuInData_, &mcuOutData_);
     frames_->addWidget(powerFrame_);
 
     breakInFrame_ = new BreakInFrame(settings_, &mcuInData_, &mcuOutData_);
+    breakInFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(breakInFrame_);
 
     runningHoursFrame_ = new RunningHoursFrame(settings_, &mcuInData_, &mcuOutData_);
