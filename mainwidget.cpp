@@ -14,7 +14,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
-    _SMTPmanager = QSharedPointer<SMTPmessageManager>::create(settings_);
+    _SMTPmanager = new SMTPmessageManager(settings_);
 
     mcuInData_.functionsFlags = settings_->value("functionsFrame/flags").toUInt();
 
@@ -170,37 +170,31 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     frames_->addWidget(mainFrame_);
 
     functionsFrame_ = new FunctionsFrame(settings_, &mcuInData_, &mcuOutData_, portManager_->getPortName());
-    functionsFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(functionsFrame_);
+    connect(functionsFrame_, SIGNAL(testMessageButtonClicked()), this, SLOT(sendTestSMTPmessage()));
 
     aboutFrame_ = new AboutFrame(settings_, &mcuInData_, &mcuOutData_);
     frames_->addWidget(aboutFrame_);
 
     vibrationFrame_ = new VibrationFrame(settings_, &mcuInData_, &mcuOutData_);
-    vibrationFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(vibrationFrame_);
 
     positionFrame_ = new PositionFrame(settings_, &mcuInData_, &mcuOutData_);
-    positionFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(positionFrame_);
 
     dustFrame_ = new DustFrame(settings_, &mcuInData_, &mcuOutData_);
-    dustFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(dustFrame_);
 
     moistureFrame_ = new MoistureFrame(settings_, &mcuInData_, &mcuOutData_);
-    moistureFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(moistureFrame_);
 
     temperatureFrame_ = new TemperatureFrame(settings_, &mcuInData_, &mcuOutData_);
-    temperatureFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(temperatureFrame_);
 
     powerFrame_ = new PowerFrame(settings_, &mcuInData_, &mcuOutData_);
     frames_->addWidget(powerFrame_);
 
     breakInFrame_ = new BreakInFrame(settings_, &mcuInData_, &mcuOutData_);
-    breakInFrame_->addSMTPmanager(_SMTPmanager);
     frames_->addWidget(breakInFrame_);
 
     runningHoursFrame_ = new RunningHoursFrame(settings_, &mcuInData_, &mcuOutData_);
@@ -225,6 +219,10 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     mainTimer_ = new QTimer(this);
     connect(mainTimer_, SIGNAL(timeout()), this, SLOT(refresh()));
     mainTimer_->start(100);
+
+    SMTPmessageTimer_ = new QTimer(this);
+    connect(SMTPmessageTimer_, SIGNAL(timeout()), _SMTPmanager, SLOT(sendEventLog()));
+    SMTPmessageTimer_->start(300000);
 
     //--- Иконка в трее
 
@@ -262,6 +260,7 @@ MainWidget::~MainWidget()
     delete  portManager_;
     delete _trayMenu;
     delete passwordWidget_;
+    delete _SMTPmanager;
 }
 
 void MainWidget::changeFrame(int index)
@@ -288,7 +287,124 @@ void MainWidget::logon(const QString& password)
 
 void MainWidget::refresh()
 {
+    // Обновляем GUI видимого кадра
     (dynamic_cast<Frame*>(frames_->currentWidget()))->refresh();
+
+    // Обрабатываем данные с датчиков -------------------------------------------------
+
+    // Датчики вскрытия
+	if ((mcuOutData_.breakInSensor1 != mcuInData_.breakInSensorNormalState1) &&
+		(mcuInData_.breakInFlags1 & ActionsFlag::notification))
+	{
+		_SMTPmanager->addEventToLog("Срабатывание датчика вскрытия №1");
+	}
+
+	if ((mcuOutData_.breakInSensor2 != mcuInData_.breakInSensorNormalState2) &&
+		(mcuInData_.breakInFlags2 & ActionsFlag::notification))
+	{
+		_SMTPmanager->addEventToLog("Срабатывание датчика вскрытия №2");
+	}
+
+	if ((mcuOutData_.breakInSensor3 != mcuInData_.breakInSensorNormalState3) &&
+		(mcuInData_.breakInFlags3 & ActionsFlag::notification))
+	{
+		_SMTPmanager->addEventToLog("Срабатывание датчика вскрытия №3");
+	}
+
+    // Датчики температуры
+    if ((mcuOutData_.temperatureSensor1 > mcuInData_.temperatureMaxValue1) ||
+        (mcuOutData_.temperatureSensor1 < mcuInData_.temperatureMinValue1))
+    {
+        if (mcuInData_.temperatureFlags1 & ActionsFlag::notification)
+        {
+            _SMTPmanager->addEventToLog(QString("Срабатывание датчика температуры №1. Значение: %1").arg(mcuOutData_.temperatureSensor1));
+        }
+    }
+
+	if ((mcuOutData_.temperatureSensor2 > mcuInData_.temperatureMaxValue2) ||
+		(mcuOutData_.temperatureSensor2 < mcuInData_.temperatureMinValue2))
+	{
+		if (mcuInData_.temperatureFlags2 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика температуры №2. Значение: %1").arg(mcuOutData_.temperatureSensor2));
+		}
+	}
+
+	if ((mcuOutData_.temperatureSensor3 > mcuInData_.temperatureMaxValue3) ||
+		(mcuOutData_.temperatureSensor3 < mcuInData_.temperatureMinValue3))
+	{
+		if (mcuInData_.temperatureFlags3 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика температуры №3. Значение: %1").arg(mcuOutData_.temperatureSensor3));
+		}
+	}
+
+	// Датчик влажности
+    if (mcuOutData_.moistureSensor > mcuInData_.moistureMaxValue)
+    {
+		if (mcuInData_.moistureFlags & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика влажности. Значение: %1").arg(mcuOutData_.moistureSensor));
+		}
+    }
+
+	// Датчики запыленности
+    if (mcuOutData_.dustSensor1 > mcuInData_.dustMaxValue1)
+    {
+		if (mcuInData_.dustFlags1 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика запыленности №1. Значение: %1").arg(mcuOutData_.dustSensor1));
+		}
+    }
+
+	if (mcuOutData_.dustSensor2 > mcuInData_.dustMaxValue2)
+	{
+		if (mcuInData_.dustFlags2 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика запыленности №2. Значение: %1").arg(mcuOutData_.dustSensor2));
+		}
+	}
+
+	if (mcuOutData_.dustSensor3 > mcuInData_.dustMaxValue3)
+	{
+		if (mcuInData_.dustFlags3 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика запыленности №3. Значение: %1").arg(mcuOutData_.dustSensor3));
+		}
+	}
+
+	// Датчики вибрации
+    if (mcuOutData_.vibrationSensor1 > mcuInData_.vibrationMaxValue1)
+    {
+        if (mcuInData_.vibrationFlags1 & ActionsFlag::notification)
+        {
+            _SMTPmanager->addEventToLog(QString("Срабатывание встроенного датчика вибрации. Значение: %1").arg(mcuOutData_.vibrationSensor1));
+        }
+    }
+
+	if (mcuOutData_.vibrationSensor2 > mcuInData_.vibrationMaxValue2)
+	{
+		if (mcuInData_.vibrationFlags2 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика вибрации №2. Значение: %1").arg(mcuOutData_.vibrationSensor2));
+		}
+	}
+
+	if (mcuOutData_.vibrationSensor3 > mcuInData_.vibrationMaxValue3)
+	{
+		if (mcuInData_.vibrationFlags3 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика вибрации №3. Значение: %1").arg(mcuOutData_.vibrationSensor3));
+		}
+	}
+
+	if (mcuOutData_.vibrationSensor4 > mcuInData_.vibrationMaxValue4)
+	{
+		if (mcuInData_.vibrationFlags4 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(QString("Срабатывание датчика вибрации №4. Значение: %1").arg(mcuOutData_.vibrationSensor4));
+		}
+	}
 }
 
 void MainWidget::lockOS()
@@ -299,6 +415,11 @@ void MainWidget::lockOS()
         LockWorkStation();
 #endif
     }
+}
+
+void MainWidget::sendTestSMTPmessage()
+{
+    _SMTPmanager->sendMessage({ "Тестовое сообщение от KRAKEENONE" });
 }
 
 void MainWidget::closeEvent(QCloseEvent *event)

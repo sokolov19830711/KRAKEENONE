@@ -14,11 +14,27 @@ SMTPmessageManager::~SMTPmessageManager()
 
 void SMTPmessageManager::addEventToLog(const QString& eventText)
 {
-	_eventLog.push_back(eventText);
+	QString text;
+	text += QDate::currentDate().toString("dd.MM.yyyy");
+	text += " ";
+	text += QTime::currentTime().toString("hh:mm");
+	text += " ";
+	text += eventText;
+
+	if (!_eventLog.contains(text))
+	{
+		_eventLog.push_back(text);
+	}
 }
 
 void SMTPmessageManager::sendMessage(const QStringList& messageText)
 {
+	qDebug() << messageText;
+	if (messageText.isEmpty())
+	{
+		return;
+	}
+
 	_smtp->setHost(_settings->value("SMTP/server").toString());
 	_smtp->setPort(_settings->value("SMTP/port").toInt());
 

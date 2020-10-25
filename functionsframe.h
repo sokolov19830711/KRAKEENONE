@@ -22,6 +22,7 @@ public:
 signals:
 
     void serialPortChanged(const QString& portName);
+    void testMessageButtonClicked();
 
 public slots:
 

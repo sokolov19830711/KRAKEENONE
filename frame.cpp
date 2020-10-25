@@ -15,11 +15,6 @@ Frame::Frame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutDat
                 );
 }
 
-void Frame::addSMTPmanager(const QSharedPointer<SMTPmessageManager>& SMTPmanager)
-{
-    _SMTPmanager = SMTPmanager;
-}
-
 void Frame::refresh()
 {
 

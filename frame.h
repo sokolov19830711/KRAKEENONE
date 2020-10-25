@@ -14,9 +14,7 @@ public:
 
     Frame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
 
-    void addSMTPmanager(const QSharedPointer<SMTPmessageManager>& SMTPmanager);
-
-    virtual void refresh();
+    virtual void refresh(); // Обновляем состояние GUI
 
 signals:
 
@@ -25,7 +23,6 @@ public slots:
 protected:
 
     QSharedPointer<QSettings> settings_;
-    QSharedPointer<SMTPmessageManager> _SMTPmanager;
     McuInData* mcuInData_;
     McuOutData* mcuOutData_;
 

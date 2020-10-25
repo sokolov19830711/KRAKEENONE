@@ -119,5 +119,5 @@ BreakInFrame::~BreakInFrame()
 
 void BreakInFrame::refresh()
 {
-
+    
 }

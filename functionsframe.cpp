@@ -265,8 +265,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
     //---
 
-    //connect(sendTestMessageButton_, SIGNAL(clicked()), this, SLOT(sendTestMessage()));
-    connect(sendTestMessageButton_, &QPushButton::clicked, [=](){_SMTPmanager->sendMessage({ "Тестовое сообщение от KRAKEENONE" });});
+    connect(sendTestMessageButton_, SIGNAL(clicked()), this, SIGNAL(testMessageButtonClicked()));
 
     //---
 

@@ -51,6 +51,7 @@ public slots:
     void logon(const QString& password);
     void refresh();
     void lockOS();
+    void sendTestSMTPmessage();
 
 protected:
 
@@ -87,11 +88,12 @@ private:
     EnterPasswordFrame* passwordWidget_ = nullptr;
 
     QTimer* mainTimer_;
+    QTimer* SMTPmessageTimer_;
     QThread* portManagerThread_;
     SerialPortManager* portManager_ = nullptr;
 
     QSharedPointer<QSettings> settings_;
-    QSharedPointer<SMTPmessageManager> _SMTPmanager;
+    SMTPmessageManager* _SMTPmanager;
 
     QSystemTrayIcon* _trayIcon;
     QMenu* _trayMenu;
