@@ -53,16 +53,34 @@ void TemperatureSensors::update()
 		Beeper::beep();
 	}
 
+	if (DataManager::outData().temperatureSensor1 > DataManager::config().temperatureMaxValue1 &&
+		DataManager::config().temperatureFlags1 & ActionsFlag::PCShutDown)
+	{
+		PcPower::on();
+	}
+
 	if (DataManager::outData().temperatureSensor2 > DataManager::config().temperatureMaxValue2 &&
 		DataManager::config().temperatureFlags2 & ActionsFlag::soundSignal)
 	{
 		Beeper::beep();
 	}
 
+	if (DataManager::outData().temperatureSensor2 > DataManager::config().temperatureMaxValue2 &&
+		DataManager::config().temperatureFlags2 & ActionsFlag::PCShutDown)
+	{
+		PcPower::on();
+	}
+
 	if (DataManager::outData().temperatureSensor3 > DataManager::config().temperatureMaxValue3 &&
 		DataManager::config().temperatureFlags3 & ActionsFlag::soundSignal)
 	{
 		Beeper::beep();
+	}
+
+	if (DataManager::outData().temperatureSensor3 > DataManager::config().temperatureMaxValue3 &&
+		DataManager::config().temperatureFlags3 & ActionsFlag::PCShutDown)
+	{
+		PcPower::on();
 	}
 
 }

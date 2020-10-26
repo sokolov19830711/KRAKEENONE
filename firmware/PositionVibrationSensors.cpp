@@ -2,6 +2,7 @@
 #include "DataManager.h"
 #include "Krakeenone_pinout.h"
 #include "Beeper.h"
+#include "PcPower.h"
 
 PositionVibrationSensors::PositionVibrationSensors()
 {
@@ -43,9 +44,9 @@ void PositionVibrationSensors::update()
     DataManager::outData().positionSensorY = (Y / count);
     DataManager::outData().positionSensorZ = (Z / count);
 
-	int dX = DataManager::outData().positionSensorX - prevX;
-	int dY = DataManager::outData().positionSensorY - prevY;
-	int dZ = DataManager::outData().positionSensorZ - prevZ;
+	int dX = abs(DataManager::outData().positionSensorX - prevX);
+	int dY = abs(DataManager::outData().positionSensorY - prevY);
+	int dZ = abs(DataManager::outData().positionSensorZ - prevZ);
 
     if (prevX != -999)
     {
@@ -59,6 +60,12 @@ void PositionVibrationSensors::update()
         {
             Beeper::beep();
         }
+
+		if (dMax > DataManager::config().vibrationMaxValue2 &&
+			DataManager::config().vibrationFlags2 & ActionsFlag::PCShutDown)
+		{
+            PcPower::on();
+		}
     }
 
     prevX = DataManager::outData().positionSensorX;
@@ -73,4 +80,10 @@ void PositionVibrationSensors::update()
     {
         Beeper::beep();
     }
+
+	if (DataManager::outData().vibrationSensor1 > DataManager::config().vibrationMaxValue1 &&
+		DataManager::config().vibrationFlags1 & ActionsFlag::PCShutDown)
+	{
+        PcPower::on();
+	}
 }

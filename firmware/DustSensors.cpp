@@ -4,6 +4,7 @@
 #include "DataManager.h"
 #include "Krakeenone_pinout.h"
 #include "Beeper.h"
+#include "PcPower.h"
 
 DustSensors::DustSensors()
 {
@@ -40,11 +41,29 @@ void DustSensors::update()
 
     DataManager::outData().dustSensor2 = (0.17f * voltsMeasured * (4.096f / 1024.0f) - 0.1f) * 1000.f;
 
+	if (DataManager::outData().dustSensor1 > DataManager::config().dustMaxValue1)
+	{
+		if (DataManager::config().dustFlags1 & ActionsFlag::soundSignal)
+		{
+			Beeper::beep();
+		}
+
+		if (DataManager::config().dustFlags1 & ActionsFlag::PCShutDown)
+		{
+			PcPower::on();
+		}
+	}
+
 	if (DataManager::outData().dustSensor2 > DataManager::config().dustMaxValue2)
 	{
 		if (DataManager::config().dustFlags2 & ActionsFlag::soundSignal)
 		{
 			Beeper::beep();
+		}
+
+		if (DataManager::config().dustFlags2 & ActionsFlag::PCShutDown)
+		{
+			PcPower::on();
 		}
 	}
 }

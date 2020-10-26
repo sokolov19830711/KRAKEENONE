@@ -2,6 +2,7 @@
 #include "DataManager.h"
 #include "Krakeenone_pinout.h"
 #include "Beeper.h"
+#include "PcPower.h"
 
 MoistureSensors::MoistureSensors()
 {
@@ -29,6 +30,11 @@ void MoistureSensors::update()
 		if (DataManager::config().moistureFlags & ActionsFlag::soundSignal)
 		{
 			Beeper::beep();
+		}
+
+		if (DataManager::config().moistureFlags & ActionsFlag::PCShutDown)
+		{
+			PcPower::on();
 		}
 	}
 }

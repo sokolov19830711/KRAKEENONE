@@ -4,6 +4,7 @@
 #include "DataManager.h"
 #include "Krakeenone_pinout.h"
 #include "Beeper.h"
+#include "PcPower.h"
 
 BreakInSensors::BreakInSensors()
 {
@@ -28,6 +29,11 @@ void BreakInSensors::update()
 		{
 			Beeper::beep();
 		}
+
+		if (DataManager::config().breakInFlags1 & ActionsFlag::PCShutDown)
+		{
+			PcPower::on();
+		}
 	}
 
 	// Концевые выключатели
@@ -40,6 +46,11 @@ void BreakInSensors::update()
 		{
 			Beeper::beep();
 		}
+
+		if (DataManager::config().breakInFlags2 & ActionsFlag::PCShutDown)
+		{
+			PcPower::on();
+		}
 	}
 
 	int switch2 = !digitalRead(TERMINAL_SWITCH2);
@@ -50,6 +61,11 @@ void BreakInSensors::update()
 		if (DataManager::config().breakInFlags3 & ActionsFlag::soundSignal)
 		{
 			Beeper::beep();
+		}
+
+		if (DataManager::config().breakInFlags3 & ActionsFlag::PCShutDown)
+		{
+			PcPower::on();
 		}
 	}
 }

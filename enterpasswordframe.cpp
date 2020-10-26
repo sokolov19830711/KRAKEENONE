@@ -18,17 +18,6 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
        );
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-
-    /*QHBoxLayout* hLayout = new QHBoxLayout;
-    hLayout->addStretch();
-    hLayout->addLayout(mainLayout);
-    hLayout->addStretch();
-
-    QVBoxLayout* vLayout = new QVBoxLayout;
-    vLayout->addStretch();
-    vLayout->addLayout(hLayout);
-    vLayout->addStretch();*/
-
     setLayout(mainLayout);
 
     //---
