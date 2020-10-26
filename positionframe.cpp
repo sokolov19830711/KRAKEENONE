@@ -124,7 +124,7 @@ PositionFrame::~PositionFrame()
     settings_->sync();
 }
 
-void PositionFrame::refresh()
+void PositionFrame::refresh(bool isDeviceConnected)
 {
     xValue_->setValue(mcuOutData_->positionSensorX);
     yValue_->setValue(mcuOutData_->positionSensorY);

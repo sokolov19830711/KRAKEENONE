@@ -15,7 +15,7 @@ Frame::Frame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutDat
                 );
 }
 
-void Frame::refresh()
+void Frame::refresh(bool isDeviceConnected)
 {
 
 }

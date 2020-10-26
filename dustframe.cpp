@@ -143,7 +143,7 @@ DustFrame::~DustFrame()
     settings_->sync();
 }
 
-void DustFrame::refresh()
+void DustFrame::refresh(bool isDeviceConnected)
 {
     indicator1_->setValue(mcuOutData_->dustSensor1);
     indicator2_->setValue(mcuOutData_->dustSensor2 / 10);

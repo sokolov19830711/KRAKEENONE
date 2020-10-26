@@ -216,45 +216,93 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
     mainLayout->addWidget(iButtonButton_, 9, 1);
 }
 
-void MainFrame::refresh()
+void MainFrame::refresh(bool isDeviceConnected)
 {
-    // Датчики вибрации
+	// Статус питания(доступности)
 
-    vibrationButton1_->setAlert(mcuOutData_->vibrationSensor1 > mcuInData_->vibrationMaxValue1);
-    vibrationButton2_->setAlert(mcuOutData_->vibrationSensor2 > mcuInData_->vibrationMaxValue2);
+	powerStatusButton_->setChecked(isDeviceConnected);
 
-    // Датчики запыленности
+	// Светодиоды
 
-    dustButton1_->setAlert(mcuOutData_->dustSensor1 > mcuInData_->dustMaxValue1);
-    dustButton2_->setAlert(mcuOutData_->dustSensor2 / 10 > mcuInData_->dustMaxValue2);
-    dustLabel_->setText(QString("встроенный - %1 % | выносной - %2 %").arg(mcuOutData_->dustSensor1).arg(mcuOutData_->dustSensor2 / 10));
+	ledIndicatorButton1_->setChecked(isDeviceConnected);
+	ledIndicatorButton2_->setChecked(isDeviceConnected);
 
-    // Датчик влажности
+	// Датчики вибрации
 
-    moistureButton_->setAlert(mcuOutData_->moistureSensor > mcuInData_->moistureMaxValue);
-    moistureLabel_->setText(QString("%1 %").arg(mcuOutData_->moistureSensor));
+	vibrationButton1_->setChecked(isDeviceConnected);
+	vibrationButton2_->setChecked(isDeviceConnected);
 
-    // Датчика температуры
+	// Датчик положения
+	positionButton_->setChecked(isDeviceConnected);
 
-    temperatureButton1_->setAlert(  (mcuOutData_->temperatureSensor1 > mcuInData_->temperatureMaxValue1) ||
-                                    (mcuOutData_->temperatureSensor1 < mcuInData_->temperatureMinValue1));
+	// Датчики запыленности
 
-	temperatureButton2_->setAlert(  (mcuOutData_->temperatureSensor2 > mcuInData_->temperatureMaxValue2) ||
-		                            (mcuOutData_->temperatureSensor2 < mcuInData_->temperatureMinValue2));
+	dustButton1_->setChecked(isDeviceConnected);
+	dustButton2_->setChecked(isDeviceConnected);
+	dustLabel_->setText("недоступно");
 
-	temperatureButton3_->setAlert(  (mcuOutData_->temperatureSensor3 > mcuInData_->temperatureMaxValue3) ||
-		                            (mcuOutData_->temperatureSensor3 < mcuInData_->temperatureMinValue3));
-    const QChar degreeSign(0260);
-    temperatureLabel_->setText(QString("%1 %2C | %3 %4C | %5 %6C")  .arg(mcuOutData_->temperatureSensor1)
-                                                                    .arg(degreeSign)
-                                                                    .arg(mcuOutData_->temperatureSensor2)
-                                                                    .arg(degreeSign)
-                                                                    .arg(mcuOutData_->temperatureSensor3)
-                                                                    .arg(degreeSign));
+	// Датчик влажности
 
-    // Датчики вскрытия
+	moistureButton_->setChecked(isDeviceConnected);
+	moistureLabel_->setText("недоступно");
 
-    breakInButton1_->setAlert(mcuOutData_->breakInSensor1 != mcuInData_->breakInSensorNormalState1);
-    breakInButton2_->setAlert(mcuOutData_->breakInSensor2 != mcuInData_->breakInSensorNormalState2);
-    breakInButton3_->setAlert(mcuOutData_->breakInSensor3 != mcuInData_->breakInSensorNormalState3);
+	// Датчика температуры
+
+	temperatureButton1_->setChecked(isDeviceConnected);
+	temperatureButton2_->setChecked(isDeviceConnected);
+	temperatureButton3_->setChecked(isDeviceConnected);
+	temperatureLabel_->setText("недоступно");
+
+	// Датчики вскрытия
+
+	breakInButton1_->setChecked(isDeviceConnected);
+	breakInButton2_->setChecked(isDeviceConnected);
+	breakInButton3_->setChecked(isDeviceConnected);
+
+	// IButton
+
+	iButtonButton_->setChecked(isDeviceConnected);
+
+    if(isDeviceConnected)
+	{
+		// Датчики вибрации
+
+		vibrationButton1_->setAlert(mcuOutData_->vibrationSensor1 > mcuInData_->vibrationMaxValue1);
+		vibrationButton2_->setAlert(mcuOutData_->vibrationSensor2 > mcuInData_->vibrationMaxValue2);
+
+		// Датчики запыленности
+
+		dustButton1_->setAlert(mcuOutData_->dustSensor1 > mcuInData_->dustMaxValue1);
+		dustButton2_->setAlert(mcuOutData_->dustSensor2 / 10 > mcuInData_->dustMaxValue2);
+		dustLabel_->setText(QString("встроенный - %1 % | выносной - %2 %").arg(mcuOutData_->dustSensor1).arg(mcuOutData_->dustSensor2 / 10));
+
+		// Датчик влажности
+
+		moistureButton_->setAlert(mcuOutData_->moistureSensor > mcuInData_->moistureMaxValue);
+		moistureLabel_->setText(QString("%1 %").arg(mcuOutData_->moistureSensor));
+
+		// Датчика температуры
+
+		temperatureButton1_->setAlert((mcuOutData_->temperatureSensor1 > mcuInData_->temperatureMaxValue1) ||
+			(mcuOutData_->temperatureSensor1 < mcuInData_->temperatureMinValue1));
+
+		temperatureButton2_->setAlert((mcuOutData_->temperatureSensor2 > mcuInData_->temperatureMaxValue2) ||
+			(mcuOutData_->temperatureSensor2 < mcuInData_->temperatureMinValue2));
+
+		temperatureButton3_->setAlert((mcuOutData_->temperatureSensor3 > mcuInData_->temperatureMaxValue3) ||
+			(mcuOutData_->temperatureSensor3 < mcuInData_->temperatureMinValue3));
+		const QChar degreeSign(0260);
+		temperatureLabel_->setText(QString("%1 %2C | %3 %4C | %5 %6C").arg(mcuOutData_->temperatureSensor1)
+			.arg(degreeSign)
+			.arg(mcuOutData_->temperatureSensor2)
+			.arg(degreeSign)
+			.arg(mcuOutData_->temperatureSensor3)
+			.arg(degreeSign));
+
+		// Датчики вскрытия
+
+		breakInButton1_->setAlert(mcuOutData_->breakInSensor1 != mcuInData_->breakInSensorNormalState1);
+		breakInButton2_->setAlert(mcuOutData_->breakInSensor2 != mcuInData_->breakInSensorNormalState2);
+		breakInButton3_->setAlert(mcuOutData_->breakInSensor3 != mcuInData_->breakInSensorNormalState3);
+	}
 }

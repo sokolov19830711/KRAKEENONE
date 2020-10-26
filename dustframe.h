@@ -14,7 +14,7 @@ public:
 
     virtual ~DustFrame();
 
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 signals:
 

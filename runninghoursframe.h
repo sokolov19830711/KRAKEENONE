@@ -13,7 +13,7 @@ public:
 	RunningHoursFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
 	virtual ~RunningHoursFrame();
 
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 signals:
 

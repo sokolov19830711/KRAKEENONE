@@ -14,7 +14,7 @@ public:
     PowerFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
     virtual ~PowerFrame();
 
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 private:
 

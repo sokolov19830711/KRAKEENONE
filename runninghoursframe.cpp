@@ -103,7 +103,7 @@ RunningHoursFrame::~RunningHoursFrame()
 
 }
 
-void RunningHoursFrame::refresh()
+void RunningHoursFrame::refresh(bool isDeviceConnected)
 {
     sessionDeviceTime_->setText(QString("%1 ч %2 мин %3 сек")
                                 .arg(mcuOutData_->sessionRunningTime / 3600)

@@ -14,7 +14,7 @@ public:
 
     Frame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
 
-    virtual void refresh(); // Обновляем состояние GUI
+    virtual void refresh(bool isDeviceConnected); // Обновляем состояние GUI
 
 signals:
 

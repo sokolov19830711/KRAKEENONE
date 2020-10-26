@@ -11,7 +11,7 @@ class MainFrame : public Frame
     Q_OBJECT
 public:
     MainFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 signals:
 

@@ -64,7 +64,7 @@ IButtonFrame::~IButtonFrame()
 
 }
 
-void IButtonFrame::refresh()
+void IButtonFrame::refresh(bool isDeviceConnected)
 {
 
 }

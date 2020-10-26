@@ -57,6 +57,7 @@ void SerialPortManager::refresh()
 			{
 				data = data.mid(marker1Pos);
 				isSync = true;
+                emit deviceConnected(true);
 			}
 
             else if (data.size() > 1000)

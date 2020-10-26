@@ -22,6 +22,7 @@ public:
     bool connectedToPort() const;
 
 signals:
+    void deviceConnected(bool state);
     void noConnection();
 
 public slots:

@@ -14,8 +14,7 @@ public:
     explicit VibrationFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, McuOutData *mcuOutData, QWidget *parent = nullptr);
     virtual ~VibrationFrame();
 
-    virtual void refresh();
-    virtual void setControlsEnabled(bool state = true);
+    virtual void refresh(bool isDeviceConnected);
 
 signals:
 

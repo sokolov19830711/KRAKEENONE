@@ -218,7 +218,7 @@ PowerFrame::~PowerFrame()
     settings_->setValue("PWR/digitInputPeriod", inputPeriod_->value());
 }
 
-void PowerFrame::refresh()
+void PowerFrame::refresh(bool isDeviceConnected)
 {
 
 }

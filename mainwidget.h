@@ -46,6 +46,7 @@ signals:
 
 public slots:
 
+    void setDeviceConnected(bool state = true);
     void changeFrame(int index);
     void showMainWidget();
     void logon(const QString& password);
@@ -63,8 +64,7 @@ private slots:
 
 private:
 
-    AccessLevel userAccessLevel_ = user;
-
+    bool _isDeviceConnected = false;
     McuInData mcuInData_;
     McuOutData mcuOutData_;
 

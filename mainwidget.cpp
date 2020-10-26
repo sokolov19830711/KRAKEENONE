@@ -115,6 +115,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     }
 
     connect(portManager_, SIGNAL(noConnection()), this, SLOT(lockOS()));
+    connect(portManager_, SIGNAL(deviceConnected(bool)), this, SLOT(setDeviceConnected(bool)));
 
     //---
 
@@ -263,6 +264,11 @@ MainWidget::~MainWidget()
     delete _SMTPmanager;
 }
 
+void MainWidget::setDeviceConnected(bool state)
+{
+    _isDeviceConnected = state;
+}
+
 void MainWidget::changeFrame(int index)
 {
     frames_->setCurrentIndex(index);
@@ -288,7 +294,7 @@ void MainWidget::logon(const QString& password)
 void MainWidget::refresh()
 {
     // Обновляем GUI видимого кадра
-    (dynamic_cast<Frame*>(frames_->currentWidget()))->refresh();
+    (dynamic_cast<Frame*>(frames_->currentWidget()))->refresh(_isDeviceConnected);
 
     // Обрабатываем данные с датчиков -------------------------------------------------
 
@@ -409,6 +415,7 @@ void MainWidget::refresh()
 
 void MainWidget::lockOS()
 {
+    _isDeviceConnected = false;
     if (mcuInData_.functionsFlags & FunctionsFlag::lockOS)
     {
 #ifdef Q_OS_WIN32

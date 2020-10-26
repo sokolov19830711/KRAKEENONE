@@ -175,7 +175,7 @@ TemperatureFrame::~TemperatureFrame()
     settings_->sync();
 }
 
-void TemperatureFrame::refresh()
+void TemperatureFrame::refresh(bool isDeviceConnected)
 {
     indicator1_->setValue(mcuOutData_->temperatureSensor1);
     indicator2_->setValue(mcuOutData_->temperatureSensor2);

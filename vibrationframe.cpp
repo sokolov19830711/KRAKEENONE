@@ -184,7 +184,7 @@ VibrationFrame::~VibrationFrame()
     settings_->sync();
 }
 
-void VibrationFrame::refresh()
+void VibrationFrame::refresh(bool isDeviceConnected)
 {
     indicator1_->setValue(mcuOutData_->vibrationSensor1);
     indicator2_->setValue(mcuOutData_->vibrationSensor2);
@@ -192,15 +192,3 @@ void VibrationFrame::refresh()
     indicator4_->setValue(mcuOutData_->vibrationSensor4);
 }
 
-void VibrationFrame::setControlsEnabled(bool state)
-{
-    maxValue1_->setEnabled(state);
-    maxValue2_->setEnabled(state);
-    maxValue3_->setEnabled(state);
-    maxValue4_->setEnabled(state);
-
-    _actionsSetupWidget1->setEnabled(state);
-    _actionsSetupWidget2->setEnabled(state);
-    _actionsSetupWidget3->setEnabled(state);
-    _actionsSetupWidget4->setEnabled(state);
-}

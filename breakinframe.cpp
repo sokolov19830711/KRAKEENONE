@@ -117,7 +117,7 @@ BreakInFrame::~BreakInFrame()
     settings_->sync();
 }
 
-void BreakInFrame::refresh()
+void BreakInFrame::refresh(bool isDeviceConnected)
 {
     
 }

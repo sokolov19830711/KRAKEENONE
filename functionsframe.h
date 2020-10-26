@@ -17,7 +17,7 @@ public:
     FunctionsFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, const QString& serialPortName, QWidget *parent = nullptr);
     virtual ~FunctionsFrame();
 
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 signals:
 

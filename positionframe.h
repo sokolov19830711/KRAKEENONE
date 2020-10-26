@@ -17,7 +17,7 @@ public:
     explicit PositionFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
     virtual ~PositionFrame();
 
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 signals:
 

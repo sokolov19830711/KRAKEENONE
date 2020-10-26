@@ -14,7 +14,7 @@ public:
     BreakInFrame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutData* mcuOutData, QWidget *parent = nullptr);
 	virtual ~BreakInFrame();
 
-    virtual void refresh();
+    virtual void refresh(bool isDeviceConnected);
 
 private:
 

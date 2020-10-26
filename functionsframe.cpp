@@ -290,7 +290,7 @@ FunctionsFrame::FunctionsFrame::~FunctionsFrame()
     delete smtp_;
 }
 
-void FunctionsFrame::refresh()
+void FunctionsFrame::refresh(bool isDeviceConnected)
 {
 
 }
