@@ -24,6 +24,7 @@ void SMTPmessageManager::addEventToLog(const QString& eventText)
 	if (!_eventLog.contains(text))
 	{
 		_eventLog.push_back(text);
+		emit needToShowEvent(text);
 	}
 }
 

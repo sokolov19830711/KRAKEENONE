@@ -53,6 +53,7 @@ public slots:
     void refresh();
     void lockOS();
     void sendTestSMTPmessage();
+    void showTrayNotification(const QString& text);
 
 protected:
 
@@ -63,6 +64,7 @@ private slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
+
 
     bool _isDeviceConnected = false;
     McuInData mcuInData_;

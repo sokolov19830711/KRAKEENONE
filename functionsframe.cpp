@@ -177,7 +177,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     notificationLabel_ = new QLabel(this);
     notificationLabel_->setText("НАСТРОЙКА УВЕДОМЛЕНИЙ");
     rightLayout->addRow(notificationLabel_);
-
+    rightLayout->addWidget(new QLabel(this));
     //---
 
     serverName_ = new QLineEdit(this);
@@ -258,6 +258,16 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     sendTestMessageLayout->addWidget(sendTestMessageLabel_);
     sendTestMessageLayout->addWidget(sendTestMessageButton_);
     rightLayout->addRow(sendTestMessageLayout);
+
+    rightLayout->addWidget(new QLabel(this)); // Для разделения
+
+    QHBoxLayout* trayNotificationButtonLayout = new QHBoxLayout;
+    rightLayout->addRow(trayNotificationButtonLayout);
+    _trayNotificationButton = new OnOffButton(this);
+    trayNotificationButtonLayout->addStretch();
+    trayNotificationButtonLayout->addWidget(new QLabel("ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ\n                             В WINDOWS"));
+    trayNotificationButtonLayout->addWidget(_trayNotificationButton);
+    connect(_trayNotificationButton, &OnOffButton::toggled, [=]() {setBit(mcuInData->functionsFlags, FunctionsFlag::popupNotification, _trayNotificationButton->isChecked()); });
 
     //---
 

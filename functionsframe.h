@@ -66,6 +66,8 @@ private:
     QPushButton* sendTestMessageButton_;
     SmtpClient* smtp_ = nullptr;
 
+    OnOffButton* _trayNotificationButton;
+
 };
 
 #endif // FUNCTIONSFRAME_H

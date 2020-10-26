@@ -15,6 +15,10 @@ public:
 	void addEventToLog(const QString& eventText);
 	void sendMessage(const QStringList& text);
 
+signals:
+
+	void needToShowEvent(const QString& eventText);
+
 public slots:
 
 	void sendEventLog();

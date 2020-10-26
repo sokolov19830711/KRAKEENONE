@@ -15,6 +15,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
 
     _SMTPmanager = new SMTPmessageManager(settings_);
+    connect(_SMTPmanager, SIGNAL(needToShowEvent(const QString&)), this, SLOT(showTrayNotification(const QString&)));
 
     mcuInData_.functionsFlags = settings_->value("functionsFrame/flags").toUInt();
 
@@ -296,26 +297,41 @@ void MainWidget::refresh()
     // Обновляем GUI видимого кадра
     (dynamic_cast<Frame*>(frames_->currentWidget()))->refresh(_isDeviceConnected);
 
+    if (!_isDeviceConnected)
+    {
+        return;
+    }
+
     // Обрабатываем данные с датчиков -------------------------------------------------
 
     // Датчики вскрытия
-	if ((mcuOutData_.breakInSensor1 != mcuInData_.breakInSensorNormalState1) &&
-		(mcuInData_.breakInFlags1 & ActionsFlag::notification))
+    if (mcuOutData_.breakInSensor1 != mcuInData_.breakInSensorNormalState1)
+    {
+        QString logMessage = "Срабатывание датчика вскрытия №1";
+		if (mcuInData_.breakInFlags1 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(logMessage);
+		}
+    }
+	
+	if (mcuOutData_.breakInSensor2 != mcuInData_.breakInSensorNormalState2)
 	{
-		_SMTPmanager->addEventToLog("Срабатывание датчика вскрытия №1");
+		QString logMessage = "Срабатывание датчика вскрытия №2";
+		if (mcuInData_.breakInFlags2 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(logMessage);
+		}
 	}
 
-	if ((mcuOutData_.breakInSensor2 != mcuInData_.breakInSensorNormalState2) &&
-		(mcuInData_.breakInFlags2 & ActionsFlag::notification))
+	if (mcuOutData_.breakInSensor3 != mcuInData_.breakInSensorNormalState3)
 	{
-		_SMTPmanager->addEventToLog("Срабатывание датчика вскрытия №2");
+		QString logMessage = "Срабатывание датчика вскрытия №3";
+		if (mcuInData_.breakInFlags3 & ActionsFlag::notification)
+		{
+			_SMTPmanager->addEventToLog(logMessage);
+		}
 	}
-
-	if ((mcuOutData_.breakInSensor3 != mcuInData_.breakInSensorNormalState3) &&
-		(mcuInData_.breakInFlags3 & ActionsFlag::notification))
-	{
-		_SMTPmanager->addEventToLog("Срабатывание датчика вскрытия №3");
-	}
+	
 
     // Датчики температуры
     if ((mcuOutData_.temperatureSensor1 > mcuInData_.temperatureMaxValue1) ||
@@ -443,6 +459,13 @@ void MainWidget::closeEvent(QCloseEvent *event)
 		event->ignore();
 		this->hide();
 	}
+}
+
+void MainWidget::showTrayNotification(const QString& text)
+{
+	QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information);
+
+	_trayIcon->showMessage("KRAKEENONE", text, icon, 2000);
 }
 
 void MainWidget::trayIconActivated(QSystemTrayIcon::ActivationReason reason)

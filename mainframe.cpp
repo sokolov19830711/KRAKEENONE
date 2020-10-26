@@ -218,6 +218,10 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
 
 void MainFrame::refresh(bool isDeviceConnected)
 {
+    // Устройство активно
+
+    activityStatusButton_->setChecked(mcuInData_->functionsFlags & FunctionsFlag::turnOn);
+
 	// Статус питания(доступности)
 
 	powerStatusButton_->setChecked(isDeviceConnected);
