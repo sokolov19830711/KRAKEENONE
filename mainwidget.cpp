@@ -432,6 +432,7 @@ void MainWidget::refresh()
 void MainWidget::lockOS()
 {
     _isDeviceConnected = false;
+    showTrayNotification("Потеряна связь с управляющим устройством, или устройство отключено!");
     if (mcuInData_.functionsFlags & FunctionsFlag::lockOS)
     {
 #ifdef Q_OS_WIN32
