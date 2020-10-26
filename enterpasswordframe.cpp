@@ -8,6 +8,7 @@
 
 EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
 {
+    setFixedSize(300, 450);
     setStyleSheet(
         "QWidget{background-color:#205867}"
         "QLabel{color:#ffffff}"
@@ -18,7 +19,7 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
 
-    QHBoxLayout* hLayout = new QHBoxLayout;
+    /*QHBoxLayout* hLayout = new QHBoxLayout;
     hLayout->addStretch();
     hLayout->addLayout(mainLayout);
     hLayout->addStretch();
@@ -26,11 +27,29 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
     QVBoxLayout* vLayout = new QVBoxLayout;
     vLayout->addStretch();
     vLayout->addLayout(hLayout);
-    vLayout->addStretch();
+    vLayout->addStretch();*/
 
-    setLayout(vLayout);
+    setLayout(mainLayout);
 
     //---
+
+    QHBoxLayout* appNameLayout1 = new QHBoxLayout;
+    mainLayout->addLayout(appNameLayout1);
+    appNameLayout1->addStretch();
+    QLabel* line1 = new QLabel("PRIMEBOX", this);
+    line1->setStyleSheet("font-size:14pt");
+    appNameLayout1->addWidget(line1);
+    appNameLayout1->addStretch();
+
+	QHBoxLayout* appNameLayout2 = new QHBoxLayout;
+	mainLayout->addLayout(appNameLayout2);
+	appNameLayout2->addStretch();
+	QLabel* line2 = new QLabel("KRAKEEN.one", this);
+	line2->setStyleSheet("font-size:10pt");
+	appNameLayout2->addWidget(line2);
+	appNameLayout2->addStretch();
+
+    mainLayout->addSpacing(100);
 
     QHBoxLayout* titleLayout = new QHBoxLayout;
     mainLayout->addLayout(titleLayout);
@@ -39,14 +58,19 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
     titleLayout->addWidget(title);
     titleLayout->addStretch();
 
+
+    QHBoxLayout* passwordLineLayout = new QHBoxLayout;
     passwordLineEdit_ = new QLineEdit;
-    mainLayout->addWidget(passwordLineEdit_);
+    passwordLineLayout->addStretch();
+    passwordLineLayout->addWidget(passwordLineEdit_);
+    passwordLineLayout->addStretch();
+    mainLayout->addLayout(passwordLineLayout);
 
     passwordLineEdit_->setFrame(false);
     passwordLineEdit_->setFixedSize(220, 30);
     passwordLineEdit_->setEchoMode(QLineEdit::EchoMode::Password);
 
-    mainLayout->addSpacing(30);
+    mainLayout->addSpacing(20);
 
     QHBoxLayout* loginButtonLayout = new QHBoxLayout;
     mainLayout->addLayout(loginButtonLayout);
@@ -56,8 +80,9 @@ EnterPasswordFrame::EnterPasswordFrame(QWidget* parent) : QWidget(parent)
     loginButton_ = new QPushButton("ВОЙТИ");
     loginButtonLayout->addWidget(loginButton_);
     loginButton_->setFixedSize(50, 30);
-
     loginButtonLayout->addStretch();
+
+    mainLayout->addStretch();
 
     connect(passwordLineEdit_, &QLineEdit::returnPressed, [=]() { emit passwordAttempted(passwordLineEdit_->text()); passwordLineEdit_->clear(); });
     connect(loginButton_, &QPushButton::clicked, [=]() { emit passwordAttempted(passwordLineEdit_->text()); passwordLineEdit_->clear(); });
