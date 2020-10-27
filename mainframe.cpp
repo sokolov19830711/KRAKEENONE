@@ -153,7 +153,7 @@ MainFrame::MainFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
 
     temperatureButton3_ = new OnOffButton(this);
     temperatureButton3_->setEnabled(false);
-    temperatureButton3_->setChecked(true);
+    temperatureButton3_->setChecked(false);
 
     temperatureLabel_ = new QLabel(this);
     temperatureLabel_->setText("датчики 1|2|3");
@@ -254,7 +254,7 @@ void MainFrame::refresh(bool isDeviceConnected)
 
 	temperatureButton1_->setChecked(isDeviceConnected);
 	temperatureButton2_->setChecked(isDeviceConnected);
-	temperatureButton3_->setChecked(isDeviceConnected);
+	//temperatureButton3_->setChecked(isDeviceConnected);
 	temperatureLabel_->setText("недоступно");
 
 	// Датчики вскрытия

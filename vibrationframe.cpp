@@ -186,9 +186,20 @@ VibrationFrame::~VibrationFrame()
 
 void VibrationFrame::refresh(bool isDeviceConnected)
 {
-    indicator1_->setValue(mcuOutData_->vibrationSensor1);
-    indicator2_->setValue(mcuOutData_->vibrationSensor2);
-    indicator3_->setValue(mcuOutData_->vibrationSensor3);
-    indicator4_->setValue(mcuOutData_->vibrationSensor4);
+    if(isDeviceConnected)
+	{
+		indicator1_->setValue(mcuOutData_->vibrationSensor1);
+		indicator2_->setValue(mcuOutData_->vibrationSensor2);
+		indicator3_->setValue(mcuOutData_->vibrationSensor3);
+		indicator4_->setValue(mcuOutData_->vibrationSensor4);
+	}
+
+    else
+    {
+        indicator1_->setActive(false);
+        indicator2_->setActive(false);
+        indicator3_->setActive(false);
+        indicator4_->setActive(false);
+    }
 }
 

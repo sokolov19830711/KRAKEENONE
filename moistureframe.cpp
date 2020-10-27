@@ -66,5 +66,13 @@ MoistureFrame::~MoistureFrame()
 
 void MoistureFrame::refresh(bool isDeviceConnected)
 {
-    indicator_->setValue(mcuOutData_->moistureSensor);
+    if(isDeviceConnected)
+    {
+        indicator_->setValue(mcuOutData_->moistureSensor);
+    }
+
+    else
+    {
+        indicator_->setActive(false);
+    }
 }

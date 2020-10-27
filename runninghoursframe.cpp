@@ -6,6 +6,10 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 
+#ifdef Q_OS_WIN32
+#include <windows.h>
+#endif
+
 RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, McuOutData *mcuOutData, QWidget *parent) : Frame(settings, mcuInData, mcuOutData, parent)
 {
     QVBoxLayout* mainLayout = new QVBoxLayout;
@@ -110,6 +114,16 @@ void RunningHoursFrame::refresh(bool isDeviceConnected)
                                 .arg((mcuOutData_->sessionRunningTime / 60) % 60)
                                 .arg(mcuOutData_->sessionRunningTime % 60)
                                 );
+
+
+#ifdef Q_OS_WIN32
+	auto elapsedTime = std::chrono::milliseconds(GetTickCount64()).count() / 1000;
+	sessionPcTime_->setText(QString("%1 ч %2 мин %3 сек")
+		.arg(elapsedTime / 3600)
+		.arg((elapsedTime / 60) % 60)
+		.arg(elapsedTime % 60)
+	);
+#endif
 }
 
 

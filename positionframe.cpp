@@ -126,7 +126,17 @@ PositionFrame::~PositionFrame()
 
 void PositionFrame::refresh(bool isDeviceConnected)
 {
-    xValue_->setValue(mcuOutData_->positionSensorX);
-    yValue_->setValue(mcuOutData_->positionSensorY);
-    zValue_->setValue(mcuOutData_->positionSensorZ);
+    if(isDeviceConnected)
+	{
+		xValue_->setValue(mcuOutData_->positionSensorX);
+		yValue_->setValue(mcuOutData_->positionSensorY);
+		zValue_->setValue(mcuOutData_->positionSensorZ);
+	}
+
+    else
+    {
+        xValue_->setActive(false);
+        yValue_->setActive(false);
+        zValue_->setActive(false);
+    }
 }

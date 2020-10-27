@@ -30,6 +30,7 @@ private:
 
 	QLabel* builtInBatteryState_;
 	QLabel* externBatteryState_;
+
 };
 
 #endif // RUNNINGHOURSFRAME_H

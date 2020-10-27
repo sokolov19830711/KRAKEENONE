@@ -177,7 +177,17 @@ TemperatureFrame::~TemperatureFrame()
 
 void TemperatureFrame::refresh(bool isDeviceConnected)
 {
-    indicator1_->setValue(mcuOutData_->temperatureSensor1);
-    indicator2_->setValue(mcuOutData_->temperatureSensor2);
-    indicator3_->setValue(mcuOutData_->temperatureSensor3);
+    if(isDeviceConnected)
+	{
+		indicator1_->setValue(mcuOutData_->temperatureSensor1);
+		indicator2_->setValue(mcuOutData_->temperatureSensor2);
+		indicator3_->setValue(mcuOutData_->temperatureSensor3);
+	}
+
+    else
+    {
+        indicator1_->setActive(false);
+        indicator2_->setActive(false);
+        indicator3_->setActive(false);
+    }
 }
