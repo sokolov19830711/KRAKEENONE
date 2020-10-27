@@ -182,7 +182,6 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
     serverName_ = new QLineEdit(this);
     serverName_->setToolTip("ПРИМЕР: smtp.mail.ru");
-    serverName_->setStyleSheet("font-size:10pt");
     serverName_->setAlignment(Qt::AlignCenter);
     serverName_->setFixedSize(250, 25);
     serverName_->setText(settings_->value("SMTP/server").toString());
@@ -193,7 +192,6 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
     portName_ = new QLineEdit(this);
     portName_->setToolTip("ПРИМЕР: 465");
-    portName_->setStyleSheet("font-size:10pt");
     portName_->setAlignment(Qt::AlignCenter);
     portName_->setFixedSize(100, 25);
     portName_->setText(settings_->value("SMTP/port").toString());
@@ -215,7 +213,6 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     //---
 
     userName_ = new QLineEdit(this);
-    userName_->setStyleSheet("font-size:10pt");
     userName_->setAlignment(Qt::AlignCenter);
     userName_->setFixedSize(250, 25);
     userName_->setText(settings_->value("SMTP/user").toString());
@@ -225,7 +222,6 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     //---
 
     smtpPassword_ = new QLineEdit(this);
-    smtpPassword_->setStyleSheet("font-size:10pt");
     smtpPassword_->setAlignment(Qt::AlignCenter);
     smtpPassword_->setEchoMode(QLineEdit::Password);
     smtpPassword_->setFixedSize(250, 25);
@@ -236,7 +232,6 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     //---
 
     recipientName_ = new QLineEdit(this);
-    recipientName_->setStyleSheet("font-size:10pt");
     recipientName_->setAlignment(Qt::AlignCenter);
     recipientName_->setFixedSize(250, 25);
     recipientName_->setText(settings_->value("SMTP/recipient").toString());

@@ -51,7 +51,7 @@ public slots:
     void showMainWidget();
     void logon(const QString& password);
     void refresh();
-    void lockOS();
+    void onConnectionLost();
     void sendTestSMTPmessage();
     void showTrayNotification(const QString& text);
 

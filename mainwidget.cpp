@@ -115,7 +115,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
         portManagerThread_->start();
     }
 
-    connect(portManager_, SIGNAL(noConnection()), this, SLOT(lockOS()));
+    connect(portManager_, SIGNAL(noConnection()), this, SLOT(onConnectionLost()));
     connect(portManager_, SIGNAL(deviceConnected(bool)), this, SLOT(setDeviceConnected(bool)));
 
     //---
@@ -429,7 +429,7 @@ void MainWidget::refresh()
 	}
 }
 
-void MainWidget::lockOS()
+void MainWidget::onConnectionLost()
 {
     _isDeviceConnected = false;
     showTrayNotification("Потеряна связь с управляющим устройством, или устройство отключено!");

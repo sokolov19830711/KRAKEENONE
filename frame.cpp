@@ -10,7 +10,8 @@ Frame::Frame(QSharedPointer<QSettings> settings, McuInData* mcuInData, McuOutDat
                   "QPushButton{border-style:solid; border-width:1px; border-color:#0070c0; color:#ffffff; background:#0070c0}"
                   "QPushButton:pressed{border-style:solid; border-width:1px; border-color:#444444; color:#ffffff; background:#0070c0}"
                   "QPushButton:disabled{border-style:none; border-width:1px; border-color:#444444; color:#aaaaaa; background:#595959}"
-                  "QLineEdit,QComboBox{color:#f0f0f0; background:#595959; border-style:none}"
+                  "QComboBox{color:#f0f0f0; background:#595959; border-style:none}"
+                  "QLineEdit{color:#000000; background:#d7d7d7; border-style:none; font-size:12pt}"
                   "QSpinBox{font-size:12pt; color:#ffffff; background:#595959}"
                 );
 }
