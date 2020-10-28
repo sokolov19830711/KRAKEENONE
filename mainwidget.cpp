@@ -474,8 +474,9 @@ void MainWidget::closeEvent(QCloseEvent *event)
 
 void MainWidget::updatePcTotalRunningTime()
 {
+    static unsigned prevSessionTotalRunningTime(settings_->value("OS_totalRunningTime").toUInt());
     unsigned elapsedTime = static_cast<unsigned>(appStartedTime_.secsTo(QDateTime::currentDateTime()));
-    settings_->setValue("OS_totalRunningTime", settings_->value("OS_totalRunningTime").toUInt() + elapsedTime);
+    settings_->setValue("OS_totalRunningTime", prevSessionTotalRunningTime + elapsedTime);
 }
 
 void MainWidget::showTrayNotification(const QString& text)

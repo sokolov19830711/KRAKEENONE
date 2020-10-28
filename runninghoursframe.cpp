@@ -120,7 +120,7 @@ void RunningHoursFrame::refresh(bool isDeviceConnected)
 
     sumDeviceTime_->setText(time.addSecs(mcuOutData_->totalRunningTime).toString("hh ч mm мин"));
 
-    sumPcTime_->setText(time.addSecs(settings_->value("OS_totalRunningTime").toInt()).toString("hh ч mm мин"));
+    sumPcTime_->setText(time.addSecs(settings_->value("OS_totalRunningTime").toUInt()).toString("hh ч mm мин"));
 }
 
 
