@@ -67,6 +67,21 @@ void SMTPmessageManager::sendMessage(const QStringList& messageText)
 	_smtp->quit();
 }
 
+void SMTPmessageManager::saveEventLogFile()
+{
+	QFile file("EventLog.txt");
+	if (!file.open(QIODevice::Append | QIODevice::Text))
+	{
+		return;
+	}
+
+	QTextStream stream(&file);
+	for (auto& eventLine : _eventLog)
+	{
+		stream << eventLine << "\n";
+	}
+}
+
 void SMTPmessageManager::sendEventLog()
 {
 	if (_eventLog.isEmpty())
@@ -75,5 +90,6 @@ void SMTPmessageManager::sendEventLog()
 	}
 
 	sendMessage(_eventLog);
+	saveEventLogFile();
 	_eventLog.clear();
 }

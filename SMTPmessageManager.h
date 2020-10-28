@@ -25,6 +25,8 @@ public slots:
 
 private:
 
+	void saveEventLogFile();
+
 	QSharedPointer<QSettings> _settings;
 	SmtpClient* _smtp = nullptr;
 	QStringList _eventLog;
