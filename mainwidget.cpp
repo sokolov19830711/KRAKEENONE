@@ -10,6 +10,8 @@
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
+    appStartedTime_ = QDateTime::currentDateTime();
+
     setStyleSheet("background-color:#205867");
 
     settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
@@ -224,6 +226,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     messageTimer_ = new QTimer(this);
     connect(messageTimer_, SIGNAL(timeout()), _SMTPmanager, SLOT(sendEventLog()));
+    connect(messageTimer_, SIGNAL(timeout()), this, SLOT(updatePcTotalRunningTime()));
     messageTimer_->start(300000);
 
     //--- Иконка в трее
@@ -254,6 +257,10 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
 	passwordWidget_ = new EnterPasswordFrame();
 	connect(passwordWidget_, &EnterPasswordFrame::passwordAttempted, this, &MainWidget::logon);
+
+    //---
+
+	updatePcTotalRunningTime();
 }
 
 MainWidget::~MainWidget()
@@ -460,6 +467,12 @@ void MainWidget::closeEvent(QCloseEvent *event)
 		event->ignore();
 		this->hide();
 	}
+}
+
+void MainWidget::updatePcTotalRunningTime()
+{
+    unsigned elapsedTime = static_cast<unsigned>(appStartedTime_.secsTo(QDateTime::currentDateTime()));
+    settings_->setValue("OS_totalRunningTime", settings_->value("OS_totalRunningTime").toUInt() + elapsedTime);
 }
 
 void MainWidget::showTrayNotification(const QString& text)

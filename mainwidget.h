@@ -62,6 +62,7 @@ protected:
 private slots:
 
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    void updatePcTotalRunningTime();
 
 private:
 
@@ -91,6 +92,7 @@ private:
 
     QTimer* mainTimer_;
     QTimer* messageTimer_;
+    QDateTime appStartedTime_;
     QThread* portManagerThread_;
     SerialPortManager* portManager_ = nullptr;
 
