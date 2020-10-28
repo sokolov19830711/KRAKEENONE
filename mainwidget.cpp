@@ -226,8 +226,11 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     messageTimer_ = new QTimer(this);
     connect(messageTimer_, SIGNAL(timeout()), _SMTPmanager, SLOT(sendEventLog()));
-    connect(messageTimer_, SIGNAL(timeout()), this, SLOT(updatePcTotalRunningTime()));
     messageTimer_->start(300000);
+
+    PC_totalRunningTimeUpdateTimer_ = new QTimer(this);
+    connect(PC_totalRunningTimeUpdateTimer_, SIGNAL(timeout()), this, SLOT(updatePcTotalRunningTime()));
+    PC_totalRunningTimeUpdateTimer_->start(60000);
 
     //--- Иконка в трее
 
