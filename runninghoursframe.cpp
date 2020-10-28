@@ -109,14 +109,16 @@ RunningHoursFrame::~RunningHoursFrame()
 
 void RunningHoursFrame::refresh(bool isDeviceConnected)
 {
-    QTime deviceRunningTime(0, 0);
-    sessionDeviceTime_->setText(deviceRunningTime.addSecs(mcuOutData_->sessionRunningTime).toString("hh ч mm мин ss сек"));
+    QTime time(0, 0);
+
+    sessionDeviceTime_->setText(time.addSecs(mcuOutData_->sessionRunningTime).toString("hh ч mm мин ss сек"));
 
 #ifdef Q_OS_WIN32
-    QTime pcRunningTime(0, 0);
 	auto elapsedTime = std::chrono::milliseconds(GetTickCount64()).count() / 1000;
-    sessionPcTime_->setText(pcRunningTime.addSecs(elapsedTime).toString("hh ч mm мин ss сек"));
+    sessionPcTime_->setText(time.addSecs(elapsedTime).toString("hh ч mm мин ss сек"));
 #endif
+
+    sumDeviceTime_->setText(time.addSecs(mcuOutData_->totalRunningTime).toString("hh ч mm мин"));
 }
 
 

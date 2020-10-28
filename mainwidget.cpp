@@ -222,9 +222,9 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     connect(mainTimer_, SIGNAL(timeout()), this, SLOT(refresh()));
     mainTimer_->start(100);
 
-    SMTPmessageTimer_ = new QTimer(this);
-    connect(SMTPmessageTimer_, SIGNAL(timeout()), _SMTPmanager, SLOT(sendEventLog()));
-    SMTPmessageTimer_->start(300000);
+    messageTimer_ = new QTimer(this);
+    connect(messageTimer_, SIGNAL(timeout()), _SMTPmanager, SLOT(sendEventLog()));
+    messageTimer_->start(300000);
 
     //--- Иконка в трее
 

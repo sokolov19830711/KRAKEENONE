@@ -9,5 +9,8 @@ public:
 	InternalMemoryManager();
 	void initConfig();
 	void saveConfig();
+	
+	unsigned lastTotalRunningTimeValue() const;
+	void saveTotalRunningTimeValue(unsigned value) const;
 };
 

@@ -90,7 +90,7 @@ private:
     EnterPasswordFrame* passwordWidget_ = nullptr;
 
     QTimer* mainTimer_;
-    QTimer* SMTPmessageTimer_;
+    QTimer* messageTimer_;
     QThread* portManagerThread_;
     SerialPortManager* portManager_ = nullptr;
 

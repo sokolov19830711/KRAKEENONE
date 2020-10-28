@@ -31,6 +31,7 @@ static PowerButtonWatcher powerButtonWatcher;
 static int loopsCounter = 0; // счетчик кол-ва вызовов функции loop()
 const int LOOPS_COUNT = 100; // кол-во циклов, через которое мы снимаем показания с "тяжелых" датчиков.
 const int TIMER_PERIOD = 20000; // в микросекундах
+const int RUNNING_TIME_FIXING_PERIOD = 660; // С какой периодичностью обновляется запись о суммарном кол-ве отработаннного времени, в сек
 
 void setup()
 {
@@ -52,12 +53,24 @@ void setup()
     dustSensors.init();
     positionVibrationSensors.init();
     powerButtonWatcher.updateConfig();
+
+    DataManager::outData().totalRunningTime = internalMemoryManager.lastTotalRunningTimeValue();
 }
 
 void loop()
 {
   // Сохраняем текущее время с последнего запуска устройства
     DataManager::outData().sessionRunningTime = millis() / 1000;
+
+    static unsigned timeElapsed(0U);
+    int currentElapsedTime = DataManager::outData().sessionRunningTime - timeElapsed;
+
+    if (currentElapsedTime > RUNNING_TIME_FIXING_PERIOD)
+    {
+        timeElapsed = DataManager::outData().sessionRunningTime;
+        internalMemoryManager.saveTotalRunningTimeValue(internalMemoryManager.lastTotalRunningTimeValue() + currentElapsedTime);
+        DataManager::outData().totalRunningTime = internalMemoryManager.lastTotalRunningTimeValue();
+    }
 
     if(loopsCounter > LOOPS_COUNT)
     {
