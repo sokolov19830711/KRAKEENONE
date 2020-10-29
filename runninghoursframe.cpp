@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFormLayout>
+#include <QProcess>
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -79,13 +80,21 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
 
     exportLogButton_ = new QPushButton("ЖУРНАЛ СОБЫТИЙ");
     exportLogButton_->setFixedSize(120, 30);
-    exportLogButton_->setToolTip("Выгрузить журнал событий в файл PDF");
+    exportLogButton_->setToolTip("Открыть журнал событий");
 
     exportLogButtonLayout->addWidget(exportLogButton_);
 
     mainLayout->addSpacing(20);
     mainLayout->addLayout(exportLogButtonLayout);
     mainLayout->addSpacing(20);
+
+    connect(exportLogButton_, &QPushButton::clicked, [=]()
+        {
+#ifdef Q_OS_WIN32
+            QProcess proc;
+            proc.startDetached("notepad EventLog.txt");
+#endif
+        });
 
     //---
 
