@@ -42,7 +42,7 @@ struct  McuOutData
 };  // Итого получаем 36 байт
 
 enum FunctionsFlag {startOnBoot = 0x1, lockOS = 0x2, lockApp = 0x4, turnOn = 0x8, sound = 0x10, popupNotification = 0x20};
-enum ActionsFlag {notification = 0x1, soundSignal = 0x2, PCShutDown = 0x4};
+enum ActionsFlag {notification = 0x1, soundSignal = 0x2, PCShutDown = 0x4, active = 0x8};
 
 struct McuInData
 {

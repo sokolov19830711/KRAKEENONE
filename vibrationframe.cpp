@@ -8,6 +8,43 @@ VibrationFrame::VibrationFrame(QSharedPointer<QSettings> settings, McuInData* mc
     QHBoxLayout* mainLayout = new QHBoxLayout;
     addMainLayout(mainLayout);
 
+    //---
+	QString switchButtonsStyle = "QPushButton{color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+    _switchSensorsButtons = new SwitchButtonsWidget(1, 4, switchButtonsStyle, { "1", "2", "3", "4" }, this);
+    _switchSensorsButtons->setGeometry(670, 0, 100, 50);
+    _switchSensorsButtons->setButtonsSize(20, 30);
+    _switchSensorsButtons->setSpacing(4);
+    _switchSensorsButtons->setExclusive(false);
+    _switchSensorsButtons->setChecked(0, mcuInData_->vibrationFlags1 & ActionsFlag::active);
+    _switchSensorsButtons->setChecked(1, mcuInData_->vibrationFlags2 & ActionsFlag::active);
+    _switchSensorsButtons->setChecked(2, mcuInData_->vibrationFlags3 & ActionsFlag::active);
+    _switchSensorsButtons->setChecked(3, mcuInData_->vibrationFlags4 & ActionsFlag::active);
+
+    connect(_switchSensorsButtons, &SwitchButtonsWidget::idToggled, [=](int id, bool checked) 
+        {
+            switch (id)
+            {
+            case 0:
+                setBit(mcuInData_->vibrationFlags1, ActionsFlag::active, checked);
+                break;
+			case 1:
+                setBit(mcuInData_->vibrationFlags2, ActionsFlag::active, checked);
+				break;
+			case 2:
+                setBit(mcuInData_->vibrationFlags3, ActionsFlag::active, checked);
+				break;
+			case 3:
+                setBit(mcuInData_->vibrationFlags4, ActionsFlag::active, checked);
+				break;
+            default:
+                break;
+            }
+        });
+
+    //---
+
     QFormLayout* sensorLayout1 = new QFormLayout;
     QFormLayout* sensorLayout2 = new QFormLayout;
     QFormLayout* sensorLayout3 = new QFormLayout;
@@ -188,10 +225,10 @@ void VibrationFrame::refresh(bool isDeviceConnected)
 {
     if(isDeviceConnected)
 	{
-		indicator1_->setValue(mcuOutData_->vibrationSensor1);
-		indicator2_->setValue(mcuOutData_->vibrationSensor2);
-		indicator3_->setValue(mcuOutData_->vibrationSensor3);
-		indicator4_->setValue(mcuOutData_->vibrationSensor4);
+        mcuInData_->vibrationFlags1 & ActionsFlag::active ? indicator1_->setValue(mcuOutData_->vibrationSensor1) : indicator1_->setActive(false);
+        mcuInData_->vibrationFlags2 & ActionsFlag::active ? indicator2_->setValue(mcuOutData_->vibrationSensor2) : indicator2_->setActive(false);
+        mcuInData_->vibrationFlags3 & ActionsFlag::active ? indicator3_->setValue(mcuOutData_->vibrationSensor3) : indicator3_->setActive(false);
+        mcuInData_->vibrationFlags4 & ActionsFlag::active ? indicator4_->setValue(mcuOutData_->vibrationSensor4) : indicator4_->setActive(false);
 	}
 
     else

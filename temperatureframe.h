@@ -7,6 +7,7 @@
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/SensorInicator.h"
 #include "PrimeboxWidgets/ActionsSetupWidget.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 
 class TemperatureFrame : public Frame
 {
@@ -43,6 +44,8 @@ private:
 	ActionsSetupWidget* _actionsSetupWidget1;
 	ActionsSetupWidget* _actionsSetupWidget2;
 	ActionsSetupWidget* _actionsSetupWidget3;
+
+    SwitchButtonsWidget* _switchSensorsButtons;
 };
 
 #endif // TEMPERATUREFRAME_H

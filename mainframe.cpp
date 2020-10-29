@@ -233,35 +233,38 @@ void MainFrame::refresh(bool isDeviceConnected)
 
 	// Датчики вибрации
 
-	vibrationButton1_->setChecked(isDeviceConnected);
-	vibrationButton2_->setChecked(isDeviceConnected);
+	vibrationButton1_->setChecked(isDeviceConnected && mcuInData_->vibrationFlags1 & ActionsFlag::active);
+	vibrationButton2_->setChecked(isDeviceConnected && mcuInData_->vibrationFlags2 & ActionsFlag::active);
+    vibrationButton3_->setChecked(isDeviceConnected && mcuInData_->vibrationFlags3 & ActionsFlag::active);
+    vibrationButton4_->setChecked(isDeviceConnected && mcuInData_->vibrationFlags4 & ActionsFlag::active);
 
 	// Датчик положения
-	positionButton_->setChecked(isDeviceConnected);
+	positionButton_->setChecked(isDeviceConnected && mcuInData_->positionFlags & ActionsFlag::active);
 
 	// Датчики запыленности
 
-	dustButton1_->setChecked(isDeviceConnected);
-	dustButton2_->setChecked(isDeviceConnected);
+	dustButton1_->setChecked(isDeviceConnected && mcuInData_->dustFlags1 & ActionsFlag::active);
+	dustButton2_->setChecked(isDeviceConnected && mcuInData_->dustFlags2 & ActionsFlag::active);
+    //dustButton3_->setChecked(isDeviceConnected && mcuInData_->dustFlags3 & ActionsFlag::active);
 	dustLabel_->setText("недоступно");
 
 	// Датчик влажности
 
-	moistureButton_->setChecked(isDeviceConnected);
+	moistureButton_->setChecked(isDeviceConnected && mcuInData_->moistureFlags & ActionsFlag::active);
 	moistureLabel_->setText("недоступно");
 
 	// Датчика температуры
 
-	temperatureButton1_->setChecked(isDeviceConnected);
-	temperatureButton2_->setChecked(isDeviceConnected);
-	//temperatureButton3_->setChecked(isDeviceConnected);
+	temperatureButton1_->setChecked(isDeviceConnected && mcuInData_->temperatureFlags1 & ActionsFlag::active);
+	temperatureButton2_->setChecked(isDeviceConnected && mcuInData_->temperatureFlags2 & ActionsFlag::active);
+	temperatureButton3_->setChecked(isDeviceConnected && mcuInData_->temperatureFlags3 & ActionsFlag::active);
 	temperatureLabel_->setText("недоступно");
 
 	// Датчики вскрытия
 
-	breakInButton1_->setChecked(isDeviceConnected);
-	breakInButton2_->setChecked(isDeviceConnected);
-	breakInButton3_->setChecked(isDeviceConnected);
+	breakInButton1_->setChecked(isDeviceConnected && mcuInData_->breakInFlags1 & ActionsFlag::active);
+	breakInButton2_->setChecked(isDeviceConnected && mcuInData_->breakInFlags2 & ActionsFlag::active);
+	breakInButton3_->setChecked(isDeviceConnected && mcuInData_->breakInFlags3 & ActionsFlag::active);
 
 	// IButton
 
@@ -271,30 +274,41 @@ void MainFrame::refresh(bool isDeviceConnected)
 	{
 		// Датчики вибрации
 
-		vibrationButton1_->setAlert(mcuOutData_->vibrationSensor1 > mcuInData_->vibrationMaxValue1);
-		vibrationButton2_->setAlert(mcuOutData_->vibrationSensor2 > mcuInData_->vibrationMaxValue2);
+        if(mcuInData_->vibrationFlags1 & ActionsFlag::active)
+		    vibrationButton1_->setAlert(mcuOutData_->vibrationSensor1 > mcuInData_->vibrationMaxValue1);
+        if (mcuInData_->vibrationFlags2 & ActionsFlag::active)
+		    vibrationButton2_->setAlert(mcuOutData_->vibrationSensor2 > mcuInData_->vibrationMaxValue2);
+		if (mcuInData_->vibrationFlags3 & ActionsFlag::active)
+			vibrationButton3_->setAlert(mcuOutData_->vibrationSensor2 > mcuInData_->vibrationMaxValue2);
 
 		// Датчики запыленности
 
-		dustButton1_->setAlert(mcuOutData_->dustSensor1 > mcuInData_->dustMaxValue1);
+        if (mcuInData_->dustFlags1 & ActionsFlag::active)
+		    dustButton1_->setAlert(mcuOutData_->dustSensor1 > mcuInData_->dustMaxValue1);
+        if (mcuInData_->dustFlags2 & ActionsFlag::active)
 		dustButton2_->setAlert(mcuOutData_->dustSensor2 / 10 > mcuInData_->dustMaxValue2);
-		dustLabel_->setText(QString("встроенный - %1 % | выносной - %2 %").arg(mcuOutData_->dustSensor1).arg(mcuOutData_->dustSensor2 / 10));
+		    dustLabel_->setText(QString("встроенный - %1 % | выносной - %2 %").arg(mcuOutData_->dustSensor1).arg(mcuOutData_->dustSensor2 / 10));
 
 		// Датчик влажности
 
-		moistureButton_->setAlert(mcuOutData_->moistureSensor > mcuInData_->moistureMaxValue);
+        if (mcuInData_->moistureFlags & ActionsFlag::active)
+		    moistureButton_->setAlert(mcuOutData_->moistureSensor > mcuInData_->moistureMaxValue);
 		moistureLabel_->setText(QString("%1 %").arg(mcuOutData_->moistureSensor));
 
 		// Датчика температуры
 
-		temperatureButton1_->setAlert((mcuOutData_->temperatureSensor1 > mcuInData_->temperatureMaxValue1) ||
-			(mcuOutData_->temperatureSensor1 < mcuInData_->temperatureMinValue1));
+        if (mcuInData_->temperatureFlags1 & ActionsFlag::active)
+		    temperatureButton1_->setAlert((mcuOutData_->temperatureSensor1 > mcuInData_->temperatureMaxValue1) ||
+			    (mcuOutData_->temperatureSensor1 < mcuInData_->temperatureMinValue1));
 
-		temperatureButton2_->setAlert((mcuOutData_->temperatureSensor2 > mcuInData_->temperatureMaxValue2) ||
-			(mcuOutData_->temperatureSensor2 < mcuInData_->temperatureMinValue2));
+        if (mcuInData_->temperatureFlags2 & ActionsFlag::active)
+		    temperatureButton2_->setAlert((mcuOutData_->temperatureSensor2 > mcuInData_->temperatureMaxValue2) ||
+			    (mcuOutData_->temperatureSensor2 < mcuInData_->temperatureMinValue2));
 
-		temperatureButton3_->setAlert((mcuOutData_->temperatureSensor3 > mcuInData_->temperatureMaxValue3) ||
-			(mcuOutData_->temperatureSensor3 < mcuInData_->temperatureMinValue3));
+        if (mcuInData_->temperatureFlags3 & ActionsFlag::active)
+		    temperatureButton3_->setAlert((mcuOutData_->temperatureSensor3 > mcuInData_->temperatureMaxValue3) ||
+			    (mcuOutData_->temperatureSensor3 < mcuInData_->temperatureMinValue3));
+
 		const QChar degreeSign(0260);
 		temperatureLabel_->setText(QString("%1 %2C | %3 %4C | %5 %6C").arg(mcuOutData_->temperatureSensor1)
 			.arg(degreeSign)
@@ -305,8 +319,11 @@ void MainFrame::refresh(bool isDeviceConnected)
 
 		// Датчики вскрытия
 
-		breakInButton1_->setAlert(mcuOutData_->breakInSensor1 != mcuInData_->breakInSensorNormalState1);
-		breakInButton2_->setAlert(mcuOutData_->breakInSensor2 != mcuInData_->breakInSensorNormalState2);
-		breakInButton3_->setAlert(mcuOutData_->breakInSensor3 != mcuInData_->breakInSensorNormalState3);
+        if (mcuInData_->breakInFlags1 & ActionsFlag::active)
+		    breakInButton1_->setAlert(mcuOutData_->breakInSensor1 != mcuInData_->breakInSensorNormalState1);
+        if (mcuInData_->breakInFlags2 & ActionsFlag::active)
+		    breakInButton2_->setAlert(mcuOutData_->breakInSensor2 != mcuInData_->breakInSensorNormalState2);
+        if (mcuInData_->breakInFlags3 & ActionsFlag::active)
+		    breakInButton3_->setAlert(mcuOutData_->breakInSensor3 != mcuInData_->breakInSensorNormalState3);
 	}
 }

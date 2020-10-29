@@ -5,6 +5,7 @@
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/SensorInicator.h"
 #include "PrimeboxWidgets/ActionsSetupWidget.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 
 #include <QPushButton>
 
@@ -38,6 +39,7 @@ private:
     SpinBox* zLimit_;
 
     ActionsSetupWidget* _actionsSetupWidget;
+    SwitchButtonsWidget* _switchSensorsButtons;
 
 };
 

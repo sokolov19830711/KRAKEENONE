@@ -5,6 +5,7 @@
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/SensorInicator.h"
 #include "PrimeboxWidgets/ActionsSetupWidget.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 
 class DustFrame : public Frame
 {
@@ -33,6 +34,8 @@ private:
 	ActionsSetupWidget* _actionsSetupWidget1;
 	ActionsSetupWidget* _actionsSetupWidget2;
 	ActionsSetupWidget* _actionsSetupWidget3;
+
+    SwitchButtonsWidget* _switchSensorsButtons;
 };
 
 #endif // DUSTFRAME_H

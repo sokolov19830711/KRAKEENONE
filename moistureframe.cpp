@@ -8,6 +8,31 @@ MoistureFrame::MoistureFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
     QHBoxLayout* mainLayout = new QHBoxLayout;
     addMainLayout(mainLayout);
 
+	//---
+
+	QString switchButtonsStyle = "QPushButton{color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+	_switchSensorsButtons = new SwitchButtonsWidget(1, 1, switchButtonsStyle, { "1" }, this);
+	_switchSensorsButtons->setGeometry(700, 0, 30, 40);
+	_switchSensorsButtons->setButtonsSize(20, 30);
+	_switchSensorsButtons->setExclusive(false);
+	_switchSensorsButtons->setChecked(0, mcuInData_->moistureFlags & ActionsFlag::active);
+
+	connect(_switchSensorsButtons, &SwitchButtonsWidget::idToggled, [=](int id, bool checked)
+		{
+			switch (id)
+			{
+			case 0:
+				setBit(mcuInData_->moistureFlags, ActionsFlag::active, checked);
+				break;
+			default:
+				break;
+			}
+		});
+
+	//---
+
     QFormLayout* sensorLayout1 = new QFormLayout;
     mainLayout->addLayout(sensorLayout1);
 
@@ -68,7 +93,7 @@ void MoistureFrame::refresh(bool isDeviceConnected)
 {
     if(isDeviceConnected)
     {
-        indicator_->setValue(mcuOutData_->moistureSensor);
+        mcuInData_->moistureFlags & ActionsFlag::active ? indicator_->setValue(mcuOutData_->moistureSensor) : indicator_->setActive(false);
     }
 
     else

@@ -8,6 +8,39 @@ DustFrame::DustFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData, M
     QHBoxLayout* mainLayout = new QHBoxLayout;
     addMainLayout(mainLayout);
 
+	//---
+	QString switchButtonsStyle = "QPushButton{color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+	_switchSensorsButtons = new SwitchButtonsWidget(1, 3, switchButtonsStyle, { "1", "2", "3" }, this);
+	_switchSensorsButtons->setGeometry(670, 0, 75, 50);
+    _switchSensorsButtons->setButtonsSize(20, 30);
+	_switchSensorsButtons->setSpacing(4);
+	_switchSensorsButtons->setExclusive(false);
+	_switchSensorsButtons->setChecked(0, mcuInData_->dustFlags1 & ActionsFlag::active);
+	_switchSensorsButtons->setChecked(1, mcuInData_->dustFlags2 & ActionsFlag::active);
+	_switchSensorsButtons->setChecked(2, mcuInData_->dustFlags3 & ActionsFlag::active);
+
+	connect(_switchSensorsButtons, &SwitchButtonsWidget::idToggled, [=](int id, bool checked)
+		{
+			switch (id)
+			{
+			case 0:
+				setBit(mcuInData_->dustFlags1, ActionsFlag::active, checked);
+				break;
+			case 1:
+				setBit(mcuInData_->dustFlags2, ActionsFlag::active, checked);
+				break;
+			case 2:
+				setBit(mcuInData_->dustFlags3, ActionsFlag::active, checked);
+				break;
+			default:
+				break;
+			}
+		});
+
+	//---
+
     QFormLayout* sensorLayout1 = new QFormLayout;
     QFormLayout* sensorLayout2 = new QFormLayout;
     QFormLayout* sensorLayout3 = new QFormLayout;
@@ -147,9 +180,9 @@ void DustFrame::refresh(bool isDeviceConnected)
 {
     if(isDeviceConnected)
 	{
-		indicator1_->setValue(mcuOutData_->dustSensor1);
-		indicator2_->setValue(mcuOutData_->dustSensor2 / 10);
-		indicator3_->setValue(mcuOutData_->dustSensor3);
+        mcuInData_->dustFlags1 & ActionsFlag::active ? indicator1_->setValue(mcuOutData_->dustSensor1) : indicator1_->setActive(false);
+        mcuInData_->dustFlags2 & ActionsFlag::active ? indicator2_->setValue(mcuOutData_->dustSensor2 / 10) : indicator2_->setActive(false);
+        mcuInData_->dustFlags3 & ActionsFlag::active ? indicator3_->setValue(mcuOutData_->dustSensor3) : indicator3_->setActive(false);
 	}
 
     else

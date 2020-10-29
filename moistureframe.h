@@ -5,6 +5,7 @@
 #include "PrimeboxWidgets/SpinBox.h"
 #include "PrimeboxWidgets/SensorInicator.h"
 #include "PrimeboxWidgets/ActionsSetupWidget.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 
 class MoistureFrame : public Frame
 {
@@ -27,6 +28,7 @@ private:
     SpinBox* maxValue_;
 
     ActionsSetupWidget* _actionsSetupWidget;
+    SwitchButtonsWidget* _switchSensorsButtons;
 };
 
 #endif // MOISTUREFRAME_H

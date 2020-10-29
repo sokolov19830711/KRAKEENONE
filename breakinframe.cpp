@@ -9,6 +9,37 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
     QHBoxLayout* mainLayout = new QHBoxLayout;
     addMainLayout(mainLayout);
 
+	//---
+	QString switchButtonsStyle = "QPushButton{color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+	_switchSensorsButtons = new SwitchButtonsWidget(1, 3, switchButtonsStyle, { "1", "2", "3" }, this);
+	_switchSensorsButtons->setGeometry(670, 0, 75, 50);
+	_switchSensorsButtons->setButtonsSize(20, 30);
+	_switchSensorsButtons->setSpacing(4);
+	_switchSensorsButtons->setExclusive(false);
+	_switchSensorsButtons->setChecked(0, mcuInData_->breakInFlags1 & ActionsFlag::active);
+	_switchSensorsButtons->setChecked(1, mcuInData_->breakInFlags2 & ActionsFlag::active);
+	_switchSensorsButtons->setChecked(2, mcuInData_->breakInFlags3 & ActionsFlag::active);
+
+	connect(_switchSensorsButtons, &SwitchButtonsWidget::idToggled, [=](int id, bool checked)
+		{
+			switch (id)
+			{
+			case 0:
+				setBit(mcuInData_->breakInFlags1, ActionsFlag::active, checked);
+				break;
+			case 1:
+				setBit(mcuInData_->breakInFlags2, ActionsFlag::active, checked);
+				break;
+			case 2:
+				setBit(mcuInData_->breakInFlags3, ActionsFlag::active, checked);
+				break;
+			default:
+				break;
+			}
+		});
+
     QFormLayout* sensorLayout1 = new QFormLayout;
     QFormLayout* sensorLayout2 = new QFormLayout;
     QFormLayout* sensorLayout3 = new QFormLayout;
@@ -30,10 +61,10 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     sensorLayout1->addRow(name1Layout);
 
-	QString switchButtonsStyle = "QPushButton{height : 30; width : 80; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+	QString switchButtonsStyle2 = "QPushButton{height : 30; width : 80; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
 		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
 
-    settingsButtons1_ = new SwitchButtonsWidget(1, 2, switchButtonsStyle, {"РАЗОМКНУТ", "ЗАМКНУТ" }, this);
+    settingsButtons1_ = new SwitchButtonsWidget(1, 2, switchButtonsStyle2, {"РАЗОМКНУТ", "ЗАМКНУТ" }, this);
     settingsButtons1_->setChecked(settings_->value("breakInFrame/sensorState1").toInt());
     connect(settingsButtons1_, &SwitchButtonsWidget::idClicked, [=]() {mcuInData_->breakInSensorNormalState1 = settingsButtons1_->checkedId(); });
 
@@ -60,7 +91,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     sensorLayout2->addRow(name2Layout);
 
-	settingsButtons2_ = new SwitchButtonsWidget(1, 2, switchButtonsStyle, { "РАЗОМКНУТ", "ЗАМКНУТ" }, this);
+	settingsButtons2_ = new SwitchButtonsWidget(1, 2, switchButtonsStyle2, { "РАЗОМКНУТ", "ЗАМКНУТ" }, this);
 	settingsButtons2_->setChecked(settings_->value("breakInFrame/sensorState2").toInt());
 	connect(settingsButtons2_, &SwitchButtonsWidget::idClicked, [=]() {mcuInData_->breakInSensorNormalState2 = settingsButtons2_->checkedId(); });
 
@@ -87,7 +118,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     sensorLayout3->addRow(name3Layout);
 
-	settingsButtons3_ = new SwitchButtonsWidget(1, 2, switchButtonsStyle, { "РАЗОМКНУТ", "ЗАМКНУТ" }, this);
+	settingsButtons3_ = new SwitchButtonsWidget(1, 2, switchButtonsStyle2, { "РАЗОМКНУТ", "ЗАМКНУТ" }, this);
 	settingsButtons3_->setChecked(settings_->value("breakInFrame/sensorState3").toInt());
 	connect(settingsButtons3_, &SwitchButtonsWidget::idClicked, [=]() {mcuInData_->breakInSensorNormalState3 = settingsButtons3_->checkedId(); });
 

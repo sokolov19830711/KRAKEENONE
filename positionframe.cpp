@@ -12,6 +12,29 @@ PositionFrame::PositionFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
 
     //---
 
+	QString switchButtonsStyle = "QPushButton{color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
+		"QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
+
+	_switchSensorsButtons = new SwitchButtonsWidget(1, 1, switchButtonsStyle, { "1" }, this);
+	_switchSensorsButtons->setGeometry(700, 0, 30, 40);
+    _switchSensorsButtons->setButtonsSize(20, 30);
+	_switchSensorsButtons->setExclusive(false);
+	_switchSensorsButtons->setChecked(0, mcuInData_->positionFlags & ActionsFlag::active);
+
+	connect(_switchSensorsButtons, &SwitchButtonsWidget::idToggled, [=](int id, bool checked)
+		{
+			switch (id)
+			{
+			case 0:
+				setBit(mcuInData_->positionFlags, ActionsFlag::active, checked);
+				break;
+			default:
+				break;
+			}
+		});
+
+    //---
+
     QHBoxLayout* titleLayout = new QHBoxLayout;
     titleLayout->addStretch();
     titleLayout->addWidget(new QLabel("ДАТЧИК ПОЛОЖЕНИЯ"));
@@ -128,9 +151,18 @@ void PositionFrame::refresh(bool isDeviceConnected)
 {
     if(isDeviceConnected)
 	{
-		xValue_->setValue(mcuOutData_->positionSensorX);
-		yValue_->setValue(mcuOutData_->positionSensorY);
-		zValue_->setValue(mcuOutData_->positionSensorZ);
+        if(mcuInData_->positionFlags & ActionsFlag::active)
+		{
+			xValue_->setValue(mcuOutData_->positionSensorX);
+			yValue_->setValue(mcuOutData_->positionSensorY);
+			zValue_->setValue(mcuOutData_->positionSensorZ);
+		}
+        else
+        {
+			xValue_->setActive(false);
+			yValue_->setActive(false);
+			zValue_->setActive(false);
+        }
 	}
 
     else

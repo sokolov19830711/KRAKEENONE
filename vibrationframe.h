@@ -6,6 +6,7 @@
 #include "PrimeboxWidgets/OnOffButton.h"
 #include "PrimeboxWidgets/SensorInicator.h"
 #include "PrimeboxWidgets/ActionsSetupWidget.h"
+#include "PrimeboxWidgets/SwitchButtonsWidget.h"
 
 class VibrationFrame : public Frame
 {
@@ -37,6 +38,7 @@ private:
     ActionsSetupWidget* _actionsSetupWidget3;
     ActionsSetupWidget* _actionsSetupWidget4;
 
+    SwitchButtonsWidget* _switchSensorsButtons;
 };
 
 #endif // VIBRATIONFRAME_H

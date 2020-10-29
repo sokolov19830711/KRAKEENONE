@@ -29,6 +29,8 @@ private:
 	ActionsSetupWidget* _actionsSetupWidget1;
 	ActionsSetupWidget* _actionsSetupWidget2;
 	ActionsSetupWidget* _actionsSetupWidget3;
+
+	SwitchButtonsWidget* _switchSensorsButtons;
 };
 
 #endif // BREAKINFRAME_H
