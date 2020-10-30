@@ -10,6 +10,7 @@ const int TEMP2 = 26;
 const int TEMP3 = 27;
 
 const int DHT_PIN = 28; // DHT (влажность)
+const int IBUTTON = 29;
 const int DUST_LED_INT = 24; // Светодиод встроенного датчика пыли
 const int BREAK_IN_SENSOR_INT = 22; // Встроенный датчик вскрытия
 
