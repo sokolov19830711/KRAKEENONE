@@ -11,6 +11,9 @@ PowerButtonWatcher::PowerButtonWatcher()
 
 void PowerButtonWatcher::update(int dt)
 {
+	if (!DataManager::config().isPWRavaliable)
+		return;
+
 	bool currentButtonState = digitalRead(PC_POWER_BUTTON);
 	if (_isWatching)
 	{

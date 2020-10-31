@@ -43,6 +43,7 @@ struct  McuOutData
 
 enum FunctionsFlag {startOnBoot = 0x1, lockOS = 0x2, lockApp = 0x4, turnOn = 0x8, sound = 0x10, popupNotification = 0x20};
 enum ActionsFlag {notification = 0x1, soundSignal = 0x2, PCShutDown = 0x4, active = 0x8};
+enum IButtonFlag { iButtonActive = 0x1, reset = 0x2, shutDown = 0x4 };
 
 struct McuInData
 {
@@ -98,6 +99,13 @@ struct McuInData
     unsigned char powerButtonPwdDigit1 = 1;
     unsigned char powerButtonPwdDigit2 = 2;
     unsigned char powerButtonPwdDigit3 = 3;
+
+    unsigned char iButtonFlags = 0;
+    unsigned char wrongKeyUsageForPowerOff = 1;
+    unsigned char wrongKeyUsageForReset = 1;
+
+    unsigned char isPWRavaliable = 1;
+    unsigned char isRSTavaliable = 1;
 };
 
 template<typename T>

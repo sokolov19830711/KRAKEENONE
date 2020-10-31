@@ -58,9 +58,13 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     leftLayout->addRow(new QLabel);
 
     powerButtonActiveButton_ = new OnOffButton;
+    powerButtonActiveButton_->setChecked(settings_->value("PWR/isPWRavaliable").toBool());
+    connect(powerButtonActiveButton_, &OnOffButton::toggled, [=]() {mcuInData_->isPWRavaliable = powerButtonActiveButton_->isChecked(); });
     leftLayout->addRow("ДОСТУПНОСТЬ КНОПКИ PWR НА КОРПУСЕ", powerButtonActiveButton_);
 
     resetButtonActiveButton_ = new OnOffButton;
+    resetButtonActiveButton_->setChecked(settings_->value("PWR/isRSTavaliable").toBool());
+    connect(resetButtonActiveButton_, &OnOffButton::toggled, [=]() {mcuInData_->isRSTavaliable = resetButtonActiveButton_->isChecked(); });
     leftLayout->addRow("ДОСТУПНОСТЬ КНОПКИ RESET НА КОРПУСЕ", resetButtonActiveButton_);
 
     powerByPasswordButton_ = new OnOffButton;
@@ -216,6 +220,9 @@ PowerFrame::~PowerFrame()
     settings_->setValue("PWR/digit3", digit3_->checkedId() + 1);
 
     settings_->setValue("PWR/digitInputPeriod", inputPeriod_->value());
+
+    settings_->setValue("PWR/isPWRavaliable", powerButtonActiveButton_->isChecked());
+    settings_->setValue("PWR/isRSTavaliable", resetButtonActiveButton_->isChecked());
 }
 
 void PowerFrame::refresh(bool isDeviceConnected)

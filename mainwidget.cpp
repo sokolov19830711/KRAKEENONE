@@ -74,6 +74,13 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     mcuInData_.powerButtonPwdDigit3 = settings_->value("PWR/digit3").toInt();
     mcuInData_.digitInputPeriod = settings_->value("PWR/digitInputPeriod", 3).toInt();
 
+    mcuInData_.iButtonFlags = settings_->value("iButtonFrame/flags").toUInt();
+    mcuInData_.wrongKeyUsageForPowerOff = settings_->value("iButtonFrame/wrongKeyUsageForPowerOff").toInt();
+    mcuInData_.wrongKeyUsageForReset = settings_->value("iButtonFrame/wrongKeyUsageForReset").toInt();
+
+    mcuInData_.isPWRavaliable = settings_->value("PWR/isPWRavaliable").toInt();
+    mcuInData_.isRSTavaliable = settings_->value("PWR/isRSTavaliable").toInt();
+
     // Настраиваем COM-порт, к которому подключен контроллер
 
     auto ports = QSerialPortInfo::availablePorts();

@@ -9,15 +9,13 @@
 #include "PositionVibrationSensors.h"
 #include "BreakInSensors.h"
 #include "PowerButtonWatcher.h"
+#include "IButtonManager.h"
 
 #include "Beeper.h"
 #include "PcPower.h"
 #include "TricolorLED.h"
 
 #include "Krakeenone_pinout.h"
-
-//IButton
-const int IBUTTON = 26;
 
 static SerialPortManager portManager;
 static InternalMemoryManager internalMemoryManager;
@@ -27,6 +25,7 @@ static DustSensors dustSensors;
 static PositionVibrationSensors positionVibrationSensors;
 static BreakInSensors breakInSensors;
 static PowerButtonWatcher powerButtonWatcher;
+static IButtonManager iButtonManager;
 
 static int loopsCounter = 0; // счетчик кол-ва вызовов функции loop()
 const int LOOPS_COUNT = 100; // кол-во циклов, через которое мы снимаем показания с "тяжелых" датчиков.
@@ -42,6 +41,7 @@ void setup()
     TricolorLED::init(RED, TIMER_PERIOD, 200);
 
     internalMemoryManager.initConfig();
+    iButtonManager.init();
 
     Timer5.setPeriod(TIMER_PERIOD); // Устанавливаем период таймера 20000 мкс -> 50 гц
     Timer5.enableISR(CHANNEL_A); // Или просто.enableISR(), запускаем прерывание на канале А таймера
@@ -94,6 +94,11 @@ void loop()
         loopsCounter++;
 
         positionVibrationSensors.update();
+
+        if ((DataManager::config().iButtonFlags & IButtonFlag::iButtonActive) && iButtonManager.update())
+        {
+            Beeper::beep();
+        }
 
         portManager.update();
 
