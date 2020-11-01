@@ -26,8 +26,8 @@ const int SYS_FAN = 35;
 
 const int DEFAULT_PIN = 36;
 
-const int PC_POWER_BUTTON = 37;
-const int USELESS_KEY2 = 40;
+const int PC_POWER_BUTTON = 2;
+const int PC_RESET_BUTTON = 3;
 
 const int DUST_LED_SHARP = 39; // Светодиод выносного датчика пыли
 const int BEEPER = 38;

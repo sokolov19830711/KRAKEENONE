@@ -37,7 +37,7 @@ void setup()
     portManager.init(19200);
     DataManager::init();
     Beeper::init(BEEPER, TIMER_PERIOD, 100);
-    PcPower::init(PC_POWER, TIMER_PERIOD, 20);
+    PcPower::init(PC_POWER, TIMER_PERIOD, 300);
     TricolorLED::init(RED, TIMER_PERIOD, 200);
 
     internalMemoryManager.initConfig();

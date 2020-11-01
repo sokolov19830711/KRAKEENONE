@@ -78,8 +78,8 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     mcuInData_.wrongKeyUsageForPowerOff = settings_->value("iButtonFrame/wrongKeyUsageForPowerOff").toInt();
     mcuInData_.wrongKeyUsageForReset = settings_->value("iButtonFrame/wrongKeyUsageForReset").toInt();
 
-    mcuInData_.isPWRavaliable = settings_->value("PWR/isPWRavaliable").toInt();
-    mcuInData_.isRSTavaliable = settings_->value("PWR/isRSTavaliable").toInt();
+    mcuInData_.isPWRavaliable = settings_->value("PWR/isPWRavaliable").toBool() ? 1 : 0;
+    mcuInData_.isRSTavaliable = settings_->value("PWR/isRSTavaliable").toBool() ? 1 : 0;
 
     // Настраиваем COM-порт, к которому подключен контроллер
 
