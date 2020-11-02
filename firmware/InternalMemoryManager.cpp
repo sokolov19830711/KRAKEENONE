@@ -32,6 +32,28 @@ void InternalMemoryManager::saveConfig()
     eeprom_write_block((void*)(&DataManager::config()), 1, sizeof(McuInData));
 }
 
+bool InternalMemoryManager::checkIButtonKey(const byte* key)
+{
+    byte currAdminKey[8];
+    byte currUserKey[8];
+
+    eeprom_read_block((void*)(&currAdminKey), 100, 8);
+    eeprom_read_block((void*)(&currUserKey), 108, 8);
+
+    if (!memcmp(key, &currAdminKey, 8) || !memcmp(key, &currUserKey, 8))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void InternalMemoryManager::writeNewIButtonKey(const byte* key, bool isAdminKey)
+{
+    int address = isAdminKey ? 100 : 108;
+    eeprom_write_block((void*)(*key), address, 8);
+}
+
 unsigned InternalMemoryManager::lastTotalRunningTimeValue() const
 {
     unsigned val;

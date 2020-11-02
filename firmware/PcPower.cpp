@@ -1,6 +1,8 @@
 #include "PcPower.h"
 
 #include <Arduino.h>
+#include "Krakeenone_pinout.h"
+#include "TricolorLED.h"
 
 PcPower::PcPower()
 {
@@ -44,6 +46,6 @@ void PcPower::on()
 		getInstance().getInstance()._cyclesCounter = 0;
 		getInstance()._isOn = true;
 		digitalWrite(getInstance()._pin, HIGH);
+		TricolorLED::blink(GREEN);
 	}
-
 }

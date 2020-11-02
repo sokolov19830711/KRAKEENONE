@@ -47,6 +47,16 @@ IButtonFrame::IButtonFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     setupNewUserKeyButton_ = new QPushButton("ПРИВЯЗАТЬ НОВЫЙ\nКЛЮЧ ПОЛЬЗОВАТЕЛЯ");
     setupNewUserKeyButton_->setFixedHeight(32);
+    connect(&_newUserKeyWritingTimer, &QTimer::timeout, [=]()
+        {
+            mcuInData_->writeNewUserKey = 0;
+        });
+    connect(setupNewUserKeyButton_, &QPushButton::clicked, [=]()
+        {
+			_newUserKeyWritingTimer.setSingleShot(true);
+			_newUserKeyWritingTimer.start(3000);
+			mcuInData_->writeNewUserKey = 1;
+        });
     leftLayout->addRow(setupNewUserKeyButton_);
 
     setupNewAdminKeyButton_ = new QPushButton("ПРИВЯЗАТЬ НОВЫЙ\nКЛЮЧ АДМИНИСТРАТОРА");

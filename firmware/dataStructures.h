@@ -103,6 +103,8 @@ struct McuInData
     unsigned char iButtonFlags = 0;
     unsigned char wrongKeyUsageForPowerOff = 1;
     unsigned char wrongKeyUsageForReset = 1;
+    unsigned char writeNewAdminKey = 0;
+    unsigned char writeNewUserKey = 0;
 
     unsigned char isPWRavaliable = 1;
     unsigned char isRSTavaliable = 1;

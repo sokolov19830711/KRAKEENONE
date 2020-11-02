@@ -1,6 +1,8 @@
 #ifndef IBUTTONFRAME_H
 #define IBUTTONFRAME_H
 
+#include <QTimer>
+
 #include "frame.h"
 
 #include "PrimeboxWidgets/OnOffButton.h"
@@ -31,6 +33,9 @@ private:
 
 	QPushButton* setupNewUserKeyButton_;
 	QPushButton* setupNewAdminKeyButton_;
+
+	QTimer _newAdminKeyWritingTimer;
+	QTimer _newUserKeyWritingTimer;
 
 };
 

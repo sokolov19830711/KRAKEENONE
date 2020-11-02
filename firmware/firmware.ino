@@ -41,7 +41,7 @@ void setup()
     TricolorLED::init(RED, TIMER_PERIOD, 200);
 
     internalMemoryManager.initConfig();
-    iButtonManager.init();
+    iButtonManager.init(&internalMemoryManager);
 
     Timer5.setPeriod(TIMER_PERIOD); // Устанавливаем период таймера 20000 мкс -> 50 гц
     Timer5.enableISR(CHANNEL_A); // Или просто.enableISR(), запускаем прерывание на канале А таймера
@@ -95,10 +95,6 @@ void loop()
 
         positionVibrationSensors.update();
 
-        if ((DataManager::config().iButtonFlags & IButtonFlag::iButtonActive) && iButtonManager.update())
-        {
-            Beeper::beep();
-        }
 
         portManager.update();
 
@@ -108,6 +104,8 @@ void loop()
 			internalMemoryManager.saveConfig();
 			powerButtonWatcher.updateConfig();
         }
+
+        iButtonManager.update();
     }
 }
 

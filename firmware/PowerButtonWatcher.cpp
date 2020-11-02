@@ -33,7 +33,6 @@ void PowerButtonWatcher::update(int dt)
 				if (_currentDigit == _pwdLevel) // Проверили последний разряд
 				{
 					PcPower::on();
-					TricolorLED::blink(GREEN);
 					_isWatching = false;
 				}
 
