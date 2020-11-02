@@ -16,6 +16,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     addMainLayout(mainLayout);
 
     QFormLayout* leftLayout = new QFormLayout;
+    leftLayout->setLabelAlignment(Qt::AlignRight);
     mainLayout->addLayout(leftLayout);
 
     //---
@@ -55,21 +56,28 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
         });
     startOnBootButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::startOnBoot);
-    leftLayout->addRow("АВТОМАТИЧЕСКИЙ ЗАПУСК ПРИ ЗАГРУЗКЕ\nОПЕРАЦИОННОЙ СИСТЕМЫ", startOnBootButton_);
+    QLabel* startOnBootLabel = new QLabel("АВТОМАТИЧЕСКИЙ ЗАПУСК ПРИ ЗАГРУЗКЕ\nОПЕРАЦИОННОЙ СИСТЕМЫ");
+    startOnBootLabel->setAlignment(Qt::AlignRight);
+    leftLayout->addRow(startOnBootLabel, startOnBootButton_);
+
 
     //---
 
     lockOSButton_ = new OnOffButton(this);
     connect(lockOSButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->functionsFlags, FunctionsFlag::lockOS, lockOSButton_->isChecked());});
     lockOSButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::lockOS);
-    leftLayout->addRow("БЛОКИРОВАТЬ КОМПЮТЕР ЕСЛИ\nУСТРОЙСТВО ОТКЛЮЧЕНО", lockOSButton_);
+	QLabel* lockOSLabel = new QLabel("БЛОКИРОВАТЬ КОМПЮТЕР ЕСЛИ\nУСТРОЙСТВО ОТКЛЮЧЕНО");
+    lockOSLabel->setAlignment(Qt::AlignRight);
+    leftLayout->addRow(lockOSLabel, lockOSButton_);
 
     //---
 
     lockAppButton_ = new OnOffButton(this);
     connect(lockAppButton_, &OnOffButton::toggled, [=](){setBit(mcuInData->functionsFlags, FunctionsFlag::lockApp, lockAppButton_->isChecked());});
     lockAppButton_->setChecked(mcuInData->functionsFlags & FunctionsFlag::lockApp);
-    leftLayout->addRow("БЛОКИРОВАТЬ ПРИЛОЖЕНИЕ ПОСЛЕ ТРЕХ\nПОПЫТОК ВВОДА ПАРОЛЯ", lockAppButton_);
+	QLabel* lockAppLabel = new QLabel("БЛОКИРОВАТЬ ПРИЛОЖЕНИЕ ПОСЛЕ ТРЕХ\nПОПЫТОК ВВОДА ПАРОЛЯ");
+    lockAppLabel->setAlignment(Qt::AlignRight);
+    leftLayout->addRow(lockAppLabel, lockAppButton_);
 
     //---
 
@@ -102,6 +110,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
     QHBoxLayout* currentPasswordLineEditLayout = new QHBoxLayout;
     changePasswordLayout->addLayout(currentPasswordLineEditLayout);
+    currentPasswordLineEditLayout->addStretch();
     currentPasswordLineEditLayout->addWidget(currentPasswordLabel);
     currentPasswordLineEditLayout->addWidget(currentPasswordLineEdit_);
 
@@ -113,6 +122,7 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
 
 	QHBoxLayout* newPasswordLineEditLayout = new QHBoxLayout;
 	changePasswordLayout->addLayout(newPasswordLineEditLayout);
+    newPasswordLineEditLayout->addStretch();
 	newPasswordLineEditLayout->addWidget(newPasswordLabel);
 	newPasswordLineEditLayout->addWidget(newPasswordLineEdit_);
 
@@ -171,12 +181,17 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     //-----------------------------------------------------------------------------------
 
     QFormLayout* rightLayout = new QFormLayout;
+    rightLayout->setLabelAlignment(Qt::AlignRight);
     mainLayout->addSpacing(50);
     mainLayout->addLayout(rightLayout);
 
+    QHBoxLayout* notificationLabelLayout = new QHBoxLayout;
     notificationLabel_ = new QLabel(this);
     notificationLabel_->setText("НАСТРОЙКА УВЕДОМЛЕНИЙ");
-    rightLayout->addRow(notificationLabel_);
+    notificationLabelLayout->addStretch();
+    notificationLabelLayout->addWidget(notificationLabel_);
+    notificationLabelLayout->addStretch();
+    rightLayout->addRow(notificationLabelLayout);
     rightLayout->addWidget(new QLabel(this));
     //---
 

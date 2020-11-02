@@ -18,20 +18,28 @@ IButtonFrame::IButtonFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
     turnOnButton_ = new OnOffButton;
 	connect(turnOnButton_, &OnOffButton::toggled, [=]() {setBit(mcuInData->iButtonFlags, IButtonFlag::iButtonActive, turnOnButton_->isChecked()); });
     turnOnButton_->setChecked(mcuInData->iButtonFlags & IButtonFlag::iButtonActive);
-    leftLayout->addRow("Модуль IButton активен", turnOnButton_);
+    QLabel* turnOnLabel = new QLabel("Модуль IButton активен");
+    turnOnLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    leftLayout->addRow(turnOnLabel, turnOnButton_);
 
     lockPWRButtonButton_ = new OnOffButton;
-    leftLayout->addRow("Заблокировать кнопку включения ПК", lockPWRButtonButton_);
+	QLabel* lockPWRButtonLabel = new QLabel("Заблокировать кнопку включения ПК");
+    lockPWRButtonLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    leftLayout->addRow(lockPWRButtonLabel, lockPWRButtonButton_);
 
     resetButton_ = new OnOffButton;
 	connect(resetButton_, &OnOffButton::toggled, [=]() {setBit(mcuInData->iButtonFlags, IButtonFlag::reset, resetButton_->isChecked()); });
     resetButton_->setChecked(mcuInData->iButtonFlags & IButtonFlag::reset);
-    leftLayout->addRow("Перезагрузка ПК в случае\nиспользования стороннего ключа", resetButton_);
+	QLabel* lockResetLabel = new QLabel("Перезагрузка ПК в случае\nиспользования стороннего ключа");
+    lockResetLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    leftLayout->addRow(lockResetLabel, resetButton_);
 
     powerOffButton_ = new OnOffButton;
 	connect(powerOffButton_, &OnOffButton::toggled, [=]() {setBit(mcuInData->iButtonFlags, IButtonFlag::shutDown, powerOffButton_->isChecked()); });
     powerOffButton_->setChecked(mcuInData->iButtonFlags & IButtonFlag::shutDown);
-    leftLayout->addRow("Выключение ПК в случае\nиспользования стороннего ключа", powerOffButton_);
+	QLabel* powerOffLabel = new QLabel("Выключение ПК в случае\nиспользования стороннего ключа");
+    powerOffLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    leftLayout->addRow(powerOffLabel, powerOffButton_);
 
     leftLayout->addRow(new QLabel);
 

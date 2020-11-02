@@ -10,6 +10,7 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     addMainLayout(mainLayout);
 
     QFormLayout* leftLayout = new QFormLayout;
+    leftLayout->setLabelAlignment(Qt::AlignRight);
     mainLayout->addLayout(leftLayout);
 
     mainLayout->addSpacing(20);
@@ -67,9 +68,6 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     connect(resetButtonActiveButton_, &OnOffButton::toggled, [=]() {mcuInData_->isRSTavaliable = resetButtonActiveButton_->isChecked(); });
     leftLayout->addRow("ДОСТУПНОСТЬ КНОПКИ RESET НА КОРПУСЕ", resetButtonActiveButton_);
 
-    powerByPasswordButton_ = new OnOffButton;
-    leftLayout->addRow("ВКЛЮЧЕНИЕ ПК МЕТОДОМ ПАРОЛЯ\nНА КНОПКАХ PWR | RST", powerByPasswordButton_);
-
     //---
 
     QLabel* powerSettingsLabel = new QLabel("УКАЖИТЕ УОВЕНЬ ЗАЩИТЫ\n(КОДИРОВАНИЕ КНОПКИ PWR)");
@@ -120,8 +118,10 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     QHBoxLayout* blockingTimeLayout = new QHBoxLayout;
     blockingTime_ = new SpinBox;
     blockingTime_->setValueFieldWidth(30);
-    blockingTimeLayout->addWidget(new QLabel("БЛОКИРОВАТЬ ПРИ ПОПЫТКЕ\nПОДБОРА КОМБИНАЦИИ, МИН"));
+    QLabel* blockingTimeLabel = new QLabel("БЛОКИРОВАТЬ ПРИ ПОПЫТКЕ\nПОДБОРА КОМБИНАЦИИ, МИН");
+    blockingTimeLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     blockingTimeLayout->addStretch();
+    blockingTimeLayout->addWidget(blockingTimeLabel);
     blockingTimeLayout->addWidget(blockingTime_);
     rightLayout->addRow(blockingTimeLayout);
 
@@ -131,8 +131,10 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
 	inputPeriod_ = new SpinBox;
     inputPeriod_->setValueFieldWidth(30);
     inputPeriod_->setValue(settings_->value("PWR/digitInputPeriod").toInt());
-    inputPeriodLayout->addWidget(new QLabel("ВРЕМЯ ОЖИДАНИЯ ВВОДА\nРАЗРЯДА КОМБИНАЦИИ, СЕК"));
+    QLabel* imputPeriodLabel = new QLabel("ВРЕМЯ ОЖИДАНИЯ ВВОДА\nРАЗРЯДА КОМБИНАЦИИ, СЕК");
+    imputPeriodLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     inputPeriodLayout->addStretch();
+    inputPeriodLayout->addWidget(imputPeriodLabel);
     inputPeriodLayout->addWidget(inputPeriod_);
 	rightLayout->addRow(inputPeriodLayout);
 
@@ -141,7 +143,9 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     //---
 
     QHBoxLayout* notResponseResetLayout = new QHBoxLayout;
-    notResponseResetLayout->addWidget(new QLabel("ПЕРЕЗАГРУЗКА ПРИ\nЗАВИСАНИИ ПК"));
+    QLabel* notResponseResetLabel = new QLabel("ПЕРЕЗАГРУЗКА ПРИ\nЗАВИСАНИИ ПК");
+    notResponseResetLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    notResponseResetLayout->addWidget(notResponseResetLabel);
     notResponseResetButton_ = new OnOffButton;
     notResponseResetLayout->addWidget(notResponseResetButton_);
     notResponseResetLayout->addWidget(new QLabel("ЧЕРЕЗ, МИН"));

@@ -28,7 +28,6 @@ private:
 
     OnOffButton* powerButtonActiveButton_;
     OnOffButton* resetButtonActiveButton_;
-    OnOffButton* powerByPasswordButton_;
 
     SpinBox* blockingTime_;
     SpinBox* inputPeriod_;
