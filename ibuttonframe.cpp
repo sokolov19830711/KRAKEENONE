@@ -23,6 +23,8 @@ IButtonFrame::IButtonFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
     leftLayout->addRow(turnOnLabel, turnOnButton_);
 
     lockPWRButtonButton_ = new OnOffButton;
+    lockPWRButtonButton_->setChecked(!mcuInData_->isPWRavaliable);
+    connect(lockPWRButtonButton_, &OnOffButton::toggled, [=]() {mcuInData_->isPWRavaliable = !lockPWRButtonButton_->isChecked(); });
 	QLabel* lockPWRButtonLabel = new QLabel("Заблокировать кнопку включения ПК");
     lockPWRButtonLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     leftLayout->addRow(lockPWRButtonLabel, lockPWRButtonButton_);
@@ -84,5 +86,5 @@ IButtonFrame::~IButtonFrame()
 
 void IButtonFrame::refresh(bool isDeviceConnected)
 {
-
+    lockPWRButtonButton_->setChecked(!mcuInData_->isPWRavaliable);
 }

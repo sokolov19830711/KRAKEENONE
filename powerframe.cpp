@@ -231,5 +231,5 @@ PowerFrame::~PowerFrame()
 
 void PowerFrame::refresh(bool isDeviceConnected)
 {
-
+    powerButtonActiveButton_->setChecked(mcuInData_->isPWRavaliable);
 }
