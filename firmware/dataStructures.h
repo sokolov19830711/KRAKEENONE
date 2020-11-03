@@ -3,6 +3,7 @@
 
 #define START_MARKER1 123
 #define START_MARKER2 124
+#define CONTROL_MARKER 111
 
 // Данные от микроконтроллера к управляющей программе
 struct  McuOutData
@@ -19,6 +20,11 @@ struct  McuOutData
     unsigned char positionSensorY; // Y координата датчика положения
     unsigned char positionSensorZ; // Z координата датчика положения
     
+    unsigned char controlMarker = CONTROL_MARKER;
+    unsigned char reserved1;
+    unsigned char reserved2;
+    unsigned char reserved3;
+
     unsigned char dustSensor1; // Данные с датчика запыленности 1
     unsigned char dustSensor2; // Данные с датчика запыленности 2
     unsigned char dustSensor3; // Данные с датчика запыленности 3

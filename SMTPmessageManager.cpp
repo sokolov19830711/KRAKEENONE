@@ -30,7 +30,6 @@ void SMTPmessageManager::addEventToLog(const QString& eventText)
 
 void SMTPmessageManager::sendMessage(const QStringList& messageText)
 {
-	qDebug() << messageText;
 	if (messageText.isEmpty())
 	{
 		return;

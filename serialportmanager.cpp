@@ -42,11 +42,11 @@ bool SerialPortManager::connectedToPort() const
 
 void SerialPortManager::refresh()
 {
-    static bool isSync = false;
+    static int isSync = 0;
     static int counter = 0;
     static QByteArray data;
 
-    if (!isSync)
+    if (isSync != 2)
     {
         data.append(port_.read(sizeof(McuOutData)));
         if(data.size() >= sizeof(McuOutData))
@@ -56,8 +56,14 @@ void SerialPortManager::refresh()
 			if ((marker2Pos - marker1Pos) == 1)
 			{
 				data = data.mid(marker1Pos);
-				isSync = true;
-                emit deviceConnected(true);
+                if(data.at(9) == CONTROL_MARKER)
+				{
+					isSync++;
+                    if(isSync == 2)
+					{
+                        emit deviceConnected(true);
+                    }
+				}
 			}
 
             else if (data.size() > 1000)
