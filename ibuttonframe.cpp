@@ -47,6 +47,7 @@ IButtonFrame::IButtonFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     setupNewUserKeyButton_ = new QPushButton("ПРИВЯЗАТЬ НОВЫЙ\nКЛЮЧ ПОЛЬЗОВАТЕЛЯ");
     setupNewUserKeyButton_->setFixedHeight(32);
+
     connect(&_newUserKeyWritingTimer, &QTimer::timeout, [=]()
         {
             mcuInData_->writeNewUserKey = 0;
@@ -57,10 +58,23 @@ IButtonFrame::IButtonFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 			_newUserKeyWritingTimer.start(3000);
 			mcuInData_->writeNewUserKey = 1;
         });
+
     leftLayout->addRow(setupNewUserKeyButton_);
 
     setupNewAdminKeyButton_ = new QPushButton("ПРИВЯЗАТЬ НОВЫЙ\nКЛЮЧ АДМИНИСТРАТОРА");
     setupNewAdminKeyButton_->setFixedHeight(32);
+
+	connect(&_newAdminKeyWritingTimer, &QTimer::timeout, [=]()
+		{
+			mcuInData_->writeNewAdminKey = 0;
+		});
+	connect(setupNewAdminKeyButton_, &QPushButton::clicked, [=]()
+		{
+			_newAdminKeyWritingTimer.setSingleShot(true);
+            _newAdminKeyWritingTimer.start(3000);
+			mcuInData_->writeNewAdminKey = 1;
+		});
+
     leftLayout->addRow(setupNewAdminKeyButton_);
 
     QVBoxLayout* rightLayout = new QVBoxLayout;

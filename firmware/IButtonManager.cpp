@@ -40,7 +40,7 @@ bool IButtonManager::update()
 	{
 		_keyInputTimer = 0;
 
-		if (_newKeyInputTimer && _newKeyInputTimer < 100) // Если таймер запущен и не истек
+		if (_newKeyInputTimer && _newKeyInputTimer < 30) // Если таймер запущен и не истек
 		{
 			TricolorLED::blink(BLUE);
 			_internalMemoryManager->writeNewIButtonKey(_addr, _isAdminKeyWriting);
