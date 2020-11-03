@@ -77,6 +77,29 @@ void PositionVibrationSensors::update()
     prevY = DataManager::outData().positionSensorY;
     prevZ = DataManager::outData().positionSensorZ;
 
+	if((DataManager::config().positionXdeviation || DataManager::config().positionYdeviation || DataManager::config().positionZdeviation) &&
+		DataManager::config().positionFlags & ActionsFlag::active)
+	{
+		float relDeviationX = static_cast<float>(abs(DataManager::outData().positionSensorX - DataManager::config().positionXnormal)) / static_cast<float>(DataManager::outData().positionSensorX) * 100.f;
+		float relDeviationY = static_cast<float>(abs(DataManager::outData().positionSensorY - DataManager::config().positionYnormal)) / static_cast<float>(DataManager::outData().positionSensorY) * 100.f;
+		float relDeviationZ = static_cast<float>(abs(DataManager::outData().positionSensorZ - DataManager::config().positionZnormal)) / static_cast<float>(DataManager::outData().positionSensorZ) * 100.f;
+
+		if (static_cast<unsigned char>(relDeviationX) > DataManager::config().positionXdeviation ||
+			static_cast<unsigned char>(relDeviationY) > DataManager::config().positionYdeviation ||
+			static_cast<unsigned char>(relDeviationZ) > DataManager::config().positionZdeviation)
+		{
+			if (DataManager::config().positionFlags & ActionsFlag::soundSignal)
+			{
+				Beeper::beep();
+			}
+
+			if (DataManager::config().positionFlags & ActionsFlag::PCShutDown)
+			{
+				PcPower::on();
+			}
+		}
+	}
+
     // —охран€ем максимальное значение из 16 замеров
     DataManager::outData().vibrationSensor2 = getMax(vibSensorBuffer1, count) / 4;
     DataManager::outData().vibrationSensor3 = getMax(vibSensorBuffer2, count) / 4;

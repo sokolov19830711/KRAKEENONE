@@ -31,7 +31,7 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
 	QString settingsButtonsStyle = "QPushButton{height : 75; width : 60; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#595959;}"
 		                           "QPushButton:checked{font : bold; color: #ffffff; border-style:none; border-color:#7f7f7f; background-color:#00b050;}";
 
-    QStringList resetSettingsButtonsTextes = { "удержать\nRST\n60 сек", "удержать\nRST\n10 сек", "нажать\nRST\n3 + 5 раза", "нажать\nRST\n3 + 5 раза" };
+    QStringList resetSettingsButtonsTextes = { "удержать\nRST\n60 сек", "удержать\nRST\n10 сек", "нажать\nRST\n3 + 3 раза", "нажать\nRST\n3 + 5 раза" };
     resetSettingsButtons_ = new SwitchButtonsWidget(1, 4, settingsButtonsStyle, resetSettingsButtonsTextes, this);
     resetSettingsButtons_->setSpacing(5);
     leftLayout->addRow(resetSettingsButtons_);
@@ -49,7 +49,7 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     leftLayout->addRow(blockHDDSettingsLabelLayout);
 
 	
-    QStringList blockHDDSettingsButtonsTextes = { "удержать\nRST\n60 сек", "удержать\nRST\n10 сек", "нажать\nRST\n3 + 5 раза", "нажать\nRST\n3 + 5 раза" };
+    QStringList blockHDDSettingsButtonsTextes = { "удержать\nRST\n60 сек", "удержать\nRST\n10 сек", "нажать\nRST\n3 + 3 раза", "нажать\nRST\n3 + 5 раза" };
     blockHDDSettingsButtons_ = new SwitchButtonsWidget(1, 4, settingsButtonsStyle, blockHDDSettingsButtonsTextes, this);
     blockHDDSettingsButtons_->setSpacing(5);
     leftLayout->addRow(blockHDDSettingsButtons_);

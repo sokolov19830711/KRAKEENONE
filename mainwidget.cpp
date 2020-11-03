@@ -32,9 +32,12 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     mcuInData_.vibrationMaxValue4 = settings_->value("vibrationFrame/maxValue4").toInt();
 
     mcuInData_.positionFlags = settings_->value("positionFrame/flags").toUInt();
-    mcuInData_.positionXdeviation = settings_->value("positionFrame/positionXdeviation").toInt();
-    mcuInData_.positionYdeviation = settings_->value("positionFrame/positionYdeviation").toInt();
-    mcuInData_.positionZdeviation = settings_->value("positionFrame/positionZdeviation").toInt();
+    mcuInData_.positionXnormal = settings_->value("positionFrame/positionXnormal").toInt();
+    mcuInData_.positionYnormal = settings_->value("positionFrame/positionYnormal").toInt();
+    mcuInData_.positionZnormal = settings_->value("positionFrame/positionZnormal").toInt();
+	mcuInData_.positionXdeviation = settings_->value("positionFrame/positionXdeviation").toInt();
+	mcuInData_.positionYdeviation = settings_->value("positionFrame/positionYdeviation").toInt();
+	mcuInData_.positionZdeviation = settings_->value("positionFrame/positionZdeviation").toInt();
 
     mcuInData_.dustFlags1 = settings_->value("dustFrame/flags1").toUInt();
     mcuInData_.dustFlags2 = settings_->value("dustFrame/flags2").toUInt();

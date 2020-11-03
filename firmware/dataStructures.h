@@ -68,6 +68,9 @@ struct McuInData
     unsigned char vibrationMaxValue4 = 0;
 
     unsigned char positionFlags = 0;
+	unsigned char positionXnormal = 0;
+	unsigned char positionYnormal = 0;
+	unsigned char positionZnormal = 0;
     unsigned char positionXdeviation = 0;
     unsigned char positionYdeviation = 0;
     unsigned char positionZdeviation = 0;

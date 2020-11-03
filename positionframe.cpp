@@ -75,6 +75,13 @@ PositionFrame::PositionFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
     saveStartingPositionButton_->setToolTip("Сохранить текущее положение");
     currentPositionLayout->addWidget(saveStartingPositionButton_);
 
+    connect(saveStartingPositionButton_, &QPushButton::clicked, [=]()
+        {
+            mcuInData_->positionXnormal = mcuOutData_->positionSensorX;
+            mcuInData_->positionYnormal = mcuOutData_->positionSensorY;
+            mcuInData_->positionZnormal = mcuOutData_->positionSensorZ;
+        });
+
     resetStartingPositionButton_ = new QPushButton("СБРОСИТЬ");
     resetStartingPositionButton_->setFixedSize(100, 20);
     resetStartingPositionButton_->setToolTip("Сбросить сохраненное положение");
@@ -107,6 +114,17 @@ PositionFrame::PositionFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
     resetlimitsButton_ = new QPushButton("СБРОСИТЬ");
     resetlimitsButton_->setFixedSize(100, 42);
     resetlimitsButton_->setToolTip("Сбросить сохраненные ограничения");
+    connect(resetlimitsButton_, &QPushButton::clicked, [=]()
+        {
+			mcuInData_->positionXdeviation = 0;
+			mcuInData_->positionYdeviation = 0;
+			mcuInData_->positionZdeviation = 0;
+
+            xLimit_->setValue(0);
+            yLimit_->setValue(0);
+            zLimit_->setValue(0);
+        }
+        );
 
     limitsLayout->addStretch();
     limitsLayout->addWidget(xLimit_);
@@ -144,6 +162,9 @@ PositionFrame::~PositionFrame()
     settings_->setValue("positionFrame/positionXdeviation", xLimit_->value());
     settings_->setValue("positionFrame/positionYdeviation", yLimit_->value());
     settings_->setValue("positionFrame/positionZdeviation", zLimit_->value());
+    settings_->setValue("positionFrame/positionXnormal", mcuInData_->positionXnormal);
+    settings_->setValue("positionFrame/positionYnormal", mcuInData_->positionYnormal);
+    settings_->setValue("positionFrame/positionZnormal", mcuInData_->positionZnormal);
     settings_->sync();
 }
 
