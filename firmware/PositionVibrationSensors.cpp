@@ -26,7 +26,9 @@ void PositionVibrationSensors::update()
     int Y = 0;
     int Z = 0;
 
-    int vibSensorBuffer[count];
+    int vibSensorBuffer1[count];
+    int vibSensorBuffer2[count];
+    int vibSensorBuffer3[count];
 
     for (byte i = 0; i < count; i++)
     {
@@ -36,7 +38,9 @@ void PositionVibrationSensors::update()
         Z += analogRead(Z_POS);
 
         // Датчик вибрации
-        vibSensorBuffer[i] = analogRead(VIBRO1);
+        vibSensorBuffer1[i] = analogRead(VIBRO1);
+        vibSensorBuffer2[i] = analogRead(VIBRO2);
+        vibSensorBuffer3[i] = analogRead(VIBRO3);
     }
 
     // Сохраняем средние значения за 16 замеров
@@ -44,25 +48,26 @@ void PositionVibrationSensors::update()
     DataManager::outData().positionSensorY = (Y / count);
     DataManager::outData().positionSensorZ = (Z / count);
 
-	int dX = abs(DataManager::outData().positionSensorX - prevX);
-	int dY = abs(DataManager::outData().positionSensorY - prevY);
-	int dZ = abs(DataManager::outData().positionSensorZ - prevZ);
 
     if (prevX != -999)
     {
+		int dX = (DataManager::outData().positionSensorX > prevX) ? (DataManager::outData().positionSensorX - prevX) : (prevX - DataManager::outData().positionSensorX);
+		int dY = (DataManager::outData().positionSensorY > prevY) ? (DataManager::outData().positionSensorY - prevY) : (prevY - DataManager::outData().positionSensorY);
+		int dZ = (DataManager::outData().positionSensorZ > prevZ) ? (DataManager::outData().positionSensorZ - prevZ) : (prevZ - DataManager::outData().positionSensorZ);
+
         int dMax = dX > dY ? dX : dY;
         dMax = dZ > dMax ? dZ : dMax;
 
-        DataManager::outData().vibrationSensor2 = dMax;
+        DataManager::outData().vibrationSensor1 = dMax;
 
-        if (dMax > DataManager::config().vibrationMaxValue2 &&
-            DataManager::config().vibrationFlags2 & ActionsFlag::soundSignal)
+        if (dMax > DataManager::config().vibrationMaxValue1 &&
+            DataManager::config().vibrationFlags1 & ActionsFlag::soundSignal)
         {
             Beeper::beep();
         }
 
-		if (dMax > DataManager::config().vibrationMaxValue2 &&
-			DataManager::config().vibrationFlags2 & ActionsFlag::PCShutDown)
+		if (dMax > DataManager::config().vibrationMaxValue1 &&
+			DataManager::config().vibrationFlags1 & ActionsFlag::PCShutDown)
 		{
             PcPower::on();
 		}
@@ -73,17 +78,43 @@ void PositionVibrationSensors::update()
     prevZ = DataManager::outData().positionSensorZ;
 
     // Сохраняем максимальное значение из 16 замеров
-    DataManager::outData().vibrationSensor1 = getMax(vibSensorBuffer, count) / 4;
+    DataManager::outData().vibrationSensor2 = getMax(vibSensorBuffer1, count) / 4;
+    DataManager::outData().vibrationSensor3 = getMax(vibSensorBuffer2, count) / 4;
+    DataManager::outData().vibrationSensor4 = getMax(vibSensorBuffer3, count) / 4;
 
-    if (DataManager::outData().vibrationSensor1 > DataManager::config().vibrationMaxValue1 &&
-        DataManager::config().vibrationFlags1 & ActionsFlag::soundSignal)
+    if (DataManager::outData().vibrationSensor2 > DataManager::config().vibrationMaxValue2 &&
+        DataManager::config().vibrationFlags2 & ActionsFlag::soundSignal)
     {
         Beeper::beep();
     }
 
-	if (DataManager::outData().vibrationSensor1 > DataManager::config().vibrationMaxValue1 &&
-		DataManager::config().vibrationFlags1 & ActionsFlag::PCShutDown)
+	if (DataManager::outData().vibrationSensor2 > DataManager::config().vibrationMaxValue2 &&
+		DataManager::config().vibrationFlags2 & ActionsFlag::PCShutDown)
 	{
         PcPower::on();
+	}
+
+	if (DataManager::outData().vibrationSensor3 > DataManager::config().vibrationMaxValue3 &&
+		DataManager::config().vibrationFlags3 & ActionsFlag::soundSignal)
+	{
+		Beeper::beep();
+	}
+
+	if (DataManager::outData().vibrationSensor3 > DataManager::config().vibrationMaxValue3 &&
+		DataManager::config().vibrationFlags3 & ActionsFlag::PCShutDown)
+	{
+		PcPower::on();
+	}
+
+	if (DataManager::outData().vibrationSensor4 > DataManager::config().vibrationMaxValue4 &&
+		DataManager::config().vibrationFlags4 & ActionsFlag::soundSignal)
+	{
+		Beeper::beep();
+	}
+
+	if (DataManager::outData().vibrationSensor4 > DataManager::config().vibrationMaxValue4 &&
+		DataManager::config().vibrationFlags4 & ActionsFlag::PCShutDown)
+	{
+		PcPower::on();
 	}
 }
