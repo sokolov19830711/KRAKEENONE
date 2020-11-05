@@ -93,6 +93,7 @@ private:
     QTimer* mainTimer_;
     QTimer* messageTimer_;
     QTimer* PC_totalRunningTimeUpdateTimer_;
+    QTimer* connectionLostMessageTimer_;
     QDateTime appStartedTime_;
     QThread* portManagerThread_;
     SerialPortManager* portManager_ = nullptr;

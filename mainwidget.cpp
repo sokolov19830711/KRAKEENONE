@@ -242,6 +242,9 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
     connect(PC_totalRunningTimeUpdateTimer_, SIGNAL(timeout()), this, SLOT(updatePcTotalRunningTime()));
     PC_totalRunningTimeUpdateTimer_->start(60000);
 
+    connectionLostMessageTimer_ = new QTimer(this);
+    connectionLostMessageTimer_->setSingleShot(true);
+
     //--- Иконка в трее
 
 	_trayIcon = new QSystemTrayIcon(QIcon(":trayIcon.png"), this);
@@ -452,7 +455,11 @@ void MainWidget::refresh()
 void MainWidget::onConnectionLost()
 {
     _isDeviceConnected = false;
-    showTrayNotification("Потеряна связь с управляющим устройством, или устройство отключено!");
+    if (!connectionLostMessageTimer_->isActive())
+    {
+        showTrayNotification("Потеряна связь с управляющим устройством, или устройство отключено!");
+        connectionLostMessageTimer_->start(120000);
+    }
     if (mcuInData_.functionsFlags & FunctionsFlag::lockOS)
     {
 #ifdef Q_OS_WIN32
