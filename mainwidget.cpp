@@ -457,8 +457,8 @@ void MainWidget::onConnectionLost()
     _isDeviceConnected = false;
     if (!connectionLostMessageTimer_->isActive())
     {
-        showTrayNotification("Потеряна связь с управляющим устройством, или устройство отключено!");
-        connectionLostMessageTimer_->start(120000);
+        /*showTrayNotification("Потеряна связь с управляющим устройством, или устройство отключено!");
+        connectionLostMessageTimer_->start(120000);*/
     }
     if (mcuInData_.functionsFlags & FunctionsFlag::lockOS)
     {
