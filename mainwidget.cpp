@@ -14,7 +14,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 
     setStyleSheet("background-color:#205867");
 
-    settings_ = QSharedPointer<QSettings>::create(QCoreApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    settings_ = QSharedPointer<QSettings>::create(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/settings.ini", QSettings::IniFormat);
 
     _SMTPmanager = new SMTPmessageManager(settings_);
     connect(_SMTPmanager, SIGNAL(needToShowEvent(const QString&)), this, SLOT(showTrayNotification(const QString&)));

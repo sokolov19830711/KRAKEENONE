@@ -1,6 +1,7 @@
 #include "SMTPmessageManager.h"
 
 #include <QDebug>
+#include <QStandardPaths>
 
 SMTPmessageManager::SMTPmessageManager(QSharedPointer<QSettings> settings) : _settings(settings)
 {
@@ -68,7 +69,7 @@ void SMTPmessageManager::sendMessage(const QStringList& messageText)
 
 void SMTPmessageManager::saveEventLogFile()
 {
-	QFile file("EventLog.txt");
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/EventLog.txt");
 	if (!file.open(QIODevice::Append | QIODevice::Text))
 	{
 		return;

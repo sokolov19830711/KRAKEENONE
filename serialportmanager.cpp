@@ -92,7 +92,7 @@ void SerialPortManager::refresh()
     {
         counter++;
     }
-    else // Отсылаем настройки контроллеру на каждый 100 цикл (~раз в 1 сек)
+    else // СњС‚СЃС‹Р»Р°РµРј РЅР°СЃС‚СЂРѕР№РєРё РєРѕРЅС‚СЂРѕР»Р»РµСЂСѓ РЅР° РєР°Р¶РґС‹Р№ 100 С†РёРєР» (~СЂР°Р· РІ 1 СЃРµРє)
     {
         counter = 0;
         port_.write(reinterpret_cast<const char*>(mcuInData_), sizeof(*mcuInData_));

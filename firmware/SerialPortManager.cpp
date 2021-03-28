@@ -10,7 +10,7 @@ SerialPortManager::SerialPortManager()
 
 void SerialPortManager::init(int baudRate)
 {
-	Serial1.begin(baudRate);
+	Serial.begin(baudRate);
 }
 
 void SerialPortManager::update()
@@ -20,14 +20,14 @@ void SerialPortManager::update()
 	switch (_mode)
 	{
 
-	// Нормальный режим работы
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	case SerialPortManager::normal:
 
-		Serial1.write(reinterpret_cast<uint8_t*>(&DataManager::outData()), sizeof(McuOutData)); // Отсылаем структуру с текущим состоянием устройства
+		Serial.write(reinterpret_cast<uint8_t*>(&DataManager::outData()), sizeof(McuOutData)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-		if (Serial1.peek() == START_MARKER1)
+		if (Serial.peek() == START_MARKER1)
 		{
-			if (Serial1.readBytes(reinterpret_cast<uint8_t*>(&_inData), sizeof(McuInData)) == sizeof(McuInData)) // Принимаем структуру с заданиями от программы на ПК
+			if (Serial.readBytes(reinterpret_cast<uint8_t*>(&_inData), sizeof(McuInData)) == sizeof(McuInData)) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
 			{
 				if ((_inData.startMarker1 == START_MARKER1) && (_inData.startMarker2 == START_MARKER2))
 				{

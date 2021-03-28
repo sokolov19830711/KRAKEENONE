@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QProcess>
+#include <QStandardPaths>
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -92,7 +93,7 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
         {
 #ifdef Q_OS_WIN32
             QProcess proc;
-            proc.startDetached("notepad EventLog.txt");
+            proc.startDetached("notepad " + QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/EventLog.txt");
 #endif
         });
 

@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWidget w;
     w.setFixedSize(1200, 536);
-    w.show();
+//    w.show();
 
     return a.exec();
 }
