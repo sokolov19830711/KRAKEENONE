@@ -23,6 +23,9 @@ void MoistureSensors::init()
 
 void MoistureSensors::update()
 {
+	if (!(DataManager::config().moistureFlags & ActionsFlag::active))
+		return;
+
 	DataManager::outData().moistureSensor = _dht->readHumidity();
 	if (DataManager::outData().moistureSensor > DataManager::config().moistureMaxValue ||
 		DataManager::outData().moistureSensor < DataManager::config().moistureMinValue)

@@ -25,12 +25,12 @@ void BreakInSensors::update()
 
 	if (sensor != DataManager::config().breakInSensorNormalState1)
 	{
-		if (DataManager::config().breakInFlags1 & ActionsFlag::soundSignal)
+		if (DataManager::config().breakInFlags1 & ActionsFlag::soundSignal && DataManager::config().breakInFlags1 & ActionsFlag::active)
 		{
 			Beeper::beep();
 		}
 
-		if (DataManager::config().breakInFlags1 & ActionsFlag::PCShutDown)
+		if (DataManager::config().breakInFlags1 & ActionsFlag::PCShutDown && DataManager::config().breakInFlags1 & ActionsFlag::active)
 		{
 			PcPower::on();
 		}
@@ -42,12 +42,12 @@ void BreakInSensors::update()
 
 	if (switch1 != DataManager::config().breakInSensorNormalState2)
 	{
-		if (DataManager::config().breakInFlags2 & ActionsFlag::soundSignal)
+		if (DataManager::config().breakInFlags2 & ActionsFlag::soundSignal && DataManager::config().breakInFlags2 & ActionsFlag::active)
 		{
 			Beeper::beep();
 		}
 
-		if (DataManager::config().breakInFlags2 & ActionsFlag::PCShutDown)
+		if (DataManager::config().breakInFlags2 & ActionsFlag::PCShutDown && DataManager::config().breakInFlags2 & ActionsFlag::active)
 		{
 			PcPower::on();
 		}
@@ -58,12 +58,12 @@ void BreakInSensors::update()
 
 	if (switch2 != DataManager::config().breakInSensorNormalState3)
 	{
-		if (DataManager::config().breakInFlags3 & ActionsFlag::soundSignal)
+		if (DataManager::config().breakInFlags3 & ActionsFlag::soundSignal && DataManager::config().breakInFlags3 & ActionsFlag::active)
 		{
 			Beeper::beep();
 		}
 
-		if (DataManager::config().breakInFlags3 & ActionsFlag::PCShutDown)
+		if (DataManager::config().breakInFlags3 & ActionsFlag::PCShutDown && DataManager::config().breakInFlags3 & ActionsFlag::active)
 		{
 			PcPower::on();
 		}

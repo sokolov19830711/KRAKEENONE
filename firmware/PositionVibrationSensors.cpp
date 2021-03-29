@@ -106,37 +106,37 @@ void PositionVibrationSensors::update()
     DataManager::outData().vibrationSensor4 = getMax(vibSensorBuffer3, count) / 4;
 
     if (DataManager::outData().vibrationSensor2 > DataManager::config().vibrationMaxValue2 &&
-        DataManager::config().vibrationFlags2 & ActionsFlag::soundSignal)
+        DataManager::config().vibrationFlags2 & ActionsFlag::soundSignal && DataManager::config().vibrationFlags2 & ActionsFlag::active)
     {
         Beeper::beep();
     }
 
 	if (DataManager::outData().vibrationSensor2 > DataManager::config().vibrationMaxValue2 &&
-		DataManager::config().vibrationFlags2 & ActionsFlag::PCShutDown)
+		DataManager::config().vibrationFlags2 & ActionsFlag::PCShutDown && DataManager::config().vibrationFlags2 & ActionsFlag::active)
 	{
         PcPower::on();
 	}
 
 	if (DataManager::outData().vibrationSensor3 > DataManager::config().vibrationMaxValue3 &&
-		DataManager::config().vibrationFlags3 & ActionsFlag::soundSignal)
+		DataManager::config().vibrationFlags3 & ActionsFlag::soundSignal && DataManager::config().vibrationFlags3 & ActionsFlag::active)
 	{
 		Beeper::beep();
 	}
 
 	if (DataManager::outData().vibrationSensor3 > DataManager::config().vibrationMaxValue3 &&
-		DataManager::config().vibrationFlags3 & ActionsFlag::PCShutDown)
+		DataManager::config().vibrationFlags3 & ActionsFlag::PCShutDown && DataManager::config().vibrationFlags3 & ActionsFlag::active)
 	{
 		PcPower::on();
 	}
 
 	if (DataManager::outData().vibrationSensor4 > DataManager::config().vibrationMaxValue4 &&
-		DataManager::config().vibrationFlags4 & ActionsFlag::soundSignal)
+		DataManager::config().vibrationFlags4 & ActionsFlag::soundSignal && DataManager::config().vibrationFlags4 & ActionsFlag::active)
 	{
 		Beeper::beep();
 	}
 
 	if (DataManager::outData().vibrationSensor4 > DataManager::config().vibrationMaxValue4 &&
-		DataManager::config().vibrationFlags4 & ActionsFlag::PCShutDown)
+		DataManager::config().vibrationFlags4 & ActionsFlag::PCShutDown && DataManager::config().vibrationFlags4 & ActionsFlag::active)
 	{
 		PcPower::on();
 	}
