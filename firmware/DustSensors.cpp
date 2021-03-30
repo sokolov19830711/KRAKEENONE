@@ -44,6 +44,16 @@ void DustSensors::update()
 
 	//float voltsMeasured = analogRead(DUST_RES_SHARP); // считали значение
 	int voltsMeasured = analogRead(DUST_RES_SHARP); // считали значение
+	int result = 11;
+
+	if(voltsMeasured == 0)
+		result = 11;
+	else if (voltsMeasured < 10)
+		result = voltsMeasured * 2;
+	else if (voltsMeasured < 100)
+		result = voltsMeasured / 2;
+	else
+		result = voltsMeasured / 4;
 
 	delayMicroseconds(40);// выждать тоже важно
 	digitalWrite(DUST_LED_SHARP, HIGH); // выкл светик
@@ -51,7 +61,7 @@ void DustSensors::update()
 	if (DataManager::config().dustFlags2 & ActionsFlag::active)
 	{
 		//DataManager::outData().dustSensor2 = (0.17f * voltsMeasured * (4.096f / 1024.0f) - 0.1f) * 1000.f;
-		DataManager::outData().dustSensor2 = (unsigned char)voltsMeasured;
+		DataManager::outData().dustSensor2 = result;
 
 		if (DataManager::outData().dustSensor2 > DataManager::config().dustMaxValue2)
 		{

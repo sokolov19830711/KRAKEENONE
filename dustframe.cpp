@@ -181,7 +181,7 @@ void DustFrame::refresh(bool isDeviceConnected)
     if(isDeviceConnected)
 	{
         mcuInData_->dustFlags1 & ActionsFlag::active ? indicator1_->setValue(mcuOutData_->dustSensor1) : indicator1_->setActive(false);
-        mcuInData_->dustFlags2 & ActionsFlag::active ? indicator2_->setValue(mcuOutData_->dustSensor2 / 10) : indicator2_->setActive(false);
+        mcuInData_->dustFlags2 & ActionsFlag::active ? indicator2_->setValue(mcuOutData_->dustSensor2) : indicator2_->setActive(false);
         mcuInData_->dustFlags3 & ActionsFlag::active ? indicator3_->setValue(mcuOutData_->dustSensor3) : indicator3_->setActive(false);
 	}
 
