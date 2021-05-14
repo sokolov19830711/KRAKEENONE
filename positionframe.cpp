@@ -140,7 +140,7 @@ PositionFrame::PositionFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
     QHBoxLayout* limitsTitleLayout = new QHBoxLayout;
 
     QLabel* limitsTitle = new QLabel("Введите критическую величину отклонения в % от\nсохраненного положения");
-    limitsTitle->setStyleSheet("font-size:8pt; font:italic; color:#ffc000");
+    limitsTitle->setStyleSheet("font-size:8pt; color:#ffc000");
     limitsTitle->setAlignment(Qt::AlignCenter);
 
     limitsTitleLayout->addStretch();

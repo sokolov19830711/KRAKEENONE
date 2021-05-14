@@ -76,6 +76,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
     sensorLayout1->addRow(settingsButtons1Layout);
 
     sensorLayout1->addRow(new QLabel()); // Пустая строка для разделения
+    sensorLayout1->addRow(new QLabel()); // Пустая строка для разделения
 
 	_actionsSetupWidget1 = new ActionsSetupWidget(&(mcuInData_->breakInFlags1), { ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown }, this);
 	sensorLayout1->addRow(_actionsSetupWidget1);
@@ -102,6 +103,7 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
 
     sensorLayout2->addRow(settingsButtons2Layout);
 
+    sensorLayout2->addRow(new QLabel()); // Пустая строка для разделения
     sensorLayout2->addRow(new QLabel()); // Пустая строка для разделения
 
 	_actionsSetupWidget2 = new ActionsSetupWidget(&(mcuInData_->breakInFlags2), { ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown }, this);
@@ -130,9 +132,25 @@ BreakInFrame::BreakInFrame(QSharedPointer<QSettings> settings, McuInData *mcuInD
     sensorLayout3->addRow(settingsButtons3Layout);
 
     sensorLayout3->addRow(new QLabel()); // Пустая строка для разделения
+    sensorLayout3->addRow(new QLabel()); // Пустая строка для разделения
 
 	_actionsSetupWidget3 = new ActionsSetupWidget(&(mcuInData_->breakInFlags3), { ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown }, this);
 	sensorLayout3->addRow(_actionsSetupWidget3);
+
+    QLabel* valueTitle1 = new QLabel("Выберете, на что будет реагировать\nна ЗАМКНУТ или на РАЗОМКНУТ", this);
+    valueTitle1->setGeometry(100, 150, 180, 22);
+    valueTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle1->setAlignment(Qt::AlignCenter);
+
+    QLabel* valueTitle2 = new QLabel("Выберете, на что будет реагировать\nна ЗАМКНУТ или на РАЗОМКНУТ", this);
+    valueTitle2->setGeometry(310, 150, 180, 22);
+    valueTitle2->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle2->setAlignment(Qt::AlignCenter);
+
+    QLabel* valueTitle3 = new QLabel("Выберете, на что будет реагировать\nна ЗАМКНУТ или на РАЗОМКНУТ", this);
+    valueTitle3->setGeometry(515, 150, 180, 22);
+    valueTitle3->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle3->setAlignment(Qt::AlignCenter);
 }
 
 BreakInFrame::~BreakInFrame()

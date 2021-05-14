@@ -187,6 +187,36 @@ TemperatureFrame::TemperatureFrame(QSharedPointer<QSettings> settings, McuInData
 	_actionsSetupWidget3 = new ActionsSetupWidget(&(mcuInData_->temperatureFlags3), { ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown }, this);
 	sensorLayout3->addRow(_actionsSetupWidget3);
 
+    QLabel* valueTitle1 = new QLabel("Отображает текущее значение", this);
+    valueTitle1->setGeometry(62, 108, 180, 12);
+    valueTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle1->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle1 = new QLabel("Установите критическую величину", this);
+    limitsTitle1->setGeometry(62, 178, 180, 16);
+    limitsTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle1->setAlignment(Qt::AlignCenter);
+
+    QLabel* valueTitle2 = new QLabel("Отображает текущее значение", this);
+    valueTitle2->setGeometry(308, 108, 180, 12);
+    valueTitle2->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle2->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle2 = new QLabel("Установите критическую величину", this);
+    limitsTitle2->setGeometry(308, 178, 180, 16);
+    limitsTitle2->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle2->setAlignment(Qt::AlignCenter);
+
+    QLabel* valueTitle3 = new QLabel("Отображает текущее значение", this);
+    valueTitle3->setGeometry(550, 108, 180, 12);
+    valueTitle3->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle3->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle3 = new QLabel("Установите критическую величину", this);
+    limitsTitle3->setGeometry(550, 178, 180, 16);
+    limitsTitle3->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle3->setAlignment(Qt::AlignCenter);
+
     //---
 
 }

@@ -62,7 +62,7 @@ VibrationFrame::VibrationFrame(QSharedPointer<QSettings> settings, McuInData* mc
 
     QHBoxLayout* name1Layout = new QHBoxLayout;
     name1Layout->addStretch();
-    name1Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №1"));
+    name1Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №1\n(ВСТРОЕННЫЙ)"));
     name1Layout->addStretch();
 
     sensorLayout1->addRow(name1Layout);
@@ -97,7 +97,7 @@ VibrationFrame::VibrationFrame(QSharedPointer<QSettings> settings, McuInData* mc
 
     QHBoxLayout* name2Layout = new QHBoxLayout;
     name2Layout->addStretch();
-    name2Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №2"));
+    name2Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №2\n"));
     name2Layout->addStretch();
 
     sensorLayout2->addRow(name2Layout);
@@ -132,7 +132,7 @@ VibrationFrame::VibrationFrame(QSharedPointer<QSettings> settings, McuInData* mc
 
     QHBoxLayout* name3Layout = new QHBoxLayout;
     name3Layout->addStretch();
-    name3Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №3"));
+    name3Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №3\n"));
     name3Layout->addStretch();
 
     sensorLayout3->addRow(name3Layout);
@@ -167,7 +167,7 @@ VibrationFrame::VibrationFrame(QSharedPointer<QSettings> settings, McuInData* mc
 
     QHBoxLayout* name4Layout = new QHBoxLayout;
     name4Layout->addStretch();
-    name4Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №4"));
+    name4Layout->addWidget(new QLabel("ДАТЧИК ВИБРАЦИИ №4\n"));
     name4Layout->addStretch();
 
     sensorLayout4->addRow(name4Layout);
@@ -197,6 +197,26 @@ VibrationFrame::VibrationFrame(QSharedPointer<QSettings> settings, McuInData* mc
 
 	_actionsSetupWidget4 = new ActionsSetupWidget(&(mcuInData_->vibrationFlags4), { ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown }, this);
 	sensorLayout4->addRow(_actionsSetupWidget4);
+
+    QLabel* limitsTitle1 = new QLabel("Установите критическую величину", this);
+    limitsTitle1->setGeometry(0, 180, 180, 16);
+    limitsTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle1->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle2 = new QLabel("Установите критическую величину", this);
+    limitsTitle2->setGeometry(210, 180, 180, 16);
+    limitsTitle2->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle2->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle3 = new QLabel("Установите критическую величину", this);
+    limitsTitle3->setGeometry(420, 180, 180, 16);
+    limitsTitle3->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle3->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle4 = new QLabel("Установите критическую величину", this);
+    limitsTitle4->setGeometry(620, 180, 180, 16);
+    limitsTitle4->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle4->setAlignment(Qt::AlignCenter);
 
     //---
 

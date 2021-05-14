@@ -276,8 +276,12 @@ FunctionsFrame::FunctionsFrame(QSharedPointer<QSettings> settings, McuInData *mc
     _trayNotificationButton = new OnOffButton(this);
     trayNotificationButtonLayout->addStretch();
     trayNotificationButtonLayout->addWidget(new QLabel("ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ\n                             В WINDOWS"));
-    trayNotificationButtonLayout->addWidget(_trayNotificationButton);
+    trayNotificationButtonLayout->addWidget(_trayNotificationButton); 
     connect(_trayNotificationButton, &OnOffButton::toggled, [=]() {setBit(mcuInData->functionsFlags, FunctionsFlag::popupNotification, _trayNotificationButton->isChecked()); });
+
+    QPushButton* saveButton = new QPushButton(this);
+    saveButton->setGeometry(668, 396, 100, 24);
+    saveButton->setText("СОХРАНИТЬ");
 
     //---
 

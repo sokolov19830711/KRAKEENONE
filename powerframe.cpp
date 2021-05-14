@@ -165,7 +165,7 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
     digitsLabelLayout->addWidget(digitsLabel);
     digitsLabelLayout->addStretch();
 	rightLayout->addRow(digitsLabelLayout);
-	rightLayout->addRow(new QLabel);
+//	rightLayout->addRow(new QLabel);
 
 	QHBoxLayout* combinationLayout = new QHBoxLayout;
     rightLayout->addRow(combinationLayout);
@@ -179,7 +179,13 @@ PowerFrame::PowerFrame(QSharedPointer<QSettings> settings, McuInData *mcuInData,
 	combinationLayout->addWidget(digit1_);
 	combinationLayout->addSpacing(10);
 
+    QPushButton* saveButton = new QPushButton(this);
+    saveButton->setGeometry(580, 460, 100, 24);
+    saveButton->setText("СОХРАНИТЬ");
 
+    QPushButton* cancelButton = new QPushButton(this);
+    cancelButton->setGeometry(470, 460, 100, 24);
+    cancelButton->setText("СБРОС");
 
     connect(digit1_, &SwitchButtonsWidget::idClicked, [=]()
         {

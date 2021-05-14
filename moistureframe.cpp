@@ -77,6 +77,16 @@ MoistureFrame::MoistureFrame(QSharedPointer<QSettings> settings, McuInData *mcuI
 
     _actionsSetupWidget = new ActionsSetupWidget(&(mcuInData_->moistureFlags), {ActionsFlag::notification, ActionsFlag::soundSignal, ActionsFlag::PCShutDown}, this);
     sensorLayout1->addRow(_actionsSetupWidget);
+
+    QLabel* valueTitle1 = new QLabel("Отображает текущее значение", this);
+    valueTitle1->setGeometry(308, 108, 180, 12);
+    valueTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle1->setAlignment(Qt::AlignCenter);
+
+    QLabel* limitsTitle1 = new QLabel("Установите критическую величину", this);
+    limitsTitle1->setGeometry(308, 178, 180, 16);
+    limitsTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    limitsTitle1->setAlignment(Qt::AlignCenter);
 }
 
 MoistureFrame::~MoistureFrame()

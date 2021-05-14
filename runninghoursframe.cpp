@@ -79,7 +79,7 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
 
     QHBoxLayout* exportLogButtonLayout = new QHBoxLayout;
 
-    exportLogButton_ = new QPushButton("ЖУРНАЛ СОБЫТИЙ");
+    exportLogButton_ = new QPushButton("ЖУРНАЛ");
     exportLogButton_->setFixedSize(120, 30);
     exportLogButton_->setToolTip("Открыть журнал событий");
 
@@ -88,6 +88,11 @@ RunningHoursFrame::RunningHoursFrame(QSharedPointer<QSettings> settings, McuInDa
     mainLayout->addSpacing(20);
     mainLayout->addLayout(exportLogButtonLayout);
     mainLayout->addSpacing(20);
+
+    QLabel* valueTitle1 = new QLabel("Выгрузить журнал событий в файл", this);
+    valueTitle1->setGeometry(312, 330, 180, 12);
+    valueTitle1->setStyleSheet("font-size:7pt; color:#ffc000");
+    valueTitle1->setAlignment(Qt::AlignCenter);
 
     connect(exportLogButton_, &QPushButton::clicked, [=]()
         {
